@@ -57,6 +57,15 @@ CREATE TABLE [gd_esquema].[Publicacion](
 	CONSTRAINT FK_estado FOREIGN KEY(Id_estado) REFERENCES Estado(Id)
 );
 
+
+CREATE TABLE [gd_esquema].[Rol_X_Usuario](
+	ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+  	ID_ROL VARCHAR(50) NOT NULL,
+  	ID_Usuario VARCHAR(50) NOT NULL,
+  	CONSTRAINT FK_Rol FOREIGN KEY (ID_Rol) REFERENCES Rol(ID),
+	CONSTRAINT FK_Usuario FOREIGN KEY(ID_Usuario) REFERENCES Usuario(ID)
+);
+
 CREATE TABLE [gd_esquema].[Usuario](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
@@ -67,8 +76,18 @@ CREATE TABLE [gd_esquema].[Usuario](
 	CONSTRAINT FK_Rol FOREIGN KEY (Id_Rol) REFERENCES Rol(Id),
 	CONSTRAINT FK_Datos_Cliente FOREIGN KEY(Datos) REFERENCES Cliente(Id),
 	CONSTRAINT FK_Datos_Empresa FOREIGN KEY(Id_Rol) REFERENCES Rol(Id) --ver
+);--Datos puede referenciar a Empresa o Cliente segun el tipo de usuario que sea
+
+
+CREATE TABLE [gd_esquema].[Domicilio](
+	ID int NOT NULL PRIMARY KEY IDENTITY(1,1),
+	Calle nvarchar(50) NULL,
+	Numero numeric(18, 0) NULL,
+	Piso numeric(18, 0) NULL,
+	Depto nvarchar(50) NULL,
+	Cod_Postal [nvarchar](50) NULL,
+	localidad nvarchar(50)
 );
---Datos puede referenciar a Empresa o Cliente segun el tipo de usuario que sea
 
 
 CREATE TABLE [gd_esquema].[Empresa](
@@ -77,11 +96,10 @@ CREATE TABLE [gd_esquema].[Empresa](
 	[Espec_Empresa_Cuit] [nvarchar](255) NULL UNIQUE,
 	[Espec_Empresa_Fecha_Creacion] [datetime] NULL,
 	[Espec_Empresa_Mail] [nvarchar](50) NULL,
-	[Espec_Empresa_Dom_Calle] [nvarchar](50) NULL,
-	[Espec_Empresa_Nro_Calle] [numeric](18, 0) NULL,
-	[Espec_Empresa_Piso] [numeric](18, 0) NULL,
-	[Espec_Empresa_Depto] [nvarchar](50) NULL,
-	[Espec_Empresa_Cod_Postal] [nvarchar](50) NULL
+	ID_Usuario INT NOT NULL,
+	ID_Domicilio INT NOT NULL,
+	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID),
+	CONSTRAINT FK_Domicilio FOREIGN KEY (ID_Domicilio) REFERENCES Domicilio(ID)
 );
 
 CREATE TABLE [gd_esquema].[Rubro](
@@ -133,6 +151,10 @@ CREATE TABLE [gd_esquema].[Cliente](
 	[Cli_Cod_Postal] [nvarchar](255) NULL
 	[localidad] [nvarchar](30) NULL,
 	[fecha_creacion] [datetime] NULL,
+	ID_Usuario INT NOT NULL,
+	ID_Domicilio INT NOT NULL,
+	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID),
+	CONSTRAINT FK_Domicilio FOREIGN KEY (ID_Domicilio) REFERENCES Domicilio(ID)
 	--[tarjeta] tal vez otra tabla
 );
 
