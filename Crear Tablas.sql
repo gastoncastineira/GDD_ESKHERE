@@ -134,6 +134,8 @@ CREATE TABLE [gd_esquema].[Ubicacion](
 	[Ubicacion_Tipo_Descripcion] [nvarchar](255) NULL
 );
 
+--Tenemos acá un acumulador de ptos y en compras tenemos los ptos individuales de c/u
+--¿Dejams los 2 o solo 1?
 CREATE TABLE [gd_esquema].[Cliente](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Puntos] [Int],
@@ -169,39 +171,51 @@ CREATE TABLE [gd_esquema].[Ubicacion](
 
 -- RELACIONA PUBLICACIONES Y UBICACIONES
 CREATE TABLE [gd_esquema].[Sala](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Id_Publicacion] [int],
-	[Id_Datos] [int],
-	CONSTRAINT FK_Publicacion FOREIGN KEY (Id_Publicacion) REFERENCES Publicacion(Id),
-	CONSTRAINT FK_Ubicacion   FOREIGN KEY(Id_Datos) REFERENCES Ubicacion(Id)	
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[ID_Publicacion] [int],
+	[ID_Datos] [int],
+	CONSTRAINT FK_Publicacion FOREIGN KEY (ID_Publicacion) REFERENCES Publicacion(ID),
+	CONSTRAINT FK_Ubicacion   FOREIGN KEY(ID_Datos) REFERENCES Ubicacion(ID)	
 );
 
 ---------------------------------------------------------------------------------------------------
 
 
 CREATE TABLE [gd_esquema].[MetodoDePago](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Id_Compra] [int],
-	CONSTRAINT FK_Compra FOREIGN KEY (Id_Compra) REFERENCES Publicacion(Id)		
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[ID_Compra] [int],
+	CONSTRAINT FK_Compra FOREIGN KEY (ID_Compra) REFERENCES Publicacion(ID)		
 	
 );
 
-
+--Un cliente tiene muchas compras y un espectáculo tiene muchas compras
+--La compra es para los clientes
 CREATE TABLE [gd_esquema].[Compra](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Compra_Fecha] [datetime] NULL,
-	[Compra_Cantidad] [numeric](18, 0) NULL
+	[Compra_Cantidad] [numeric](18, 0) NULL,
+	puntos int NOT NULL,
+	ID_Cliente INT NOT NULL,
+	ID_Espectaculo INT NOT NULL,
+	CONSTRAINT FK_Espectaculo FOREIGN KEY (Id_Publicacion) REFERENCES Publicacion(Id),
+	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Datos) REFERENCES Ubicacion(Id)	
+);
 
 	--VER!!!!
-
+--Esto me relaciona las compras y las pone en una factura
+--Item vendría a reprenstar a las comrpas
 	[Item_Factura_Monto] [numeric](18, 2) NULL,
 	[Item_Factura_Cantidad] [numeric](18, 0) NULL,
 	[Item_Factura_Descripcion] [nvarchar](60) NULL,
+
+--La factura es para las "empresas"
+--Funcionalidad utilizada que registra facturas por el cobro de comisiones de ventas
+--de publicaciones a la empresa de espectáculos.
+--La comision la obtiene de: Compra -> Publicacion ->Grado Publicacion
+CREATE TABLE [gd_esquema].[Factura](
 	[Factura_Nro] [numeric](18, 0) NULL,
 	[Factura_Fecha] [datetime] NULL,
 	[Factura_Total] [numeric](18, 2) NULL,
 	[Forma_Pago_Desc] [nvarchar](255) NULL,
-	[Puntos] [int]
-
 
 );
