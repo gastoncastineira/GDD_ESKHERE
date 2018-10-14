@@ -165,7 +165,10 @@ CREATE TABLE [gd_esquema].[Ubicacion](
 	[ubicacion] [INT],
 	[tipo] [VARCHAR(40)],
 	[precio] [INT],
-	[Id_Compra] [INT] 
+	[ID_Sala] [INT],
+	[ID_Compra] [INT],
+	CONSTRAINT FK_Sala FOREIGN KEY (ID_Sala) REFERENCES Sala(ID),
+	CONSTRAINT FK_Compra FOREIGN KEY (ID_Compra) REFERENCES Compra(ID)
 );
 
 
