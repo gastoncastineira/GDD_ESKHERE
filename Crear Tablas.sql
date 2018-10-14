@@ -46,14 +46,14 @@ CREATE TABLE [gd_esquema].[Publicacion](
 	[Fecha_publicacion] [datetime] NULL,
 	[Fecha_funcion] [datetime] NULL,
 	[Precio] [numeric](9,5),
-	[Id_rubro] [int] NOT NULL,
+	[Id_Espectaculo] [int] NOT NULL,
 	[Direccion] [nvarchar](30) NULL,
 	[Id_grado] [int] NOT NULL,
 	[Id_usuario] [int] NOT NULL,
 	[Id_estado] [int] NOT NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (Id_usuario) REFERENCES Usuario(Id),
 	CONSTRAINT FK_grado FOREIGN KEY(Id_grado) REFERENCES Grado_publicacion(Id),
-	CONSTRAINT FK_rubro FOREIGN KEY(Id_rubro) REFERENCES Rubro(Id),
+	CONSTRAINT FK_Espectaculo FOREIGN KEY(Id_Espectaculo) REFERENCES Espectaculo(Id),
 	CONSTRAINT FK_estado FOREIGN KEY(Id_estado) REFERENCES Estado(Id)
 );
 
@@ -112,8 +112,10 @@ CREATE TABLE [gd_esquema].[Espectaculo](
 	[Espectaculo_Cod] [numeric](18, 0) NULL,
 	[Espectaculo_Descripcion] [nvarchar](255) NULL,
 	[Id_Rubro] [int] NULL,
+	[Id_Sala] [int] NULL,,
 	[Espectaculo_Estado] [nvarchar](255) NULL,
-	CONSTRAINT FK_Rubro FOREIGN KEY (Id_Rubro) REFERENCES Rubro(Id)
+	CONSTRAINT FK_Rubro FOREIGN KEY (Id_Rubro) REFERENCES Rubro(Id).
+	CONSTRAINT FK_Sala FOREIGN KEY (Id_Sala) REFERENCES Sala(Id)
 );
 
 CREATE TABLE [gd_esquema].[Hora_espectaculo](
@@ -175,10 +177,9 @@ CREATE TABLE [gd_esquema].[Ubicacion](
 -- RELACIONA PUBLICACIONES Y UBICACIONES
 CREATE TABLE [gd_esquema].[Sala](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[ID_Publicacion] [int],
+	[ID_Espectaculo] [int],
 	[ID_Datos] [int],
-	CONSTRAINT FK_Publicacion FOREIGN KEY (ID_Publicacion) REFERENCES Publicacion(ID),
-	CONSTRAINT FK_Ubicacion   FOREIGN KEY(ID_Datos) REFERENCES Ubicacion(ID)	
+	CONSTRAINT FK_Espectaculo FOREIGN KEY (ID_Espectaculo) REFERENCES Espectaculo(ID),	
 );
 
 ---------------------------------------------------------------------------------------------------
