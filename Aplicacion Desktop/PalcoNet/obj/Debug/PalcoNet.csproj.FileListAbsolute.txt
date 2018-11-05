@@ -1,0 +1,10 @@
+\\VBOXSVR\PalcoNet\src\PalcoNet\bin\Debug\PalcoNet.exe.config
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe.config
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csprojResolveAssemblyReference.cache
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Login.resources
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Properties.Resources.resources
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.GenerateResource.Cache
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.pdb
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.exe
+C:\Users\diego.krauthamer\Downloads\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.pdb
