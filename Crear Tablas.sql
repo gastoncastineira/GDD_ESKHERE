@@ -31,6 +31,7 @@ CREATE TABLE [gd_esquema].[Rol_X_Funcion](
 CREATE TABLE [gd_esquema].[Estado_publicacion](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Descripcion] [nvarchar](20) NOT NULL
+	[puedeModificarse] [bit] NOT NULL
 );
 
 CREATE TABLE [gd_esquema].[Grado_publicacion](
@@ -70,24 +71,8 @@ CREATE TABLE [gd_esquema].[Usuario](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
 	[Contrasenia] [nvarchar](50) NOT NULL,
-	[Id_Rol] [int] NOT NULL,
-	[Datos] [int] NOT NULL,
 	[inhabilitado] [bit] NOT NULL,
-	CONSTRAINT FK_Rol FOREIGN KEY (Id_Rol) REFERENCES Rol(Id),
-	CONSTRAINT FK_Datos_Cliente FOREIGN KEY(Datos) REFERENCES Cliente(Id),
-	CONSTRAINT FK_Datos_Empresa FOREIGN KEY(Id_Rol) REFERENCES Rol(Id) --ver
 );--Datos puede referenciar a Empresa o Cliente segun el tipo de usuario que sea
-
-
-CREATE TABLE [gd_esquema].[Domicilio](
-	ID int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	Calle nvarchar(50) NULL,
-	Numero numeric(18, 0) NULL,
-	Piso numeric(18, 0) NULL,
-	Depto nvarchar(50) NULL,
-	Cod_Postal [nvarchar](50) NULL,
-	localidad nvarchar(50)
-);
 
 
 CREATE TABLE [gd_esquema].[Empresa](
@@ -97,12 +82,16 @@ CREATE TABLE [gd_esquema].[Empresa](
 	[Espec_Empresa_Fecha_Creacion] [datetime] NULL,
 	[Espec_Empresa_Mail] [nvarchar](50) NULL,
 	ID_Usuario INT NOT NULL,
-	ID_Domicilio INT NOT NULL,
+	Calle nvarchar(50) NULL,
+	Numero numeric(18, 0) NULL,
+	Piso numeric(18, 0) NULL,
+	Depto nvarchar(50) NULL,
+	Cod_Postal [nvarchar](50) NULL,
+	localidad nvarchar(50)
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID),
-	CONSTRAINT FK_Domicilio FOREIGN KEY (ID_Domicilio) REFERENCES Domicilio(ID)
 );
 
-CREATE TABLE [gd_esquema].[Rubro](
+CREATE TABLE [gd_esquema].[Categoria-Rubro](
 	[Id] [int] NOT NULL PRIMARY KEY,
 	[Descripcion] [nvarchar](255) NULL
 );
@@ -112,10 +101,8 @@ CREATE TABLE [gd_esquema].[Espectaculo](
 	[Espectaculo_Cod] [numeric](18, 0) NULL,
 	[Espectaculo_Descripcion] [nvarchar](255) NULL,
 	[Id_Rubro] [int] NULL,
-	[Id_Sala] [int] NULL,,
 	[Espectaculo_Estado] [nvarchar](255) NULL,
 	CONSTRAINT FK_Rubro FOREIGN KEY (Id_Rubro) REFERENCES Rubro(Id).
-	CONSTRAINT FK_Sala FOREIGN KEY (Id_Sala) REFERENCES Sala(Id)
 );
 
 CREATE TABLE [gd_esquema].[Hora_espectaculo](
@@ -124,16 +111,6 @@ CREATE TABLE [gd_esquema].[Hora_espectaculo](
 	[Fecha_Venc] [datetime] NULL,
 	[Id_espectaculo] [int] NOT NULL,
 	CONSTRAINT FK_Espectaculo FOREIGN KEY(Id_espectaculo) REFERENCES Espectaculo(Id)
-);
-
-CREATE TABLE [gd_esquema].[Ubicacion](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Ubicacion_Fila] [varchar](3) NULL,
-	[Ubicacion_Asiento] [numeric](18, 0) NULL,
-	[Ubicacion_Sin_numerar] [bit] NULL,
-	[Ubicacion_Precio] [numeric](18, 0) NULL,
-	[Ubicacion_Tipo_Codigo] [numeric](18, 0) NULL,
-	[Ubicacion_Tipo_Descripcion] [nvarchar](255) NULL
 );
 
 --Tenemos acá un acumulador de ptos y en compras tenemos los ptos individuales de c/u
@@ -148,15 +125,16 @@ CREATE TABLE [gd_esquema].[Cliente](
 	[Cli_Nombre] [nvarchar](255) NULL,
 	[Cli_Fecha_Nac] [datetime] NULL,
 	[Cli_Mail] [nvarchar](255) NULL,
-	[Cli_Dom_Calle] [nvarchar](255) NULL,
-	[Cli_Nro_Calle] [numeric](18, 0) NULL,
-	[Cli_Piso] [numeric](18, 0) NULL,
-	[Cli_Depto] [nvarchar](255) NULL,
-	[Cli_Cod_Postal] [nvarchar](255) NULL
-	[localidad] [nvarchar](30) NULL,
+	Calle nvarchar(50) NULL,
+	Numero numeric(18, 0) NULL,
+	Piso numeric(18, 0) NULL,
+	Depto nvarchar(50) NULL,
+	Cod_Postal [nvarchar](50) NULL,
+	localidad nvarchar(50)
 	[fecha_creacion] [datetime] NULL,
 	ID_Usuario INT NOT NULL,
 	ID_Domicilio INT NOT NULL,
+
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID),
 	CONSTRAINT FK_Domicilio FOREIGN KEY (ID_Domicilio) REFERENCES Domicilio(ID)
 	--[tarjeta] tal vez otra tabla
@@ -167,20 +145,20 @@ CREATE TABLE [gd_esquema].[Ubicacion](
 	[ubicacion] [INT],
 	[tipo] [VARCHAR(40)],
 	[precio] [INT],
-	[ID_Sala] [INT],
+	[ID_Espectaculo] [INT],
 	[ID_Compra] [INT],
-	CONSTRAINT FK_Sala FOREIGN KEY (ID_Sala) REFERENCES Sala(ID),
+	CONSTRAINT FK_Espectaculo FOREIGN KEY (ID_Espectaculo) REFERENCES Espectaculo(Id),
 	CONSTRAINT FK_Compra FOREIGN KEY (ID_Compra) REFERENCES Compra(ID)
 );
 
-
--- RELACIONA PUBLICACIONES Y UBICACIONES
-CREATE TABLE [gd_esquema].[Sala](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[ID_Espectaculo] [int],
-	[ID_Datos] [int],
-	CONSTRAINT FK_Espectaculo FOREIGN KEY (ID_Espectaculo) REFERENCES Espectaculo(ID),	
+CREATE TABLE [gd_esquema].[Ubicacion_Compra](
+	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[ID_ubicacion] [INT],
+	[ID_Compra] [INT],
+	CONSTRAINT FK_ubicacion FOREIGN KEY (ID_ubicacion) REFERENCES Espectaculo(ID),
+	CONSTRAINT FK_Compra FOREIGN KEY (ID_Compra) REFERENCES Compra(ID)
 );
+
 
 ---------------------------------------------------------------------------------------------------
 
@@ -197,20 +175,16 @@ CREATE TABLE [gd_esquema].[MetodoDePago](
 CREATE TABLE [gd_esquema].[Compra](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Compra_Fecha] [datetime] NULL,
-	[Compra_Cantidad] [numeric](18, 0) NULL,
+	[Total] [numeric](18, 0) NULL,
 	puntos int NOT NULL,
 	ID_Cliente INT NOT NULL,
 	ID_Espectaculo INT NOT NULL,
+	Id_Publicacion INT NOT NULL,
+	Id_Factura INT,
 	CONSTRAINT FK_Espectaculo FOREIGN KEY (Id_Publicacion) REFERENCES Publicacion(Id),
-	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Datos) REFERENCES Ubicacion(Id)	
+	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Cliente) REFERENCES Cliente(Id),	
+	CONSTRAINT FK_Factura  FOREIGN KEY(Id_Factura) REFERENCES Factura(Id)	
 );
-
-	--VER!!!!
---Esto me relaciona las compras y las pone en una factura
---Item vendría a reprenstar a las comrpas
-	[Item_Factura_Monto] [numeric](18, 2) NULL,
-	[Item_Factura_Cantidad] [numeric](18, 0) NULL,
-	[Item_Factura_Descripcion] [nvarchar](60) NULL,
 
 --La factura es para las "empresas"
 --Funcionalidad utilizada que registra facturas por el cobro de comisiones de ventas
@@ -222,4 +196,18 @@ CREATE TABLE [gd_esquema].[Factura](
 	[Factura_Total] [numeric](18, 2) NULL,
 	[Forma_Pago_Desc] [nvarchar](255) NULL,
 
+);
+
+CREATE TABLE [gd_esquema].Premios(
+	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Puntos] [numeric](18, 2) NULL,
+	[Descripcion] [nvarchar](255) NULL,
+);
+
+CREATE TABLE [gd_esquema].cliente_premio(
+	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Id_premio] [int] NOT NULL,
+	[Id_cliente] [int] NOT NULL,
+	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Cliente) REFERENCES Cliente(Id),	
+	CONSTRAINT FK_premio  FOREIGN KEY(Id_premio) REFERENCES Premios(Id),	
 );
