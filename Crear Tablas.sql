@@ -1,3 +1,4 @@
+
 USE [GD2C2018]
 GO
 /****** Object:  Schema [gd_esquema]    Script Date: 01:58:54 ******/
@@ -134,7 +135,6 @@ CREATE TABLE [gd_esquema].[Cliente](
 	[fecha_creacion] [datetime] NULL,
 	ID_Usuario INT NOT NULL,
 	ID_Domicilio INT NOT NULL,
-
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID),
 	CONSTRAINT FK_Domicilio FOREIGN KEY (ID_Domicilio) REFERENCES Domicilio(ID)
 	--[tarjeta] tal vez otra tabla
