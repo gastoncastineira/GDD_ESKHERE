@@ -53,7 +53,7 @@ CREATE TABLE ESKHERE.[Usuario](
 );--Datos puede referenciar a Empresa o Cliente segun el tipo de usuario que sea
 
 CREATE TABLE ESKHERE.[Rubro](
-	[Id] [int] NOT NULL PRIMARY KEY,
+	[Id] [int] NOT NULL PRIMARY KEY  IDENTITY(1,1),
 	[Descripcion] [nvarchar](255) NULL
 );
 
@@ -139,8 +139,7 @@ CREATE TABLE ESKHERE.[Cliente](
 	Cod_Postal [nvarchar](50) NULL,
 	localidad nvarchar(50),
 	[fecha_creacion] [datetime] NULL,
-	ID_Usuario INT NOT NULL,
-	ID_Domicilio INT NOT NULL,
+	ID_Usuario INT  NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 	--[tarjeta] tal vez otra tabla
 );
@@ -216,43 +215,20 @@ CREATE TABLE ESKHERE.cliente_premio(
 	CONSTRAINT FK_premio  FOREIGN KEY(Id_premio) REFERENCES ESKHERE. Premios(Id),	
 );
 
-INSERT INTO [ESKHERE].[Cliente]
-          ([Puntos],[Cli_Dni],[Cuil],[Tipo_Doc],[Cli_Apellido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
-           ,[Piso],[Depto],[Cod_Postal],[localidad],[fecha_creacion],[ID_Usuario],[ID_Domicilio])
-select  14,[Cli_Dni] from gd_esquema.Maestra
-where [Cli_Dni] is not null
-
-INSERT INTO [ESKHERE].[Ubicacion]
+INSERT INTO [ESKHERE].[Ubicacion] -- Solo falta relacionarle ID_Espectaculo y ID_Compra 
            ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio])
 SELECT TOP 10 [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio]
  FROM gd_esquema.Maestra
-/*
-[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[ubicacion_Fila] char(1),
-	[ubicacion_Fila] [INT],
-	[tipo] nvarchar(40),
-	[precio] [INT],
-	[ID_Espectaculo] [INT],
-	[ID_Compra] [INT],
-*/
-/*
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Puntos] [Int],
-	[Cli_Dni] [numeric](18, 0) NULL UNIQUE,
-	[Cuil] [nvarchar](13) NULL UNIQUE,
-	[Tipo_Doc] [nvarchar](15) NULL,
-	[Cli_Apellido] [nvarchar](255) NULL,
-	[Cli_Nombre] [nvarchar](255) NULL,
-	[Cli_Fecha_Nac] [datetime] NULL,
-	[Cli_Mail] [nvarchar](255) NULL,
-	Calle nvarchar(50) NULL,
-	Numero numeric(18, 0) NULL,
-	Piso numeric(18, 0) NULL,
-	Depto nvarchar(50) NULL,
-	Cod_Postal [nvarchar](50) NULL,
-	localidad nvarchar(50),
-	[fecha_creacion] [datetime] NULL,
-	ID_Usuario INT NOT NULL,
-	ID_Domicilio INT NOT NULL,
-	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
-*/
+
+ INSERT INTO [ESKHERE].[Rubro] ([Descripcion]) -- Query a checkear
+ SELECT  Distinct([Espectaculo_Rubro_Descripcion])
+ FROM gd_esquema.Maestra WHERE [Espectaculo_Rubro_Descripcion] is not null
+
+--Pendiente obtener el user
+ INSERT INTO [ESKHERE].[Cliente]
+          ([Cli_Dni],[Cli_Apellido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
+           ,[Piso],[Depto],[Cod_Postal])
+select  [Cli_Dni] ,[Cli_Apeliido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_Dom_Calle],[Cli_Nro_Calle]
+      ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal] 
+from gd_esquema.Maestra
+where [Cli_Dni] is not null
