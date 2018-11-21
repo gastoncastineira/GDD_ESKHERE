@@ -139,7 +139,7 @@ CREATE TABLE ESKHERE.[Cliente](
 	Cod_Postal [nvarchar](50) NULL,
 	localidad nvarchar(50),
 	[fecha_creacion] [datetime] NULL,
-	ID_Usuario INT  NULL,
+	ID_Usuario INT	NOT NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 	--[tarjeta] tal vez otra tabla
 );
@@ -225,6 +225,32 @@ SELECT TOP 10 [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubic
  FROM gd_esquema.Maestra WHERE [Espectaculo_Rubro_Descripcion] is not null
 
 --Pendiente obtener el user
+CREATE PROCEDURE [ESKHERE].[SP_Clientes] (@Cli_Dni [numeric](18, 0), @Cli_Apellido nvarchar(255),@Cli_Nombre nvarchar(255),
+@Cli_Fecha_Nac DATETIME,@Cli_Mail nvarchar(255),@Calle nvarchar(255),@Numero int ,@Piso int ,@Depto int,@Cod_Postal int)
+AS 
+BEGIN
+	DECLARE migrarClientesCursor CURSOR FOR
+	SELECT  [Cli_Dni] ,[Cli_Apeliido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_Dom_Calle],[Cli_Nro_Calle]
+      ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal] 
+	FROM gd_esquema.Maestra
+	WHERE [Cli_Dni] is not null
+
+	OPEN  migrarClientesCursor
+	FETCH NEXT FROM [ESKHERE].[SP_Clientes] INTO @Cli_Dni , @Cli_Apellido ,@Cli_Nombre ,
+	@Cli_Fecha_Nac ,@Cli_Mail ,@Calle ,@Numero ,@Piso ,@Depto ,@Cod_Postal 
+
+	WHILE @@FETCH_STATUS = 0  
+	BEGIN  
+
+	INSERT INTO [ESKHERE].[Usuario] ([Usuario] ,[Contrasenia],[inhabilitado])
+     VALUES ("admin", "admin", 1)
+	
+ INSERT INTO [ESKHERE].[Cliente]
+          ([Cli_Dni],[Cli_Apellido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero],[Piso],[Depto],[Cod_Postal])
+
+END
+GO
+
  INSERT INTO [ESKHERE].[Cliente]
           ([Cli_Dni],[Cli_Apellido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
            ,[Piso],[Depto],[Cod_Postal])
@@ -232,3 +258,5 @@ select  [Cli_Dni] ,[Cli_Apeliido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_D
       ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal] 
 from gd_esquema.Maestra
 where [Cli_Dni] is not null
+
+--Usuario: id, usser, pass, habilitado
