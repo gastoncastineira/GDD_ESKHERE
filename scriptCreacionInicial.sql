@@ -177,6 +177,7 @@ CREATE TABLE ESKHERE.[Ubicacion](
 	[ubicacion_Asiento] [INT],
 	[tipo] nvarchar(40),
 	[precio] [INT],
+	[descripcion] nvarchar(255),
 	[ID_Espectaculo] [INT],
 	[ID_Compra] [INT],
 	CONSTRAINT FK_EspectaculoUbicacion FOREIGN KEY (ID_Espectaculo) REFERENCES ESKHERE. Espectaculo(Id),
@@ -194,12 +195,6 @@ CREATE TABLE ESKHERE.[Ubicacion_Compra](
 
 ---------------------------------------------------------------------------------------------------
 
-
-CREATE TABLE ESKHERE.[MetodoDePago](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[ID_Compra] [int],
-	CONSTRAINT FK_CompraMetodoDePago FOREIGN KEY (ID_Compra) REFERENCES ESKHERE. Publicacion(ID)		
-);
 
 CREATE TABLE ESKHERE.Premios(
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -224,9 +219,10 @@ VALUES (10, 'Encendedor'), (20, 'Juguete'), (100, 'Entrada'), (500, 'Peluche')
 
 
 INSERT INTO [ESKHERE].[Ubicacion] -- Solo falta relacionarle ID_Espectaculo y ID_Compra 
-           ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio])
-SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio]
- FROM gd_esquema.Maestra
+           ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio], [descripcion])
+SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio], [Ubicacion_Tipo_Descripcion]
+FROM gd_esquema.Maestra
+
 
  INSERT INTO [ESKHERE].[Espectaculo]
            ([Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Estado])
@@ -245,11 +241,11 @@ WHERE [Factura_Nro] IS NOT NULL
  SELECT  [Espectaculo_Rubro_Descripcion]
  FROM gd_esquema.Maestra WHERE [Espectaculo_Rubro_Descripcion] is not null
 
- --VER XQ SE REPITE DNI/CUIL
+
  INSERT INTO [ESKHERE].[Cliente]
           ([Cli_Dni],[Cuil], [Cli_Apellido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
            ,[Piso],[Depto],[Cod_Postal], [ID_Usuario])
-select  [Cli_Dni],[Cli_Dni]+1,[Cli_Apeliido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_Dom_Calle],[Cli_Nro_Calle]
+select  distinct([Cli_Dni]),[Cli_Dni]+1,[Cli_Apeliido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_Dom_Calle],[Cli_Nro_Calle]
       ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal], 1
 from gd_esquema.Maestra
 where [Cli_Dni]  IS NOT NULL
