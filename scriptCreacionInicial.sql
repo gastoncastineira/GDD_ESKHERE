@@ -148,7 +148,8 @@ CREATE TABLE ESKHERE.[Cliente](
 --de publicaciones a la empresa de espectáculos.
 --La comision la obtiene de: Compra -> Publicacion ->Grado Publicacion
 CREATE TABLE ESKHERE.[Factura](
-	[Factura_Nro] [numeric](18, 0)  PRIMARY KEY,
+	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Factura_Nro] [numeric](18, 0),
 	[Factura_Fecha] [datetime] NULL,
 	[Factura_Total] [numeric](18, 2) NULL,
 	[Forma_Pago_Desc] [nvarchar](255) NULL,
@@ -164,10 +165,10 @@ CREATE TABLE ESKHERE.[Compra](
 	ID_Cliente INT NOT NULL,
 	ID_Espectaculo INT NOT NULL,
 	Id_Publicacion INT NOT NULL,
-	Id_Factura [numeric](18, 0) NULL,
+	Id_Factura INT NULL,
 	CONSTRAINT FK_EspectaculoCompra FOREIGN KEY (Id_Publicacion) REFERENCES ESKHERE. Publicacion(Id),
 	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Cliente) REFERENCES ESKHERE. Cliente(Id),	
-	CONSTRAINT FK_Factura  FOREIGN KEY(Id_Factura) REFERENCES ESKHERE. Factura(Factura_Nro)	
+	CONSTRAINT FK_Factura  FOREIGN KEY(Id_Factura) REFERENCES ESKHERE. Factura(Id)	
 );
 
 
@@ -216,7 +217,8 @@ CREATE TABLE ESKHERE.cliente_premio(
 );
 
 INSERT INTO [ESKHERE].[Usuario]
-           ([Usuario],[Contrasenia],[inhabilitado]) VALUES ('1234','1234',1)
+           ([Usuario],[Contrasenia],habilitado) VALUES ('1234','1234',1)
+
 
 INSERT INTO [ESKHERE].[Premios] ([Puntos],[Descripcion]) 
 VALUES (10, 'Encendedor'), (20, 'Juguete'), (100, 'Entrada'), (500, 'Peluche')
@@ -224,7 +226,7 @@ VALUES (10, 'Encendedor'), (20, 'Juguete'), (100, 'Entrada'), (500, 'Peluche')
 
 INSERT INTO [ESKHERE].[Ubicacion] -- Solo falta relacionarle ID_Espectaculo y ID_Compra 
            ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio])
-SELECT TOP 10 [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio]
+SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio]
  FROM gd_esquema.Maestra
 
  INSERT INTO [ESKHERE].[Espectaculo]
@@ -233,20 +235,22 @@ SELECT [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Estado]
 FROM gd_esquema.Maestra
 WHERE [Espectaculo_Cod] IS NOT NULL
 
-SELECT * FROM [ESKHERE].[Espectaculo]
-DELETE  FROM [ESKHERE].[Espectaculo]
+INSERT INTO [ESKHERE].[Factura]
+           ([Factura_Nro],[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc])
+SELECT [Factura_Nro],[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc]
+ FROM gd_esquema.Maestra
+WHERE [Factura_Nro] IS NOT NULL
  
 
  INSERT INTO [ESKHERE].[Rubro] ([Descripcion]) -- Query a checkear
- SELECT  Distinct([Espectaculo_Rubro_Descripcion])
+ SELECT  [Espectaculo_Rubro_Descripcion]
  FROM gd_esquema.Maestra WHERE [Espectaculo_Rubro_Descripcion] is not null
 
-
- --ID_USUARIO Y CUIL ESTAN PENDIENTES A SER ACTUALIZADOS
+ --VER XQ SE REPITE DNI/CUIL
  INSERT INTO [ESKHERE].[Cliente]
           ([Cli_Dni],[Cuil], [Cli_Apellido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
            ,[Piso],[Depto],[Cod_Postal], [ID_Usuario])
-select  DISTINCT([Cli_Dni]),[Cli_Dni]+1,[Cli_Apeliido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_Dom_Calle],[Cli_Nro_Calle]
+select  [Cli_Dni],[Cli_Dni]+1,[Cli_Apeliido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_Dom_Calle],[Cli_Nro_Calle]
       ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal], 1
 from gd_esquema.Maestra
 where [Cli_Dni]  IS NOT NULL
