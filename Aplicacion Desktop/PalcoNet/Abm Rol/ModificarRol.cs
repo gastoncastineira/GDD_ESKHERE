@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Abm_Rol
 {
-    public partial class Form1 : Form
+    public partial class ModificarRol : Form
     {
-        public Form1()
+        public ModificarRol()
         {
             InitializeComponent();
+        }
+
+        private void Login_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
