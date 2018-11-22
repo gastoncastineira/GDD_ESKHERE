@@ -37,5 +37,9 @@ namespace PalcoNet.Registro_de_Usuario
             }
         }
 
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
