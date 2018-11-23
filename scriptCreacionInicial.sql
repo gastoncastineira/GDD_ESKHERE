@@ -106,6 +106,7 @@ CREATE TABLE ESKHERE.[Empresa](
 	Piso numeric(18, 0) NULL,
 	Depto nvarchar(50) NULL,
 	Cod_Postal [nvarchar](50) NULL,
+	Habilitado BIT NOT NULL,
 	CONSTRAINT FK_UsuarioEmpresa FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(Id),
 );
 
@@ -255,9 +256,9 @@ from gd_esquema.Maestra
 where [Cli_Dni]  IS NOT NULL
 
 INSERT INTO [ESKHERE].[Empresa] 
-([Espec_Empresa_Razon_Social],[Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],[ID_Usuario],[Calle],[Numero],[Piso],[Depto],[Cod_Postal])
+([Espec_Empresa_Razon_Social],[Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],[ID_Usuario],[Calle],[Numero],[Piso],[Depto],[Cod_Postal],Habilitado)
 SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],1,[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
-      ,[Espec_Empresa_Piso],[Espec_Empresa_Depto],[Espec_Empresa_Cod_Postal]
+      ,[Espec_Empresa_Piso],[Espec_Empresa_Depto],[Espec_Empresa_Cod_Postal],1
 FROM gd_esquema.Maestra
 WHERE [Espec_Empresa_Cuit]  IS NOT NULL
 
