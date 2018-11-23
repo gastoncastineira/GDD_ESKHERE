@@ -52,7 +52,7 @@ namespace PalcoNet
 
         private void btnRegistrar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
             new Registro_de_Usuario.RegistroUsuario().ShowDialog();
         }
     }
