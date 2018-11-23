@@ -218,6 +218,10 @@ INSERT INTO [ESKHERE].[Premios] ([Puntos],[Descripcion])
 VALUES (10, 'Encendedor'), (20, 'Juguete'), (100, 'Entrada'), (500, 'Peluche')
 
 
+INSERT INTO [ESKHERE].[Rol] ([Nombre],[Habilitado])
+VALUES ('Empresa',1),('Administrativo',1),('Cliente',1)
+
+
 INSERT INTO [ESKHERE].[Ubicacion] -- Solo falta relacionarle ID_Espectaculo y ID_Compra 
            ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio], [descripcion])
 SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio], [Ubicacion_Tipo_Descripcion]
@@ -257,7 +261,12 @@ SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empre
 FROM gd_esquema.Maestra
 WHERE [Espec_Empresa_Cuit]  IS NOT NULL
 
-SELECT * FROM  [ESKHERE].[Empresa] 
-
+--¿Como resuelvo la logica de asignacion puntos respecto a una compra?
+Diferencia entre cant comprada
+Diferencia entre item_factura_cant
+INSERT INTO [ESKHERE].[Compra]
+           ([Compra_Fecha],[Total],[puntos],[ID_Cliente],[ID_Espectaculo],[Id_Publicacion],[Id_Factura])
+SELECT [Compra_Fecha] ,[Item_Factura_Monto],[Item_Factura_Cantidad],[Item_Factura_Descripcion]
+FROM gd_esquema.Maestra
 
 --Usuario: id, usser, pass, habilitado
