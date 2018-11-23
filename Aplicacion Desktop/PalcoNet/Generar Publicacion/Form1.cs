@@ -16,14 +16,5 @@ namespace PalcoNet.Generar_Publicacion
         {
             InitializeComponent();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (dateTimePicker1.Value > DateTime.Now)
-            {
-                String fecha = dateTimePicker1.ToString();
-                listView1.Items.Add(fecha);
-            }
-        }
     }
 }
