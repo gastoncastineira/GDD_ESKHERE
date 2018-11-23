@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Abm_Empresa_Espectaculo
 {
-    public partial class AltaEmpresa : Form
+    public partial class ModificarEmpresa : Form
     {
         private bool errorCUIT = false;
         private List<TextBox> textos;
 
-        public AltaEmpresa()
+        public ModificarEmpresa(string nombre, string cuit, string razonSocial, string direccion, string mail, string telefono, string piso, string depto, string codPostal, string localidad)
         {
             InitializeComponent();
             foreach (Control c in Controls)
@@ -25,6 +25,22 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             }
             textos.Remove(txtPiso);
             textos.Remove(txtDepto);
+
+
+            txtCodPostal.Text = codPostal;
+            txtCUIT.Text = cuit;
+            txtDepto.Text = depto;
+            txtDir.Text = direccion;
+            txtRazon.Text = razonSocial;
+            txtLocalidad.Text = localidad;
+            txtMail.Text = mail;
+            txtNombre.Text = nombre;
+            txtPiso.Text = piso;
+            txtTel.Text = telefono;
+            if (string.IsNullOrEmpty(txtPiso.Text))
+                chbPiso.Enabled = true;
+            if (string.IsNullOrEmpty(txtDepto.Text))
+                chbDepto.Enabled = true;
         }
 
         private void chbPiso_CheckedChanged(object sender, EventArgs e)
@@ -60,7 +76,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private bool cuitEsValido()
         {
-            string cuil = txtCUIL.Text;
+            string cuil = txtCUIT.Text;
             if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27")) && cuil.Substring(4, cuil.Length - 2).Equals(txtRazon.Text))
                 return true;
             return false;
@@ -74,16 +90,16 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void AltaEmpresa_Paint(object sender, PaintEventArgs e)
         {
-                if (errorCUIT)
-                {
-                    txtCUIL.BorderStyle = BorderStyle.None;
-                    Pen p = new Pen(Color.Red);
-                    Graphics g = e.Graphics;
-                    int variance = 3;
-                    g.DrawRectangle(p, new Rectangle(txtCUIL.Location.X - variance, txtCUIL.Location.Y - variance, txtCUIL.Width + variance, txtCUIL.Height + variance));
-                }
-                else
-                    txtCUIL.BorderStyle = BorderStyle.FixedSingle;
+            if (errorCUIT)
+            {
+                txtCUIT.BorderStyle = BorderStyle.None;
+                Pen p = new Pen(Color.Red);
+                Graphics g = e.Graphics;
+                int variance = 3;
+                g.DrawRectangle(p, new Rectangle(txtCUIT.Location.X - variance, txtCUIT.Location.Y - variance, txtCUIT.Width + variance, txtCUIT.Height + variance));
+            }
+            else
+                txtCUIT.BorderStyle = BorderStyle.FixedSingle;
         }
     }
 }

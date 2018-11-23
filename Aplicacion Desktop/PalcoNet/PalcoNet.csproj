@@ -50,17 +50,53 @@
     <Compile Include="Abm Cliente\AltaCliente.Designer.cs">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Cliente\ListadoClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Cliente\ListadoClientes.Designer.cs">
+      <DependentUpon>ListadoClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Cliente\ModificarCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Cliente\ModificarCliente.Designer.cs">
+      <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Empresa Espectaculo\AltaEmpresa.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Abm Empresa Espectaculo\AltaEmpresa.Designer.cs">
       <DependentUpon>AltaEmpresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Empresa Espectaculo\ListadoEmpresas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Empresa Espectaculo\ListadoEmpresas.Designer.cs">
+      <DependentUpon>ListadoEmpresas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Empresa Espectaculo\ModificarEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Empresa Espectaculo\ModificarEmpresa.Designer.cs">
+      <DependentUpon>ModificarEmpresa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Grado\AltaGrado.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Abm Grado\AltaGrado.Designer.cs">
       <DependentUpon>AltaGrado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Grado\ListaGrado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Grado\ListaGrado.Designer.cs">
+      <DependentUpon>ListaGrado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Grado\ModificarGrado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Grado\ModificarGrado.Designer.cs">
+      <DependentUpon>ModificarGrado.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm Rol\ABMRol.cs">
       <SubType>Form</SubType>
@@ -152,11 +188,29 @@
     <EmbeddedResource Include="Abm Cliente\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Abm Cliente\ListadoClientes.resx">
+      <DependentUpon>ListadoClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Cliente\ModificarCliente.resx">
+      <DependentUpon>ModificarCliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Abm Empresa Espectaculo\AltaEmpresa.resx">
       <DependentUpon>AltaEmpresa.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Abm Empresa Espectaculo\ListadoEmpresas.resx">
+      <DependentUpon>ListadoEmpresas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Empresa Espectaculo\ModificarEmpresa.resx">
+      <DependentUpon>ModificarEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Abm Grado\AltaGrado.resx">
       <DependentUpon>AltaGrado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Grado\ListaGrado.resx">
+      <DependentUpon>ListaGrado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Grado\ModificarGrado.resx">
+      <DependentUpon>ModificarGrado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Rol\ABMRol.resx">
       <DependentUpon>ABMRol.cs</DependentUpon>

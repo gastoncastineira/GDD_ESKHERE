@@ -10,21 +10,30 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Abm_Cliente
 {
-    public partial class AltaCliente : Form
+    public partial class ModificarCliente : Form
     {
         private bool errorCUIL = false;
         private List<TextBox> textos;
 
-        public AltaCliente()
+        public ModificarCliente(string nombre, string apellido, string mail, string doc, string Tipo, string cuil, string telefono, string direccion, string piso, string depto, string localidad, string codPostal)
         {
             InitializeComponent();
-            foreach(Control c in Controls)
-            {
-                if (c is TextBox)
-                    textos.Add(c as TextBox);
-            }
-            textos.Remove(txtPiso);
-            textos.Remove(txtDepto);
+
+            txtApel.Text = apellido;
+            txtCodPostal.Text = codPostal;
+            txtCUIL.Text = cuil;
+            txtDepto.Text = depto;
+            txtDir.Text = direccion;
+            txtDoc.Text = doc;
+            txtLocalidad.Text = localidad;
+            txtMail.Text = mail;
+            txtNombre.Text = nombre;
+            txtPiso.Text = piso;
+            txtTel.Text = telefono;
+            if (string.IsNullOrEmpty(txtPiso.Text))
+                chbPiso.Enabled = true;
+            if (string.IsNullOrEmpty(txtDepto.Text))
+                chbDepto.Enabled = true;
         }
 
         private bool cuilEsValido()
@@ -32,7 +41,7 @@ namespace PalcoNet.Abm_Cliente
             string cuil = txtCUIL.Text;
             if (cbbTipo.Text == "LE")
                 return true;
-            if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27"))&& cuil.Substring(4, cuil.Length - 2).Equals(txtDoc.Text))
+            if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27")) && cuil.Substring(4, cuil.Length - 2).Equals(txtDoc.Text))
                 return true;
             return false;
         }
