@@ -56,11 +56,11 @@
     <Compile Include="Abm Empresa Espectaculo\AltaEmpresa.Designer.cs">
       <DependentUpon>AltaEmpresa.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Grado\Form1.cs">
+    <Compile Include="Abm Grado\AltaGrado.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm Grado\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Abm Grado\AltaGrado.Designer.cs">
+      <DependentUpon>AltaGrado.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm Rol\ABMRol.cs">
       <SubType>Form</SubType>
@@ -154,7 +154,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Empresa Espectaculo\AltaEmpresa.resx">
       <DependentUpon>AltaEmpresa.cs</DependentUpon>
-	</EmbeddedResource>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Grado\AltaGrado.resx">
+      <DependentUpon>AltaGrado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Abm Rol\ABMRol.resx">
       <DependentUpon>ABMRol.cs</DependentUpon>
     </EmbeddedResource>

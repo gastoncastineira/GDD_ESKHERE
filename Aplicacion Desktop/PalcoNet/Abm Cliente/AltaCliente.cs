@@ -13,10 +13,18 @@ namespace PalcoNet.Abm_Cliente
     public partial class AltaCliente : Form
     {
         private bool errorCUIL = false;
+        private List<TextBox> textos;
 
         public AltaCliente()
         {
             InitializeComponent();
+            foreach(Control c in Controls)
+            {
+                if (c is TextBox)
+                    textos.Add(c as TextBox);
+            }
+            textos.Remove(txtPiso);
+            textos.Remove(txtDepto);
         }
 
         private bool cuilEsValido()
@@ -31,29 +39,37 @@ namespace PalcoNet.Abm_Cliente
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if(!cuilEsValido())
+            if (textos.Any(t => string.IsNullOrEmpty(t.Text)) || cbbTipo.SelectedItem == null)
+                MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
+            else
             {
-                errorCUIL = true;
-                this.Refresh();
+                if (!cuilEsValido())
+                {
+                    errorCUIL = true;
+                    Refresh();
+                }
+                else
+                {
+                    //TODO: cambiar a null el piso y depto para isnertar en BD si no tiene el usuario. validar con Checkbox
+                    DialogResult = DialogResult.OK;
+                    //this.Close();
+                }
             }
-            //TODO: cambiar a null el piso y depto para isnertar en BD si no tiene el usuario. validar con Checkbox
-            this.DialogResult = DialogResult.OK;
-            //this.Close();
         }
 
         private void chbPiso_CheckedChanged(object sender, EventArgs e)
         {
-            this.txtDepto.Enabled = !this.txtDepto.Enabled;
+            txtDepto.Enabled = !txtDepto.Enabled;
         }
 
         private void chbDepto_CheckedChanged(object sender, EventArgs e)
         {
-            this.txtPiso.Enabled = !this.txtPiso.Enabled;
+            txtPiso.Enabled = !txtPiso.Enabled;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             //this.Close();
         }
 

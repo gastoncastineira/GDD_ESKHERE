@@ -13,32 +13,48 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
     public partial class AltaEmpresa : Form
     {
         private bool errorCUIT = false;
+        private List<TextBox> textos;
 
         public AltaEmpresa()
         {
             InitializeComponent();
+            foreach (Control c in Controls)
+            {
+                if (c is TextBox)
+                    textos.Add(c as TextBox);
+            }
+            textos.Remove(txtPiso);
+            textos.Remove(txtDepto);
         }
 
         private void chbPiso_CheckedChanged(object sender, EventArgs e)
         {
-            this.txtDepto.Enabled = !this.txtDepto.Enabled;
+            txtDepto.Enabled = !txtDepto.Enabled;
         }
 
         private void chbDepto_CheckedChanged(object sender, EventArgs e)
         {
-            this.txtPiso.Enabled = !this.txtPiso.Enabled;
+            txtPiso.Enabled = !txtPiso.Enabled;
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (!cuitEsValido())
+            if (textos.Any(t => string.IsNullOrEmpty(t.Text)))
+                MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
+            else
             {
-                errorCUIT = true;
-                this.Refresh();
+                if (!cuitEsValido())
+                {
+                    errorCUIT = true;
+                    Refresh();
+                }
+                else
+                {
+                    //TODO: cambiar a null el piso y depto para isnertar en BD si no tiene el usuario. validar con Checkbox
+                    DialogResult = DialogResult.OK;
+                    //this.Close();
+                }
             }
-            //TODO: cambiar a null el piso y depto para isnertar en BD si no tiene el usuario. validar con Checkbox
-            this.DialogResult = DialogResult.OK;
-            //this.Close();
         }
 
         private bool cuitEsValido()
@@ -51,7 +67,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             //this.Close();
         }
 
