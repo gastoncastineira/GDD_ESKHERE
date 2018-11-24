@@ -126,7 +126,7 @@ CREATE TABLE ESKHERE.[Publicacion](
 	[Publicacion_Rubro] [nvarchar](255) NULL, 
 	[Stock] [int] NULL,
 	[Id_Fecha] INT NOT NULL,
-	[Id_grado] [int] NOT NULL,
+	[Id_grado] [int] NOT NULL DEFAULT 3,
 	[Id_estado] [int] NOT NULL,
 	Id_Ubicacion [int] NOT NULL,
 	CONSTRAINT FK_Fecha FOREIGN KEY(Id_Fecha) REFERENCES ESKHERE.Publicacion_Fechas(Id),
@@ -209,6 +209,11 @@ VALUES ('ALTA', 0.10), ('MEDIA', 0.05), ('BAJA', 0.01)
 INSERT INTO [ESKHERE].[Publicacion_Estado] ([Descripcion],[puedeModificarse])
 VALUES ('Borrador',1),('Publicada',1),('Finalizada',1)
 ------------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO [ESKHERE].[Publicacion_Fechas] --Revisar, en realidad deberia insertarse SOLO 1 vez una fila con esos valores, despues no debería repetirse
+           ([FPublicacion],[FFuncion],[FVenc])
+SELECT  DISTINCT [Espec_Empresa_Fecha_Creacion],[Espectaculo_Fecha],[Espectaculo_Fecha_Venc]
+FROM gd_esquema.Maestra
+
 
 INSERT INTO [ESKHERE].[Ubicacion] 
            ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio], [descripcion])
@@ -217,13 +222,13 @@ FROM gd_esquema.Maestra
 
 
 INSERT INTO [ESKHERE].[Publicacion] --¿Como mierda les relaciono los id? Deberian salir xq todos tienen inserts genericos
-           ([Codigo],[Descripcion],[Fecha_publicacion],[Fecha_funcion],[Fecha_venc],[Id_rubro] ,[Id_estado], Id_Ubicacion)
-SELECT  [Espectaculo_Cod],[Espectaculo_Descripcion],[Espec_Empresa_Fecha_Creacion],[Espectaculo_Fecha],[Espectaculo_Fecha_Venc],
-(SELECT Id FROM [ESKHERE].Rubro WHERE Descripcion = [Espectaculo_Rubro_Descripcion]),
-(SELECT Id FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado]),--Grado parece que no tiene
-(SELECT Id FROM  [ESKHERE].Ubicacion WHERE ubicacion_Fila = Maestra.ubicacion_Fila AND [Ubicacion_Asiento]=Maestra.[Ubicacion_Asiento] )
+           ([Codigo],[Descripcion],[Publicacion_Rubro],[Id_Fecha],[Id_estado],[Id_Ubicacion])
+SELECT  [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Rubro_Descripcion],
+(SELECT TOP 1 Id FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ),
+(SELECT Id FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado]),
+(SELECT	TOP 1 Id FROM [ESKHERE].Ubicacion WHERE ubicacion_Fila = Maestra.ubicacion_Fila AND [Ubicacion_Asiento]=Maestra.[Ubicacion_Asiento] )
 FROM gd_esquema.Maestra  Maestra
-/* (SELECT Id FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado]) */
+--Esta perfecto que esta tabla tenga TODOS los registros de la BD xq cada espectaculo tiene asociada sus ubicaciones y esto se ve aca.
 
 
 INSERT INTO [ESKHERE].[Factura]--ACA me marca que el nhay numero de factura que se repiten!!, sin embargo la fecha, el total y forma de pago es la misma asi que no hay drama
