@@ -25,11 +25,11 @@ CREATE TABLE ESKHERE.[Funcion](
 );
 
 CREATE TABLE ESKHERE.[Rol_X_Funcion](
+	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Id_Rol] [int],
 	[Id_Funcion] [int],
-	PRIMARY KEY(Id_Rol, Id_Funcion),
-	CONSTRAINT FK_Rol FOREIGN KEY (Id_Rol) REFERENCES ESKHERE. [Rol](Id),
-	CONSTRAINT FK_Funcion FOREIGN KEY (Id_Funcion) REFERENCES ESKHERE. [Funcion](Id)
+	CONSTRAINT FK_Rol FOREIGN KEY (Id_Rol) REFERENCES ESKHERE.[Rol](Id),
+	CONSTRAINT FK_Funcion FOREIGN KEY (Id_Funcion) REFERENCES ESKHERE.[Funcion](Id)
 );
 
 
@@ -50,37 +50,29 @@ CREATE TABLE ESKHERE.[Usuario](
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
 	[Contrasenia] [nvarchar](50) NOT NULL,
 	[habilitado] [bit] NOT NULL,
-);--Datos puede referenciar a Empresa o Cliente segun el tipo de usuario que sea
+);
 
 CREATE TABLE ESKHERE.[Rubro](
 	[Id] [int] NOT NULL PRIMARY KEY  IDENTITY(1,1),
 	[Descripcion] [nvarchar](255) NULL
 );
 
-CREATE TABLE ESKHERE.[Espectaculo](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Espectaculo_Cod] [numeric](18, 0) NULL,
-	[Espectaculo_Descripcion] [nvarchar](255) NULL,
-	[Id_Rubro] [int] NULL,
-	[Espectaculo_Estado] [nvarchar](255) NULL,
-	CONSTRAINT FK_Rubro FOREIGN KEY (Id_Rubro) REFERENCES ESKHERE. Rubro(Id)
-);
 CREATE TABLE ESKHERE.[Publicacion](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Codigo] [numeric](18, 0) NULL,
 	[Descripcion] [nvarchar](255) NULL, 
 	[Stock] [int] NULL,
 	[Fecha_publicacion] [datetime] NULL,
 	[Fecha_funcion] [datetime] NULL,
-	[Precio] [numeric](9,5),
-	[Id_Espectaculo] [int] NOT NULL,
-	[Direccion] [nvarchar](30) NULL,
+	[Fecha_venc] [datetime] NULL,
 	[Id_grado] [int] NOT NULL,
-	[Id_usuario] [int] NOT NULL,
+	[Id_rubro] [int] NOT NULL,
 	[Id_estado] [int] NOT NULL,
-	CONSTRAINT FK_UsuarioPublicacion FOREIGN KEY (Id_usuario) REFERENCES ESKHERE. Usuario(Id),
-	CONSTRAINT FK_grado FOREIGN KEY(Id_grado) REFERENCES ESKHERE. Grado_publicacion(Id),
-	CONSTRAINT FK_Espectaculo FOREIGN KEY(Id_Espectaculo) REFERENCES ESKHERE. Espectaculo(Id),
-	CONSTRAINT FK_estado FOREIGN KEY(Id_estado) REFERENCES ESKHERE. Estado_Publicacion(Id)
+	Id_Ubicacion [int] NOT NULL,
+	CONSTRAINT FK_RubroPublicacion FOREIGN KEY ([Id_rubro]) REFERENCES ESKHERE.Publicacion(Id),
+	CONSTRAINT FK_grado FOREIGN KEY(Id_grado) REFERENCES ESKHERE.Grado_publicacion(Id),
+	CONSTRAINT FK_UbicacionPublicacion FOREIGN KEY(Id_Ubicacion) REFERENCES ESKHERE.Ubicacion(Id),
+	CONSTRAINT FK_estado FOREIGN KEY(Id_estado) REFERENCES ESKHERE.Estado_Publicacion(Id)
 );
 
 
@@ -110,15 +102,6 @@ CREATE TABLE ESKHERE.[Empresa](
 	CONSTRAINT FK_UsuarioEmpresa FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(Id),
 );
 
-
-
-CREATE TABLE ESKHERE.[Hora_espectaculo](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Fecha] [datetime] NULL,
-	[Fecha_Venc] [datetime] NULL,
-	[Id_espectaculo] [int] NOT NULL,
-	CONSTRAINT FK_EspectaculoHora FOREIGN KEY(Id_espectaculo) REFERENCES ESKHERE. Espectaculo(Id)
-);
 
 --Tenemos acá un acumulador de ptos y en compras tenemos los ptos individuales de c/u
 --¿Dejams los 2 o solo 1?
@@ -157,18 +140,15 @@ CREATE TABLE ESKHERE.[Factura](
 );
 --Un cliente tiene muchas compras y un espectáculo tiene muchas compras
 --La compra es para los clientes
-CREATE TABLE ESKHERE.[Compra](
+CREATE TABLE [ESKHERE].[Compra](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Compra_Fecha] [datetime] NULL,
+	descripcion nvarchar(255) null,
 	[Total] [numeric](18, 0) NULL,
-	puntos int NOT NULL,
 	ID_Cliente INT NOT NULL,
-	ID_Espectaculo INT NOT NULL,
-	Id_Publicacion INT NOT NULL,
 	Id_Factura INT NULL,
-	CONSTRAINT FK_EspectaculoCompra FOREIGN KEY (Id_Publicacion) REFERENCES ESKHERE. Publicacion(Id),
-	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Cliente) REFERENCES ESKHERE. Cliente(Id),	
-	CONSTRAINT FK_Factura  FOREIGN KEY(Id_Factura) REFERENCES ESKHERE. Factura(Id)	
+	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Cliente) REFERENCES ESKHERE. Cliente([Cli_Dni]),	
+	CONSTRAINT FK_Factura  FOREIGN KEY(Id_Factura) REFERENCES ESKHERE. Factura([Factura_Nro])	
 );
 
 
@@ -179,9 +159,8 @@ CREATE TABLE ESKHERE.[Ubicacion](
 	[tipo] nvarchar(40),
 	[precio] [INT],
 	[descripcion] nvarchar(255),
-	[ID_Espectaculo] [INT],
+	puntos int,
 	[ID_Compra] [INT],
-	CONSTRAINT FK_EspectaculoUbicacion FOREIGN KEY (ID_Espectaculo) REFERENCES ESKHERE. Espectaculo(Id),
 	CONSTRAINT FK_Compra FOREIGN KEY (ID_Compra) REFERENCES ESKHERE. Compra(ID)
 );
 
@@ -223,17 +202,22 @@ INSERT INTO [ESKHERE].[Rol] ([Nombre],[Habilitado])
 VALUES ('Empresa',1),('Administrativo',1),('Cliente',1)
 
 
+INSERT INTO [ESKHERE].[Grado_publicacion]([Descripcion],[Comision])
+VALUES ('ALTA', 0.10), ('MEDIA', 0.05), ('BAJA', 0.01)
+
+
+INSERT INTO [ESKHERE].[Estado_publicacion] ([Descripcion],[puedeModificarse])
+VALUES ('BORRADOR',1),('ACTIVA',1),('FINALIZADA',1)
+
 INSERT INTO [ESKHERE].[Ubicacion] -- Solo falta relacionarle ID_Espectaculo y ID_Compra 
            ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio], [descripcion])
 SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio], [Ubicacion_Tipo_Descripcion]
 FROM gd_esquema.Maestra
 
-
- INSERT INTO [ESKHERE].[Espectaculo]
-           ([Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Estado])
-SELECT [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Estado]
+INSERT INTO [ESKHERE].[Publicacion] --¿Como mierda les relaciono los id? Deberian salir xq todos tienen inserts genericos
+           ([Codigo],[Descripcion],[Fecha_publicacion],[Fecha_funcion],[Fecha_venc],[Id_grado],[Id_rubro] ,[Id_estado], Id_Ubicacion)
+SELECT  [Espectaculo_Cod],[Espectaculo_Descripcion],[Espec_Empresa_Fecha_Creacion],[Espectaculo_Fecha],[Espectaculo_Fecha_Venc]
 FROM gd_esquema.Maestra
-WHERE [Espectaculo_Cod] IS NOT NULL
 
 INSERT INTO [ESKHERE].[Factura]
            ([Factura_Nro],[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc])
@@ -262,12 +246,12 @@ SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empre
 FROM gd_esquema.Maestra
 WHERE [Espec_Empresa_Cuit]  IS NOT NULL
 
---¿Como resuelvo la logica de asignacion puntos respecto a una compra?
-Diferencia entre cant comprada
-Diferencia entre item_factura_cant
-INSERT INTO [ESKHERE].[Compra]
-           ([Compra_Fecha],[Total],[puntos],[ID_Cliente],[ID_Espectaculo],[Id_Publicacion],[Id_Factura])
-SELECT [Compra_Fecha] ,[Item_Factura_Monto],[Item_Factura_Cantidad],[Item_Factura_Descripcion]
+--¿Como resuelvo la logica de asignacion puntos respecto a una compra? se lo doy a las ubicaciones y abz
+
+INSERT INTO [ESKHERE].[Compra]--El id_Cliente debería ser el dni para poder obtenerlo de la BD maestra
+           ([Compra_Fecha], descripcion,[Total],[ID_Cliente], [Id_Factura])
+SELECT [Compra_Fecha] ,[Item_Factura_Descripcion],[Item_Factura_Monto],[Cli_Dni],[Factura_Nro]
 FROM gd_esquema.Maestra
+
 
 --Usuario: id, usser, pass, habilitado
