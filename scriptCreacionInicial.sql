@@ -57,6 +57,65 @@ CREATE TABLE ESKHERE.[Rubro](
 	[Descripcion] [nvarchar](255) NULL
 );
 
+--Tenemos acá un acumulador de ptos y en compras tenemos los ptos individuales de c/u
+--¿Dejams los 2 o solo 1?
+CREATE TABLE ESKHERE.[Cliente](
+	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Puntos] [Int],
+	[Cli_Dni] [numeric](18, 0) NULL UNIQUE,
+	[Cuil] [nvarchar](13) NULL UNIQUE,
+	[Tipo_Doc] [nvarchar](15) NULL,
+	[Cli_Apellido] [nvarchar](255) NULL,
+	[Cli_Nombre] [nvarchar](255) NULL,
+	[Cli_Fecha_Nac] [datetime] NULL,
+	[Cli_Mail] [nvarchar](255) NULL,
+	Calle nvarchar(50) NULL,
+	Numero numeric(18, 0) NULL,
+	Piso numeric(18, 0) NULL,
+	Depto nvarchar(50) NULL,
+	Cod_Postal [nvarchar](50) NULL,
+	localidad nvarchar(50),
+	[fecha_creacion] [datetime] NULL,
+	ID_Usuario INT	NOT NULL,
+	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
+	--[tarjeta] tal vez otra tabla
+);
+--La factura es para las "empresas"
+--Funcionalidad utilizada que registra facturas por el cobro de comisiones de ventas
+--de publicaciones a la empresa de espectáculos.
+--La comision la obtiene de: Compra -> Publicacion ->Grado Publicacion
+CREATE TABLE ESKHERE.[Factura](
+	[Factura_Nro] [numeric](18, 0) PRIMARY KEY,
+	[Factura_Fecha] [datetime] NULL,
+	[Factura_Total] [numeric](18, 2) NULL,
+	[Forma_Pago_Desc] [nvarchar](255) NULL,
+);
+
+
+--Un cliente tiene muchas compras y un espectáculo tiene muchas compras
+--La compra es para los clientes
+CREATE TABLE [ESKHERE].[Compra](
+	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Compra_Fecha] [datetime] NULL,
+	descripcion nvarchar(255) null,
+	[Total] [numeric](18, 0) NULL,
+	ID_Cliente [numeric](18, 0) NOT NULL,
+	Id_Factura [numeric](18, 0) NOT NULL,
+	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Cliente) REFERENCES ESKHERE. Cliente([Cli_Dni]),	
+	CONSTRAINT FK_Factura  FOREIGN KEY(Id_Factura) REFERENCES ESKHERE.[Factura]([Factura_Nro])	
+);
+
+
+CREATE TABLE ESKHERE.[Ubicacion](
+	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[ubicacion_Fila] char(1),
+	[ubicacion_Asiento] [INT],
+	[tipo] nvarchar(40),
+	[precio] [INT],
+	[descripcion] nvarchar(255),
+	puntos int,
+);
+
 CREATE TABLE ESKHERE.[Publicacion](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Codigo] [numeric](18, 0) NULL,
@@ -71,7 +130,7 @@ CREATE TABLE ESKHERE.[Publicacion](
 	Id_Ubicacion [int] NOT NULL,
 	CONSTRAINT FK_RubroPublicacion FOREIGN KEY ([Id_rubro]) REFERENCES ESKHERE.Publicacion(Id),
 	CONSTRAINT FK_grado FOREIGN KEY(Id_grado) REFERENCES ESKHERE.Grado_publicacion(Id),
-	CONSTRAINT FK_UbicacionPublicacion FOREIGN KEY(Id_Ubicacion) REFERENCES ESKHERE.Ubicacion(Id),
+	CONSTRAINT FK_UbicacionPublicacion FOREIGN KEY(Id_Ubicacion) REFERENCES ESKHERE.[Ubicacion](Id),
 	CONSTRAINT FK_estado FOREIGN KEY(Id_estado) REFERENCES ESKHERE.Estado_Publicacion(Id)
 );
 
@@ -102,74 +161,12 @@ CREATE TABLE ESKHERE.[Empresa](
 	CONSTRAINT FK_UsuarioEmpresa FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(Id),
 );
 
-
---Tenemos acá un acumulador de ptos y en compras tenemos los ptos individuales de c/u
---¿Dejams los 2 o solo 1?
-CREATE TABLE ESKHERE.[Cliente](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Puntos] [Int],
-	[Cli_Dni] [numeric](18, 0) NULL UNIQUE,
-	[Cuil] [nvarchar](13) NULL UNIQUE,
-	[Tipo_Doc] [nvarchar](15) NULL,
-	[Cli_Apellido] [nvarchar](255) NULL,
-	[Cli_Nombre] [nvarchar](255) NULL,
-	[Cli_Fecha_Nac] [datetime] NULL,
-	[Cli_Mail] [nvarchar](255) NULL,
-	Calle nvarchar(50) NULL,
-	Numero numeric(18, 0) NULL,
-	Piso numeric(18, 0) NULL,
-	Depto nvarchar(50) NULL,
-	Cod_Postal [nvarchar](50) NULL,
-	localidad nvarchar(50),
-	[fecha_creacion] [datetime] NULL,
-	ID_Usuario INT	NOT NULL,
-	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
-	--[tarjeta] tal vez otra tabla
-);
---La factura es para las "empresas"
---Funcionalidad utilizada que registra facturas por el cobro de comisiones de ventas
---de publicaciones a la empresa de espectáculos.
---La comision la obtiene de: Compra -> Publicacion ->Grado Publicacion
-CREATE TABLE ESKHERE.[Factura](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Factura_Nro] [numeric](18, 0),
-	[Factura_Fecha] [datetime] NULL,
-	[Factura_Total] [numeric](18, 2) NULL,
-	[Forma_Pago_Desc] [nvarchar](255) NULL,
-
-);
---Un cliente tiene muchas compras y un espectáculo tiene muchas compras
---La compra es para los clientes
-CREATE TABLE [ESKHERE].[Compra](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Compra_Fecha] [datetime] NULL,
-	descripcion nvarchar(255) null,
-	[Total] [numeric](18, 0) NULL,
-	ID_Cliente INT NOT NULL,
-	Id_Factura INT NULL,
-	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Cliente) REFERENCES ESKHERE. Cliente([Cli_Dni]),	
-	CONSTRAINT FK_Factura  FOREIGN KEY(Id_Factura) REFERENCES ESKHERE. Factura([Factura_Nro])	
-);
-
-
-CREATE TABLE ESKHERE.[Ubicacion](
-	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[ubicacion_Fila] char(1),
-	[ubicacion_Asiento] [INT],
-	[tipo] nvarchar(40),
-	[precio] [INT],
-	[descripcion] nvarchar(255),
-	puntos int,
-	[ID_Compra] [INT],
-	CONSTRAINT FK_Compra FOREIGN KEY (ID_Compra) REFERENCES ESKHERE. Compra(ID)
-);
-
 CREATE TABLE ESKHERE.[Ubicacion_Compra](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[ID_ubicacion] [INT],
 	[ID_Compra] [INT],
-	CONSTRAINT FK_ubicacionCompra FOREIGN KEY (ID_ubicacion) REFERENCES ESKHERE. Espectaculo(ID),
-	CONSTRAINT FK_CompraUbicacion FOREIGN KEY (ID_Compra) REFERENCES ESKHERE. Compra(ID)
+	CONSTRAINT FK_ubicacionCompra FOREIGN KEY (ID_ubicacion) REFERENCES ESKHERE.Ubicacion(Id),
+	CONSTRAINT FK_CompraUbicacion FOREIGN KEY (ID_Compra) REFERENCES ESKHERE.Compra(Id)
 );
 
 
@@ -187,11 +184,11 @@ CREATE TABLE ESKHERE.cliente_premio(
 	[Id_premio] [int] NOT NULL,
 	[Id_cliente] [int] NOT NULL,
 	CONSTRAINT FK_ClientePremio   FOREIGN KEY(Id_Cliente) REFERENCES ESKHERE. Cliente(Id),	
-	CONSTRAINT FK_premio  FOREIGN KEY(Id_premio) REFERENCES ESKHERE. Premios(Id),	
+	CONSTRAINT FK_premio  FOREIGN KEY(Id_premio) REFERENCES ESKHERE. Premios(Id)	
 );
 
-INSERT INTO [ESKHERE].[Usuario]
-           ([Usuario],[Contrasenia],habilitado) VALUES ('1234','1234',1)
+INSERT INTO [ESKHERE].[Usuario]([Usuario],[Contrasenia],habilitado) 
+VALUES ('1234','1234',1)
 
 
 INSERT INTO [ESKHERE].[Premios] ([Puntos],[Descripcion]) 
@@ -209,19 +206,31 @@ VALUES ('ALTA', 0.10), ('MEDIA', 0.05), ('BAJA', 0.01)
 INSERT INTO [ESKHERE].[Estado_publicacion] ([Descripcion],[puedeModificarse])
 VALUES ('BORRADOR',1),('ACTIVA',1),('FINALIZADA',1)
 
-INSERT INTO [ESKHERE].[Ubicacion] -- Solo falta relacionarle ID_Espectaculo y ID_Compra 
+/* En veremos
+INSERT INTO [ESKHERE].Rubro([Descripcion])
+VALUES ('Terror'),('Comedia')
+*/
+INSERT INTO [ESKHERE].Rubro ([Descripcion])
+SELECT DISTINCT[Espectaculo_Rubro_Descripcion]
+FROM gd_esquema.Maestra
+
+
+INSERT INTO [ESKHERE].[Ubicacion] 
            ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio], [descripcion])
 SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio], [Ubicacion_Tipo_Descripcion]
 FROM gd_esquema.Maestra
+
 
 INSERT INTO [ESKHERE].[Publicacion] --¿Como mierda les relaciono los id? Deberian salir xq todos tienen inserts genericos
            ([Codigo],[Descripcion],[Fecha_publicacion],[Fecha_funcion],[Fecha_venc],[Id_grado],[Id_rubro] ,[Id_estado], Id_Ubicacion)
 SELECT  [Espectaculo_Cod],[Espectaculo_Descripcion],[Espec_Empresa_Fecha_Creacion],[Espectaculo_Fecha],[Espectaculo_Fecha_Venc]
 FROM gd_esquema.Maestra
 
-INSERT INTO [ESKHERE].[Factura]
+
+
+INSERT INTO [ESKHERE].[Factura]--ACA me marca que el nhay numero de factura que se repiten!!, sin embargo la fecha, el total y forma de pago es la misma asi que no hay drama
            ([Factura_Nro],[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc])
-SELECT [Factura_Nro],[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc]
+SELECT Distinct([Factura_Nro]),[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc]
  FROM gd_esquema.Maestra
 WHERE [Factura_Nro] IS NOT NULL
  
@@ -252,6 +261,7 @@ INSERT INTO [ESKHERE].[Compra]--El id_Cliente debería ser el dni para poder obt
            ([Compra_Fecha], descripcion,[Total],[ID_Cliente], [Id_Factura])
 SELECT [Compra_Fecha] ,[Item_Factura_Descripcion],[Item_Factura_Monto],[Cli_Dni],[Factura_Nro]
 FROM gd_esquema.Maestra
+WHERE [Cli_Dni] is not null AND [Factura_Nro] is not null
 
 
 --Usuario: id, usser, pass, habilitado
