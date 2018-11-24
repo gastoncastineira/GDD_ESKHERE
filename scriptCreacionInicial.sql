@@ -33,13 +33,13 @@ CREATE TABLE ESKHERE.[Rol_X_Funcion](
 );
 
 
-CREATE TABLE ESKHERE.[Estado_publicacion](
+CREATE TABLE ESKHERE.[Publicacion_Estado](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Descripcion] [nvarchar](20) NOT NULL,
 	[puedeModificarse] [int] NOT NULL
 );
 
-CREATE TABLE ESKHERE.[Grado_publicacion](
+CREATE TABLE ESKHERE.[Publicacion_Grado](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Descripcion] [nvarchar] (5),
 	[Comision] int
@@ -52,10 +52,6 @@ CREATE TABLE ESKHERE.[Usuario](
 	[habilitado] [bit] NOT NULL,
 );
 
-CREATE TABLE ESKHERE.[Rubro](
-	[Id] [int] NOT NULL PRIMARY KEY  IDENTITY(1,1),
-	[Descripcion] [nvarchar](255) NULL
-);
 
 --Tenemos acá un acumulador de ptos y en compras tenemos los ptos individuales de c/u
 --¿Dejams los 2 o solo 1?
@@ -116,22 +112,27 @@ CREATE TABLE ESKHERE.[Ubicacion](
 	puntos int,
 );
 
+CREATE TABLE ESKHERE.Publicacion_Fechas(
+[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+FPublicacion DATETIME NOT NULL,
+FFuncion DATETIME NOT NULL,
+FVenc DATETIME NOT NULL,
+);
+
 CREATE TABLE ESKHERE.[Publicacion](
 	[Id] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Codigo] [numeric](18, 0) NULL,
 	[Descripcion] [nvarchar](255) NULL, 
+	[Publicacion_Rubro] [nvarchar](255) NULL, 
 	[Stock] [int] NULL,
-	[Fecha_publicacion] [datetime] NULL,
-	[Fecha_funcion] [datetime] NULL,
-	[Fecha_venc] [datetime] NULL,
+	[Id_Fecha] INT NOT NULL,
 	[Id_grado] [int] NOT NULL,
-	[Id_rubro] [int] NOT NULL,
 	[Id_estado] [int] NOT NULL,
 	Id_Ubicacion [int] NOT NULL,
-	CONSTRAINT FK_RubroPublicacion FOREIGN KEY ([Id_rubro]) REFERENCES ESKHERE.Publicacion(Id),
-	CONSTRAINT FK_grado FOREIGN KEY(Id_grado) REFERENCES ESKHERE.Grado_publicacion(Id),
+	CONSTRAINT FK_Fecha FOREIGN KEY(Id_Fecha) REFERENCES ESKHERE.Publicacion_Fechas(Id),
+	CONSTRAINT FK_grado FOREIGN KEY(Id_grado) REFERENCES ESKHERE.Publicacion_Grado(Id),
 	CONSTRAINT FK_UbicacionPublicacion FOREIGN KEY(Id_Ubicacion) REFERENCES ESKHERE.[Ubicacion](Id),
-	CONSTRAINT FK_estado FOREIGN KEY(Id_estado) REFERENCES ESKHERE.Estado_Publicacion(Id)
+	CONSTRAINT FK_estado FOREIGN KEY(Id_estado) REFERENCES ESKHERE.Publicacion_Estado(Id)
 );
 
 
@@ -187,6 +188,8 @@ CREATE TABLE ESKHERE.cliente_premio(
 	CONSTRAINT FK_premio  FOREIGN KEY(Id_premio) REFERENCES ESKHERE. Premios(Id)	
 );
 
+--------------------------------------------------------------------------- INSERTS DE VALORES GENERICOS ------------------------------------------------------------------------------------------------
+
 INSERT INTO [ESKHERE].[Usuario]([Usuario],[Contrasenia],habilitado) 
 VALUES ('1234','1234',1)
 
@@ -199,21 +202,13 @@ INSERT INTO [ESKHERE].[Rol] ([Nombre],[Habilitado])
 VALUES ('Empresa',1),('Administrativo',1),('Cliente',1)
 
 
-INSERT INTO [ESKHERE].[Grado_publicacion]([Descripcion],[Comision])
+INSERT INTO [ESKHERE].[Publicacion_Grado]([Descripcion],[Comision])
 VALUES ('ALTA', 0.10), ('MEDIA', 0.05), ('BAJA', 0.01)
 
 
-INSERT INTO [ESKHERE].[Estado_publicacion] ([Descripcion],[puedeModificarse])
-VALUES ('BORRADOR',1),('ACTIVA',1),('FINALIZADA',1)
-
-/* En veremos
-INSERT INTO [ESKHERE].Rubro([Descripcion])
-VALUES ('Terror'),('Comedia')
-*/
-INSERT INTO [ESKHERE].Rubro ([Descripcion])
-SELECT DISTINCT[Espectaculo_Rubro_Descripcion]
-FROM gd_esquema.Maestra
-
+INSERT INTO [ESKHERE].[Publicacion_Estado] ([Descripcion],[puedeModificarse])
+VALUES ('Borrador',1),('Publicada',1),('Finalizada',1)
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO [ESKHERE].[Ubicacion] 
            ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio], [descripcion])
@@ -222,10 +217,13 @@ FROM gd_esquema.Maestra
 
 
 INSERT INTO [ESKHERE].[Publicacion] --¿Como mierda les relaciono los id? Deberian salir xq todos tienen inserts genericos
-           ([Codigo],[Descripcion],[Fecha_publicacion],[Fecha_funcion],[Fecha_venc],[Id_grado],[Id_rubro] ,[Id_estado], Id_Ubicacion)
-SELECT  [Espectaculo_Cod],[Espectaculo_Descripcion],[Espec_Empresa_Fecha_Creacion],[Espectaculo_Fecha],[Espectaculo_Fecha_Venc]
-FROM gd_esquema.Maestra
-
+           ([Codigo],[Descripcion],[Fecha_publicacion],[Fecha_funcion],[Fecha_venc],[Id_rubro] ,[Id_estado], Id_Ubicacion)
+SELECT  [Espectaculo_Cod],[Espectaculo_Descripcion],[Espec_Empresa_Fecha_Creacion],[Espectaculo_Fecha],[Espectaculo_Fecha_Venc],
+(SELECT Id FROM [ESKHERE].Rubro WHERE Descripcion = [Espectaculo_Rubro_Descripcion]),
+(SELECT Id FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado]),--Grado parece que no tiene
+(SELECT Id FROM  [ESKHERE].Ubicacion WHERE ubicacion_Fila = Maestra.ubicacion_Fila AND [Ubicacion_Asiento]=Maestra.[Ubicacion_Asiento] )
+FROM gd_esquema.Maestra  Maestra
+/* (SELECT Id FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado]) */
 
 
 INSERT INTO [ESKHERE].[Factura]--ACA me marca que el nhay numero de factura que se repiten!!, sin embargo la fecha, el total y forma de pago es la misma asi que no hay drama
