@@ -95,6 +95,7 @@ CREATE TABLE [ESKHERE].[Compra](
 	[Compra_Fecha] [datetime] NULL,
 	descripcion nvarchar(255) null,
 	[Total] [numeric](18, 0) NULL,
+	cantCompra [numeric](18, 0) NOT NULL,
 	ID_Cliente [numeric](18, 0) NOT NULL,
 	Id_Factura [numeric](18, 0) NOT NULL,
 	CONSTRAINT FK_Cliente   FOREIGN KEY(Id_Cliente) REFERENCES ESKHERE. Cliente([Cli_Dni]),	
@@ -237,12 +238,6 @@ SELECT Distinct([Factura_Nro]),[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc]
  FROM gd_esquema.Maestra
 WHERE [Factura_Nro] IS NOT NULL
  
-
- INSERT INTO [ESKHERE].[Rubro] ([Descripcion]) -- Query a checkear
- SELECT  [Espectaculo_Rubro_Descripcion]
- FROM gd_esquema.Maestra WHERE [Espectaculo_Rubro_Descripcion] is not null
-
-
  INSERT INTO [ESKHERE].[Cliente]
           ([Cli_Dni],[Cuil], [Cli_Apellido],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
            ,[Piso],[Depto],[Cod_Postal], [ID_Usuario])
@@ -261,10 +256,47 @@ WHERE [Espec_Empresa_Cuit]  IS NOT NULL
 --¿Como resuelvo la logica de asignacion puntos respecto a una compra? se lo doy a las ubicaciones y abz
 
 INSERT INTO [ESKHERE].[Compra]--El id_Cliente debería ser el dni para poder obtenerlo de la BD maestra
-           ([Compra_Fecha], descripcion,[Total],[ID_Cliente], [Id_Factura])
-SELECT [Compra_Fecha] ,[Item_Factura_Descripcion],[Item_Factura_Monto],[Cli_Dni],[Factura_Nro]
-FROM gd_esquema.Maestra
-WHERE [Cli_Dni] is not null AND [Factura_Nro] is not null
+           ([Compra_Fecha], descripcion,[Total],CantCompra,[ID_Cliente], [Id_Factura])
+SELECT [Compra_Fecha] ,[Item_Factura_Descripcion],[Item_Factura_Monto],[Compra_Cantidad],Cli.[Cli_Dni],[Factura_Nro]
+FROM gd_esquema.Maestra Maestra JOIN [ESKHERE].Cliente Cli ON Maestra.[Cli_Dni]= Cli.Cli_Dni
+WHERE Maestra.[Cli_Dni] is not null AND [Factura_Nro] is not null
 
 
---Usuario: id, usser, pass, habilitado
+-----------------------------------------------------------  REFERENCIA DE INSERT PARA TABLA INTERMEDIA ------------------------------------------------------------------------------------------------
+/*														
+--Regimen por Hotel
+insert into CAIA_UNLIMITED.Regimen_X_Hotel(regi_hote_codigo, regi_hote_id)
+select distinct regi_codigo, hote_id
+from CAIA_UNLIMITED.Regimen join gd_esquema.Maestra on (regi_descripcion = Regimen_Descripcion and
+														regi_precio_base = Regimen_Precio)
+							join CAIA_UNLIMITED.Direccion D on (Hotel_Calle = dire_dom_calle and
+																Hotel_Ciudad = dire_ciudad and
+																Hotel_Nro_Calle = dire_nro_calle)
+							join CAIA_UNLIMITED.Hotel H on (H.dire_id = D.dire_id)
+*/
+-----------------------------------------------------------   INSERTS PARA TABLAS INTERMEDIAS  ------------------------------------------------------------------------------------------------
+-- 1)Las tablas que merecen migracion son las del scema maestra
+
+-- 2)MUCHO MUY IMPORTANTE, PARA EL INSERT DE LAS INTERMEDIAS HAY QUE PONER TODOS LOS CAMPOS DE LAS TABLAS PPALES LO QUE VA A PERMITIR DIFERENCIAR UN REGISTRO DE OTRO.
+--   +DE NO PONER TODOS SE PUEDEN DAR REGRISTROS QUE SE REPITAN!!!!
+
+INSERT INTO [ESKHERE].[Ubicacion_Compra]  ([ID_ubicacion],[ID_Compra])
+select distinct ubi.Id, Compra.Id
+FROM [ESKHERE].[Ubicacion] ubi 
+JOIN gd_esquema.Maestra Maestra ON ( Maestra.[ubicacion_Fila] = ubi.[ubicacion_Fila]	   AND
+									 Maestra.[Ubicacion_Asiento] = ubi.[Ubicacion_Asiento] AND
+									 Maestra.[Ubicacion_Tipo_Codigo]= ubi.[tipo]	       AND
+									 Maestra.[Ubicacion_Precio] = ubi.[precio]		       AND
+									 Maestra.[Ubicacion_Tipo_Descripcion] = ubi.[descripcion])
+JOIN [ESKHERE].[Compra] Compra ON (Maestra.[Compra_Fecha]= Compra.[Compra_Fecha]			AND
+									Maestra.[Item_Factura_Descripcion]= Compra.descripcion	AND
+									Maestra.[Item_Factura_Monto]=Compra.[Total]				 AND
+									  Maestra.[Compra_Cantidad]= Compra.CantCompra) 
+
+select count(*) from 	[ESKHERE]. Ubicacion							 
+select count(*) from 	[ESKHERE].Compra
+
+
+	
+
+ 
