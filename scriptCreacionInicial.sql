@@ -195,20 +195,29 @@ INSERT INTO [ESKHERE].[Usuario]([Usuario],[Contrasenia],habilitado)
 VALUES ('1234','1234',1)
 
 
+INSERT INTO [ESKHERE].[Publicacion_Estado] ([Descripcion],[puedeModificarse])
+VALUES ('Borrador',1),('Publicada',1),('Finalizada',1)
+
 INSERT INTO [ESKHERE].[Premios] ([Puntos],[Descripcion]) 
 VALUES (10, 'Encendedor'), (20, 'Juguete'), (100, 'Entrada'), (500, 'Peluche')
-
-
-INSERT INTO [ESKHERE].[Rol] ([Nombre],[Habilitado])
-VALUES ('Empresa',1),('Administrativo',1),('Cliente',1)
-
 
 INSERT INTO [ESKHERE].[Publicacion_Grado]([Descripcion],[Comision])
 VALUES ('ALTA', 0.10), ('MEDIA', 0.05), ('BAJA', 0.01)
 
 
-INSERT INTO [ESKHERE].[Publicacion_Estado] ([Descripcion],[puedeModificarse])
-VALUES ('Borrador',1),('Publicada',1),('Finalizada',1)
+INSERT INTO [ESKHERE].[Rol] ([Nombre],[Habilitado])
+VALUES ('Empresa',1),('Administrativo',1),('Cliente',1)
+
+INSERT INTO [ESKHERE].Funcion([Nombre],descripcion)
+VALUES ('Contabilidad','dificil'),('Limpieza','medio'),('Mantenimiento','facil'),('Ventas','facil')
+
+
+INSERT INTO [ESKHERE].[Rol_X_Funcion]   ([ID_ROL],Id_Funcion)
+VALUES (1,2),(2,3),(2,2),(2,1)
+
+INSERT INTO [ESKHERE].[Rol_X_Usuario] ([ID_ROL],[ID_Usuario])
+VALUES (1,1),(2,1),(3,1)
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO [ESKHERE].[Publicacion_Fechas] --Revisar, en realidad deberia insertarse SOLO 1 vez una fila con esos valores, despues no debería repetirse
            ([FPublicacion],[FFuncion],[FVenc])
