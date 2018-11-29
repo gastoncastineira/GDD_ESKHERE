@@ -271,18 +271,6 @@ FROM gd_esquema.Maestra Maestra JOIN [ESKHERE].Cliente Cli ON Maestra.[Cli_Dni]=
 WHERE Maestra.[Cli_Dni] is not null AND [Factura_Nro] is not null
 
 
------------------------------------------------------------  REFERENCIA DE INSERT PARA TABLA INTERMEDIA ------------------------------------------------------------------------------------------------
-/*														
---Regimen por Hotel
-insert into CAIA_UNLIMITED.Regimen_X_Hotel(regi_hote_codigo, regi_hote_id)
-select distinct regi_codigo, hote_id
-from CAIA_UNLIMITED.Regimen join gd_esquema.Maestra on (regi_descripcion = Regimen_Descripcion and
-														regi_precio_base = Regimen_Precio)
-							join CAIA_UNLIMITED.Direccion D on (Hotel_Calle = dire_dom_calle and
-																Hotel_Ciudad = dire_ciudad and
-																Hotel_Nro_Calle = dire_nro_calle)
-							join CAIA_UNLIMITED.Hotel H on (H.dire_id = D.dire_id)
-*/
 -----------------------------------------------------------   INSERTS PARA TABLAS INTERMEDIAS  ------------------------------------------------------------------------------------------------
 -- 1)Las tablas que merecen migracion son las del scema maestra
 
