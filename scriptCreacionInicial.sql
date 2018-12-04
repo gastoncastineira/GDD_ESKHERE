@@ -242,10 +242,17 @@ INSERT INTO [ESKHERE].[Ubicacion]
 SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio], [Ubicacion_Tipo_Descripcion]
 FROM gd_esquema.Maestra
 
+INSERT INTO [ESKHERE].[Empresa] 
+([Espec_Empresa_Razon_Social],[Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],[ID_Usuario],[Calle],[Numero],[Piso],[Depto],[Cod_Postal],Habilitado)
+SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],1,[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
+      ,[Espec_Empresa_Piso],[Espec_Empresa_Depto],[Espec_Empresa_Cod_Postal],1
+FROM gd_esquema.Maestra
+WHERE [Espec_Empresa_Cuit]  IS NOT NULL
 
 INSERT INTO [ESKHERE].[Publicacion] --¿Como mierda les relaciono los ID? Deberian salir xq todos tienen inserts genericos
-           ([Codigo],[Descripcion],[Publicacion_Rubro],[ID_Fecha],[ID_estado],[ID_Ubicacion])
+           ([Codigo],[Descripcion],[Publicacion_Rubro],[ID_Empresa_publicante],[ID_Fecha],[ID_estado],[ID_Ubicacion])
 SELECT  [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Rubro_Descripcion],
+(SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]),--Me quedo tranqui xq la razon social y cuit son unicos
 (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ),
 (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado]),
 (SELECT	TOP 1 ID FROM [ESKHERE].Ubicacion WHERE ubicacion_Fila = Maestra.ubicacion_Fila AND [Ubicacion_Asiento]=Maestra.[Ubicacion_Asiento] )
@@ -253,9 +260,10 @@ FROM gd_esquema.Maestra  Maestra
 --Esta perfecto que esta tabla tenga TODOS los registros de la BD xq cada espectaculo tiene asociada sus ubicaciones y esto se ve aca.
 
 
-INSERT INTO [ESKHERE].[Factura]--ACA me marca que el nhay numero de factura que se repiten!!, sin embargo la fecha, el total y forma de pago es la misma asi que no hay drama
-           ([Factura_Nro],[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc])
-SELECT Distinct([Factura_Nro]),[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc]
+INSERT INTO [ESKHERE].[Factura]
+           ([Factura_Nro],[Factura_Fecha],[Factura_Total],	[Cantidad_Item_Factura])
+SELECT Distinct([Factura_Nro]),[Factura_Fecha],[Factura_Total],[Forma_Pago_Desc], 
+(SELECT COUNT(*) FROM ESKHERE.Item_Factura WHERE ID_Factura = Factura_Nro)--Cuento la CANT de item_Facturas relacionadas con este factura_nro
  FROM gd_esquema.Maestra
 WHERE [Factura_Nro] IS NOT NULL
  
@@ -267,12 +275,7 @@ select  distinct([Cli_Dni]),[Cli_Dni]+1,[Cli_ApeliIDo],[Cli_Nombre],[Cli_Fecha_N
 from gd_esquema.Maestra
 where [Cli_Dni]  IS NOT NULL
 
-INSERT INTO [ESKHERE].[Empresa] 
-([Espec_Empresa_Razon_Social],[Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],[ID_Usuario],[Calle],[Numero],[Piso],[Depto],[Cod_Postal],Habilitado)
-SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],1,[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
-      ,[Espec_Empresa_Piso],[Espec_Empresa_Depto],[Espec_Empresa_Cod_Postal],1
-FROM gd_esquema.Maestra
-WHERE [Espec_Empresa_Cuit]  IS NOT NULL
+
 
 --¿Como resuelvo la logica de asignacion puntos respecto a una compra? se lo doy a las ubicaciones y abz
 
