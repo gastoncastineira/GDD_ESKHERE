@@ -279,9 +279,17 @@ where [Cli_Dni]  IS NOT NULL
 
 --¿Como resuelvo la logica de asignacion puntos respecto a una compra? se lo doy a las ubicaciones y abz
 
-INSERT INTO [ESKHERE].[Compra]--El ID_Cliente debería ser el dni para poder obtenerlo de la BD maestra
-           ([Compra_Fecha], descripcion,[Total],CantCompra,[ID_Cliente], [ID_Factura])
-SELECT [Compra_Fecha] ,[Item_Factura_Descripcion],[Item_Factura_Monto],[Compra_CantIDad],Cli.[Cli_Dni],[Factura_Nro]
+INSERT INTO [ESKHERE].Item_Factura--El ID_Cliente debería ser el dni para poder obtenerlo de la BD maestra
+           ([Fecha], descripcion,[Total],[Forma_Pago_Desc],[Puntos],ID_Publicacion, [ID_Factura],[ID_Cliente])
+SELECT [Compra_Fecha] ,[Item_Factura_Descripcion],[Item_Factura_Monto],[Compra_Cantidad],
+(SELECT ID FROM [ESKHERE].[Publicacion] PUB WHERE PUB.Codigo = [Espectaculo_Cod] AND 
+												  PUB.Descripcion = [Espectaculo_Descripcion] AND
+												  PUB.[Publicacion_Rubro]=[Espectaculo_Rubro_Descripcion] AND
+												  PUB.ID_Empresa_Publicante = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND--Me quedo tranqui xq la razon social y cuit son unicos
+												  PUB.Id_Fecha = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] )AND
+											      PUB.Id_estado =(SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
+												  ),--ACA TERMINA EL SUPERSELECT
+[Factura_Nro],Cli.[Cli_Dni]
 FROM gd_esquema.Maestra Maestra JOIN [ESKHERE].Cliente Cli ON Maestra.[Cli_Dni]= Cli.Cli_Dni
 WHERE Maestra.[Cli_Dni] is not null AND [Factura_Nro] is not null
 
