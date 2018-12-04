@@ -96,23 +96,20 @@ CREATE TABLE ESKHERE.[Factura](
 );
 
 
---Un cliente tiene muchas compras y un espectáculo tiene muchas compras
---La compra es para los clientes
-CREATE TABLE [ESKHERE].[Item_Factura](
+CREATE TABLE ESKHERE.[Empresa](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Fecha] [datetime] NULL,
-	descripcion nvarchar(255) null,
-	[Total] [numeric](18, 0) NULL,
-	[Total_Comisiones] [numeric](18, 0) NULL,
-	[Forma_Pago_Desc] [nvarchar](255) NULL,
-	Puntos INT,
-	Cant_Ubicaciones_Compradas [numeric](18, 0) NOT NULL,
-	ID_Publicacion INT NOT NULL,
-	ID_Factura [numeric](18, 0) NOT NULL,
-	ID_Cliente [numeric](18, 0) NOT NULL,
-	CONSTRAINT FK_Publicacion_Item_Factura   FOREIGN KEY(ID_Publicacion) REFERENCES ESKHERE. Publicacion(ID),	
-	CONSTRAINT FK_Cliente   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente([Cli_Dni]),	
-	CONSTRAINT FK_Factura  FOREIGN KEY(ID_Factura) REFERENCES ESKHERE.[Factura]([Factura_Nro])	
+	[Espec_Empresa_Razon_Social] [nvarchar](255) NULL UNIQUE,
+	[Espec_Empresa_Cuit] [nvarchar](255) NULL UNIQUE,
+	[Espec_Empresa_Fecha_Creacion] [datetime] NULL,
+	[Espec_Empresa_Mail] [nvarchar](50) NULL,
+	ID_Usuario INT NOT NULL,
+	Calle nvarchar(50) NULL,
+	Numero numeric(18, 0) NULL,
+	Piso numeric(18, 0) NULL,
+	Depto nvarchar(50) NULL,
+	Cod_Postal [nvarchar](50) NULL,
+	Habilitado BIT NOT NULL,
+	CONSTRAINT FK_UsuarioEmpresa FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID),
 );
 
 
@@ -152,6 +149,27 @@ CREATE TABLE ESKHERE.[Publicacion](
 );
 
 
+--Un cliente tiene muchas compras y un espectáculo tiene muchas compras
+--La compra es para los clientes
+CREATE TABLE [ESKHERE].[Item_Factura](
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Fecha] [datetime] NULL,
+	descripcion nvarchar(255) null,
+	[Total] [numeric](18, 0) NULL,
+	[Total_Comisiones] [numeric](18, 0) NULL,
+	[Forma_Pago_Desc] [nvarchar](255) NULL,
+	Puntos INT,
+	Cant_Ubicaciones_Compradas [numeric](18, 0) NOT NULL,
+	ID_Publicacion INT NOT NULL,
+	ID_Factura [numeric](18, 0) NOT NULL,
+	ID_Cliente [numeric](18, 0) NOT NULL,
+	CONSTRAINT FK_Publicacion_Item_Factura   FOREIGN KEY(ID_Publicacion) REFERENCES ESKHERE. Publicacion(ID),	
+	CONSTRAINT FK_Cliente   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente([Cli_Dni]),	
+	CONSTRAINT FK_Factura  FOREIGN KEY(ID_Factura) REFERENCES ESKHERE.[Factura]([Factura_Nro])	
+);
+
+
+
 CREATE TABLE ESKHERE.[Rol_X_Usuario](
 	ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
   	ID_ROL int NOT NULL,
@@ -161,34 +179,13 @@ CREATE TABLE ESKHERE.[Rol_X_Usuario](
 );
 
 
-
-CREATE TABLE ESKHERE.[Empresa](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Espec_Empresa_Razon_Social] [nvarchar](255) NULL UNIQUE,
-	[Espec_Empresa_Cuit] [nvarchar](255) NULL UNIQUE,
-	[Espec_Empresa_Fecha_Creacion] [datetime] NULL,
-	[Espec_Empresa_Mail] [nvarchar](50) NULL,
-	ID_Usuario INT NOT NULL,
-	Calle nvarchar(50) NULL,
-	Numero numeric(18, 0) NULL,
-	Piso numeric(18, 0) NULL,
-	Depto nvarchar(50) NULL,
-	Cod_Postal [nvarchar](50) NULL,
-	Habilitado BIT NOT NULL,
-	CONSTRAINT FK_UsuarioEmpresa FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID),
-);
-
 CREATE TABLE ESKHERE.[Ubicacion_Compra](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[ID_ubicacion] [INT],
 	[ID_Compra] [INT],
 	CONSTRAINT FK_ubicacionCompra FOREIGN KEY (ID_ubicacion) REFERENCES ESKHERE.Ubicacion(ID),
-	CONSTRAINT FK_CompraUbicacion FOREIGN KEY (ID_Compra) REFERENCES ESKHERE.Compra(ID)
+	CONSTRAINT FK_CompraUbicacion FOREIGN KEY (ID_Compra) REFERENCES ESKHERE.Item_Factura(ID)
 );
-
-
----------------------------------------------------------------------------------------------------
-
 
 CREATE TABLE ESKHERE.Premios(
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
