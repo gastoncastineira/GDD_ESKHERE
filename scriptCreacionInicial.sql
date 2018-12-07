@@ -256,10 +256,18 @@ INSERT INTO [ESKHERE].[Publicacion]
  --NO tiene sentido que este ID_Grado xq no esta en el script original para migrar
            ([Codigo],[Descripcion],[Publicacion_Rubro],[ID_Empresa_publicante],[ID_Fecha],[ID_estado])
 SELECT DISTINCT [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Rubro_Descripcion],
-(SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]),--Me quedo tranqui xq la razon social y cuit son unicos
-(SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ),
+/*
+(SELECT  ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]),--Me quedo tranqui xq la razon social y cuit son unicos
+*/
+E.ID,
+(SELECT  ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ),
 (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
-FROM gd_esquema.Maestra  Maestra
+FROM gd_esquema.Maestra  M 
+JOIN ESKHERE.Empresa E ON ( E.Espec_Empresa_Razon_Social = M.[Espec_Empresa_Razon_Social] AND E.Espec_Empresa_Cuit = M.[Espec_Empresa_Cuit])
+
+delete from ESKHERE.compra;
+delete from eskhere.ubicacion;
+delete from ESKHERE.Publicacion;
 
 INSERT INTO [ESKHERE].[Ubicacion]
            ([ubicacion_Fila],[ubicacion_Asiento],[tipo],[precio],[Ubicacion_Sin_numerar],[Ubicacion_Tipo_Descripcion],[puntos],[ID_Publicacion])
