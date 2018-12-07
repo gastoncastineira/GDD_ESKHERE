@@ -118,11 +118,9 @@ CREATE TABLE ESKHERE.[Publicacion](
 	[ID_Fecha] INT NOT NULL,
 	[ID_grado] [int] NOT NULL DEFAULT 3,
 	[ID_estado] [int] NOT NULL,
-	ID_Ubicacion [int] NOT NULL,
 	CONSTRAINT FK_Empresa_Publicante FOREIGN KEY([ID_Empresa_publicante]) REFERENCES ESKHERE.Empresa(ID),
 	CONSTRAINT FK_Fecha FOREIGN KEY(ID_Fecha) REFERENCES ESKHERE.Publicacion_Fechas(ID),
 	CONSTRAINT FK_grado FOREIGN KEY(ID_grado) REFERENCES ESKHERE.Publicacion_Grado(ID),
-	CONSTRAINT FK_UbicacionPublicacion FOREIGN KEY(ID_Ubicacion) REFERENCES ESKHERE.[Ubicacion](ID),
 	CONSTRAINT FK_estado FOREIGN KEY(ID_estado) REFERENCES ESKHERE.Publicacion_Estado(ID)
 );
 
@@ -153,16 +151,6 @@ CREATE TABLE [ESKHERE].Compra(
 	CONSTRAINT FK_Compra_Ubicacion FOREIGN KEY (ID_Ubicacion) REFERENCES ESKHERE.Ubicacion(ID)
 );
 
-CREATE TABLE [ESKHERE].[Item_Factura](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Fecha] [datetime] NULL,
-	[Item_Factura_Cantidad] [numeric](18, 0) NULL,
-	[Item_Factura_Monto] [numeric](18, 2) NULL,
-	ID_Factura [numeric](18, 0) NOT NULL,
-	CONSTRAINT FK_Factura  FOREIGN KEY(ID_Factura) REFERENCES ESKHERE.[Factura]([Factura_Nro])	
-);
-
-
 --La factura es para las "empresas"
 --FuncionalIDad utilizada que registra facturas por el cobro de comisiones de ventas
 --de publicaciones a la empresa de espectáculos.
@@ -175,6 +163,15 @@ CREATE TABLE ESKHERE.[Factura](
 	Cantidad_Item_Factura INT,
 	ID_Empresa [nvarchar](255) NULL,
 	CONSTRAINT FK_Factura_Empresa  FOREIGN KEY(ID_Empresa) REFERENCES ESKHERE.Empresa([Espec_Empresa_Cuit])	
+);
+
+CREATE TABLE [ESKHERE].[Item_Factura](
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Fecha] [datetime] NULL,
+	[Item_Factura_Cantidad] [numeric](18, 0) NULL,
+	[Item_Factura_Monto] [numeric](18, 2) NULL,
+	ID_Factura [numeric](18, 0) NOT NULL,
+	CONSTRAINT FK_Factura  FOREIGN KEY(ID_Factura) REFERENCES ESKHERE.[Factura]([Factura_Nro])	
 );
 
 
