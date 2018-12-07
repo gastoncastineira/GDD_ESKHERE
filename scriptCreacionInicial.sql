@@ -35,13 +35,13 @@ CREATE TABLE ESKHERE.[Rol_X_Funcion](
 
 CREATE TABLE ESKHERE.[Publicacion_Estado](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Descripcion] [nvarchar](20) NOT NULL,
+	[Descripcion] [nvarchar](255) NULL,
 	[puedeModificarse] [int] NOT NULL
 );
 
 CREATE TABLE ESKHERE.[Publicacion_Grado](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Descripcion] [nvarchar] (5),
+	[Descripcion] [nvarchar](255) NULL,
 	[Comision] int
 	);
 
@@ -65,12 +65,12 @@ CREATE TABLE ESKHERE.[Cliente](
 	[Cli_Nombre] [nvarchar](255) NULL,
 	[Cli_Fecha_Nac] [datetime] NULL,
 	[Cli_Mail] [nvarchar](255) NULL,
-	Calle nvarchar(50) NULL,
+	Calle [nvarchar](255) NULL,
 	Numero numeric(18, 0) NULL,
 	Piso numeric(18, 0) NULL,
-	Depto nvarchar(50) NULL,
+	Depto [nvarchar](255) NULL,
 	Cod_Postal [nvarchar](50) NULL,
-	localIDad nvarchar(50),
+	localidad [nvarchar](255) NULL,
 	[fecha_creacion] [datetime] NULL,
 	ID_Usuario INT	NOT NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
@@ -83,18 +83,6 @@ CREATE TABLE ESKHERE.[Puntos](
 	FechaObtenIDos DATETIME
 );
 
---La factura es para las "empresas"
---FuncionalIDad utilizada que registra facturas por el cobro de comisiones de ventas
---de publicaciones a la empresa de espectáculos.
---La comision la obtiene de: Compra -> Publicacion ->Grado Publicacion
-CREATE TABLE ESKHERE.[Factura](
-	[Factura_Nro] [numeric](18, 0) PRIMARY KEY,
-	[Factura_Fecha] [datetime] NULL,
-	[Factura_Total] [numeric](18, 2) NULL,
-	Total_Comsiiones [numeric](18, 2) NULL,
-	Cantidad_Item_Factura INT
-);
-
 
 CREATE TABLE ESKHERE.[Empresa](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -102,26 +90,16 @@ CREATE TABLE ESKHERE.[Empresa](
 	[Espec_Empresa_Cuit] [nvarchar](255) NULL UNIQUE,
 	[Espec_Empresa_Fecha_Creacion] [datetime] NULL,
 	[Espec_Empresa_Mail] [nvarchar](50) NULL,
-	ID_Usuario INT NOT NULL,
 	Calle nvarchar(50) NULL,
 	Numero numeric(18, 0) NULL,
 	Piso numeric(18, 0) NULL,
 	Depto nvarchar(50) NULL,
 	Cod_Postal [nvarchar](50) NULL,
 	Habilitado BIT NOT NULL,
-	CONSTRAINT FK_UsuarioEmpresa FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID),
+	ID_Usuario INT NOT NULL,
+	CONSTRAINT FK_UsuarioEmpresa FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
 
-
-CREATE TABLE ESKHERE.[Ubicacion](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[ubicacion_Fila] char(1),
-	[ubicacion_Asiento] [INT],
-	[tipo] nvarchar(40),
-	[precio] [INT],
-	[descripcion] nvarchar(255),
-	puntos int,
-);
 
 CREATE TABLE ESKHERE.Publicacion_Fechas(
 [ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -135,7 +113,7 @@ CREATE TABLE ESKHERE.[Publicacion](
 	[Codigo] [numeric](18, 0) NULL,
 	[Descripcion] [nvarchar](255) NULL, 
 	[Publicacion_Rubro] [nvarchar](255) NULL, 
-	[Stock] [int] NULL,
+	[Stock] [int] NULL ,
 	[ID_Empresa_publicante] INT NOT NULL,
 	[ID_Fecha] INT NOT NULL,
 	[ID_grado] [int] NOT NULL DEFAULT 3,
@@ -151,23 +129,53 @@ CREATE TABLE ESKHERE.[Publicacion](
 
 --Un cliente tiene muchas compras y un espectáculo tiene muchas compras
 --La compra es para los clientes
+
+CREATE TABLE ESKHERE.[Ubicacion](
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[ubicacion_Fila] [varchar](3) NULL,
+	[ubicacion_Asiento] [numeric](18, 0) NULL,
+	[tipo] [numeric](18, 0) NULL,
+	[precio] [numeric](18, 0) NULL,
+	[Ubicacion_Sin_numerar] [bit] NULL,
+	[Ubicacion_Tipo_Descripcion] [nvarchar](255) NULL,
+	puntos int,
+	ID_Publicacion int,
+	CONSTRAINT FK_Ubicacion_Publicacion FOREIGN KEY (ID_Publicacion) REFERENCES ESKHERE.PUBLICACION(ID)
+);
+CREATE TABLE [ESKHERE].Compra(
+	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Fecha] [datetime] NULL,
+	[Compra_Cantidad] [numeric](18, 0) NULL,
+	[Forma_Pago_Desc] [nvarchar](255) NULL,
+	ID_Cliente INT NOT NULL,
+	ID_Ubicacion INT NOT NULL,
+	CONSTRAINT FK_Compra_Cliente FOREIGN KEY (ID_Cliente) REFERENCES ESKHERE.Cliente(ID),
+	CONSTRAINT FK_Compra_Ubicacion FOREIGN KEY (ID_Ubicacion) REFERENCES ESKHERE.Ubicacion(ID)
+);
+
 CREATE TABLE [ESKHERE].[Item_Factura](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Fecha] [datetime] NULL,
-	descripcion nvarchar(255) null,
-	[Total] [numeric](18, 0) NULL,
-	[Total_Comisiones] [numeric](18, 0) NULL,
-	[Forma_Pago_Desc] [nvarchar](255) NULL,
-	Puntos INT,
-	Cant_Ubicaciones_Compradas [numeric](18, 0) NOT NULL,
-	ID_Publicacion INT NOT NULL,
+	[Item_Factura_Cantidad] [numeric](18, 0) NULL,
+	[Item_Factura_Monto] [numeric](18, 2) NULL,
 	ID_Factura [numeric](18, 0) NOT NULL,
-	ID_Cliente [numeric](18, 0) NOT NULL,
-	CONSTRAINT FK_Publicacion_Item_Factura   FOREIGN KEY(ID_Publicacion) REFERENCES ESKHERE. Publicacion(ID),	
-	CONSTRAINT FK_Cliente   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente([Cli_Dni]),	
 	CONSTRAINT FK_Factura  FOREIGN KEY(ID_Factura) REFERENCES ESKHERE.[Factura]([Factura_Nro])	
 );
 
+
+--La factura es para las "empresas"
+--FuncionalIDad utilizada que registra facturas por el cobro de comisiones de ventas
+--de publicaciones a la empresa de espectáculos.
+--La comision la obtiene de: Compra -> Publicacion ->Grado Publicacion
+CREATE TABLE ESKHERE.[Factura](
+	[Factura_Nro] [numeric](18, 0) PRIMARY KEY,
+	[Factura_Fecha] [datetime] NULL,
+	[Factura_Total] [numeric](18, 2) NULL,
+	Total_Comisiones [numeric](18, 2) NULL,
+	Cantidad_Item_Factura INT,
+	ID_Empresa [nvarchar](255) NULL,
+	CONSTRAINT FK_Factura_Empresa  FOREIGN KEY(ID_Empresa) REFERENCES ESKHERE.Empresa([Espec_Empresa_Cuit])	
+);
 
 
 CREATE TABLE ESKHERE.[Rol_X_Usuario](
@@ -178,14 +186,6 @@ CREATE TABLE ESKHERE.[Rol_X_Usuario](
 	CONSTRAINT FK_Usuario_X_Rol FOREIGN KEY(ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
 
-
-CREATE TABLE ESKHERE.[Ubicacion_Compra](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[ID_ubicacion] [INT],
-	[ID_Compra] [INT],
-	CONSTRAINT FK_ubicacionCompra FOREIGN KEY (ID_ubicacion) REFERENCES ESKHERE.Ubicacion(ID),
-	CONSTRAINT FK_CompraUbicacion FOREIGN KEY (ID_Compra) REFERENCES ESKHERE.Item_Factura(ID)
-);
 
 CREATE TABLE ESKHERE.Premios(
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
@@ -238,8 +238,8 @@ FROM gd_esquema.Maestra
 
 
 INSERT INTO [ESKHERE].[Ubicacion] 
-           ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio], [descripcion])
-SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio], [Ubicacion_Tipo_Descripcion]
+           ([ubicacion_Fila],[Ubicacion_Asiento],[tipo],[precio], [descripcion], puntos)
+SELECT  [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio], [Ubicacion_Tipo_Descripcion], FLOOR([Ubicacion_Precio]/10)
 FROM gd_esquema.Maestra
 
 INSERT INTO [ESKHERE].[Empresa] 
@@ -275,8 +275,6 @@ select  distinct([Cli_Dni]),[Cli_Dni]+1,[Cli_ApeliIDo],[Cli_Nombre],[Cli_Fecha_N
 from gd_esquema.Maestra
 where [Cli_Dni]  IS NOT NULL
 
-
-
 --¿Como resuelvo la logica de asignacion puntos respecto a una compra? se lo doy a las ubicaciones y abz
 
 INSERT INTO [ESKHERE].Item_Factura--El ID_Cliente debería ser el dni para poder obtenerlo de la BD maestra
@@ -300,7 +298,7 @@ WHERE Maestra.[Cli_Dni] is not null AND [Factura_Nro] is not null
 -- 2)MUCHO MUY IMPORTANTE, PARA EL INSERT DE LAS INTERMEDIAS HAY QUE PONER TODOS LOS CAMPOS DE LAS TABLAS PPALES LO QUE VA A PERMITIR DIFERENCIAR UN REGISTRO DE OTRO.
 --   +DE NO PONER TODOS SE PUEDEN DAR REGRISTROS QUE SE REPITAN!!!!
 
-INSERT INTO [ESKHERE].[Ubicacion_Compra]  ([ID_ubicacion],[ID_Compra])
+INSERT INTO [ESKHERE].[Compra_Ubicacion]  ([ID_ubicacion],[ID_Compra])
 select distinct ubi.ID, Compra.ID
 FROM [ESKHERE].[Ubicacion] ubi 
 JOIN gd_esquema.Maestra Maestra ON ( Maestra.[ubicacion_Fila] = ubi.[ubicacion_Fila]	   AND
@@ -314,7 +312,7 @@ JOIN [ESKHERE].[Compra] Compra ON (Maestra.[Compra_Fecha]= Compra.[Compra_Fecha]
 									  Maestra.[Compra_CantIDad]= Compra.CantCompra) 
 
 select count(*) from 	[ESKHERE]. Ubicacion							 
-select count(*) from 	[ESKHERE].Compra
+select count(*) from 	[ESKHERE].Item_Factura
 
 
 	
