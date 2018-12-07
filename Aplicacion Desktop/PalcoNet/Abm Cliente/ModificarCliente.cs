@@ -13,27 +13,53 @@ namespace PalcoNet.Abm_Cliente
     public partial class ModificarCliente : Form
     {
         private bool errorCUIL = false;
-        private List<TextBox> textos;
+        private List<TextBox> textos = new List<TextBox>();
+        private Dictionary<string, object> datos = new Dictionary<string, object>();
+        List<string> textosSinModificar = new List<string>();
+        private int id;
 
-        public ModificarCliente(string nombre, string apellido, string mail, string doc, string Tipo, string cuil, string telefono, string direccion, string piso, string depto, string localidad, string codPostal)
+        public ModificarCliente(DataGridViewCellCollection data)
         {
             InitializeComponent();
 
-            txtApel.Text = apellido;
-            txtCodPostal.Text = codPostal;
-            txtCUIL.Text = cuil;
-            txtDepto.Text = depto;
-            txtDir.Text = direccion;
-            txtDoc.Text = doc;
-            txtLocalidad.Text = localidad;
-            txtMail.Text = mail;
-            txtNombre.Text = nombre;
-            txtPiso.Text = piso;
-            txtTel.Text = telefono;
+            id = Convert.ToInt32(data["id"].Value);
+
+            txtApel.Text = data["Cli_Apellido"].Value.ToString();
+            textosSinModificar.Add(txtApel.Text);
+            txtCodPostal.Text = data["Cod_Postal"].Value.ToString() ;
+            textosSinModificar.Add(txtCodPostal.Text);
+            txtCUIL.Text = data["Cuil"].Value.ToString();
+            textosSinModificar.Add(txtCUIL.Text);
+            txtDepto.Text = data["Depto"].Value.ToString();
+            textosSinModificar.Add(txtDepto.Text);
+            txtDir.Text = data["Calle"].Value.ToString();
+            textosSinModificar.Add(txtDir.Text);
+            txtDoc.Text = data["Cli_Dni"].Value.ToString();
+            textosSinModificar.Add(txtDoc.Text);
+            txtLocalidad.Text = data["Localidad"].Value.ToString();
+            textosSinModificar.Add(txtLocalidad.Text);
+            txtMail.Text = data["Cli_mail"].Value.ToString() ;
+            textosSinModificar.Add(txtMail.Text);
+            txtNombre.Text = data["Cli_nombre"].Value.ToString();
+            textosSinModificar.Add(txtNombre.Text);
+            txtPiso.Text = data["piso"].Value.ToString();
+            textosSinModificar.Add(txtPiso.Text);
+            //txtTel.Text = data["Numero"].Value.ToString() ;
+            textosSinModificar.Add(txtTel.Text);
+            dtpNac.Text = data["cli_fecha_nac"].Value.ToString();
+            textosSinModificar.Add(dtpNac.Text);
+            cbbTipo.Text = data["tipo_doc"].Value.ToString();
+            textosSinModificar.Add(cbbTipo.Text);
             if (string.IsNullOrEmpty(txtPiso.Text))
                 chbPiso.Enabled = true;
             if (string.IsNullOrEmpty(txtDepto.Text))
                 chbDepto.Enabled = true;
+
+            foreach(Control c in Controls)
+            {
+                if (c is TextBox)
+                    textos.Add(c as TextBox);
+            }
         }
 
         private bool cuilEsValido()
@@ -46,9 +72,15 @@ namespace PalcoNet.Abm_Cliente
             return false;
         }
 
+        private void AgregarParaUpdate(string nombreCol, object data)
+        {
+            if (textosSinModificar.All(s => !string.Equals(s, data.ToString())))
+                datos[nombreCol] = data;
+        }
+
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (textos.Any(t => string.IsNullOrEmpty(t.Text)) || cbbTipo.SelectedItem == null)
+            if (textos.Any(t => string.IsNullOrEmpty(t.Text)) || cbbTipo.SelectedIndex == -1)
                 MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
             {
@@ -60,9 +92,10 @@ namespace PalcoNet.Abm_Cliente
                 }
                 else
                 {
-                    //TODO: cambiar a null el piso y depto para isnertar en BD si no tiene el usuario. validar con Checkbox
-                    DialogResult = DialogResult.OK;
-                    //this.Close();
+                    if (Conexion.getInstance().Modificar(id, Conexion.Tabla.Cliente, datos))
+                        DialogResult = DialogResult.OK;
+                    else
+                        DialogResult = DialogResult.Abort;
                 }
             }
         }
@@ -95,6 +128,71 @@ namespace PalcoNet.Abm_Cliente
             }
             else
                 txtCUIL.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Cli_nombre", txtNombre.Text.ToUpper());
+        }
+
+        private void txtApel_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Cli_Apellido", txtApel.Text);
+        }
+
+        private void txtDoc_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("cli_dni", txtDoc.Text);
+        }
+
+        private void txtCUIL_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("cuil", txtCUIL.Text);
+        }
+
+        private void txtMail_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("cli_mail", txtMail.Text);
+        }
+
+        private void cbbTipo_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Tipo_Doc", cbbTipo.Text);
+        }
+
+        private void txtTel_Leave(object sender, EventArgs e)
+        {
+            //AgregarParaUpdate("tenefono", txtTel.Text);
+        }
+
+        private void txtDir_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("calle", txtDir.Text);
+        }
+
+        private void txtDepto_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("depto", txtDepto.Text);
+        }
+
+        private void txtPiso_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("piso", txtPiso.Text);
+        }
+
+        private void txtLocalidad_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("localidad", txtLocalidad.Text);
+        }
+
+        private void txtCodPostal_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("cod_postal", txtCodPostal.Text);
+        }
+
+        private void dtpNac_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("cli_fecha_nac", dtpNac.Value);
         }
     }
 }

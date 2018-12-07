@@ -13,7 +13,8 @@ namespace PalcoNet.Abm_Cliente
     public partial class AltaCliente : Form
     {
         private bool errorCUIL = false;
-        private List<TextBox> textos;
+        private List<TextBox> textos = new List<TextBox>();
+        private Dictionary<string, object> datos = new Dictionary<string, object>();
 
         public AltaCliente()
         {
@@ -37,9 +38,14 @@ namespace PalcoNet.Abm_Cliente
             return false;
         }
 
+        private void AgregarParaInsert(string nombreCol, object data)
+        {
+                datos[nombreCol] = data;
+        }
+
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (textos.Any(t => string.IsNullOrEmpty(t.Text)) || cbbTipo.SelectedItem == null)
+            if (textos.Any(t => string.IsNullOrEmpty(t.Text)) || cbbTipo.SelectedIndex == -1)
                 MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
             {
@@ -51,9 +57,10 @@ namespace PalcoNet.Abm_Cliente
                 }
                 else
                 {
-                    //TODO: cambiar a null el piso y depto para isnertar en BD si no tiene el usuario. validar con Checkbox
-                    DialogResult = DialogResult.OK;
-                    //this.Close();
+                    if (Conexion.getInstance().Insertar(Conexion.Tabla.Cliente, datos))
+                        DialogResult = DialogResult.OK;
+                    else
+                        DialogResult = DialogResult.Abort;
                 }
             }
         }
@@ -86,6 +93,71 @@ namespace PalcoNet.Abm_Cliente
             }
             else
                 txtCUIL.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Cli_nombre", txtNombre.Text.ToUpper());
+        }
+
+        private void txtApel_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Cli_Apellido", txtApel.Text);
+        }
+
+        private void txtDoc_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("cli_dni", txtDoc.Text);
+        }
+
+        private void txtCUIL_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("cuil", txtCUIL.Text);
+        }
+
+        private void txtMail_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("cli_mail", txtMail.Text);
+        }
+
+        private void cbbTipo_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Tipo_Doc", cbbTipo.Text);
+        }
+
+        private void txtTel_Leave(object sender, EventArgs e)
+        {
+            //AgregarParaInsert("tenefono", txtTel.Text);
+        }
+
+        private void txtDir_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("calle", txtDir.Text);
+        }
+
+        private void txtDepto_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("depto", txtDepto.Text);
+        }
+
+        private void txtPiso_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("piso", txtPiso.Text);
+        }
+
+        private void txtLocalidad_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("localidad", txtLocalidad.Text);
+        }
+
+        private void txtCodPostal_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("cod_postal", txtCodPostal.Text);
+        }
+
+        private void dtpNac_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("cli_fecha_nac", dtpNac.Value);
         }
     }
 }

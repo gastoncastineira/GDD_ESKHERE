@@ -17,10 +17,9 @@ namespace PalcoNet
         protected const string comandoInsert = "INSERT INTO ";
         protected const string comandoUpdate = "UPDATE ";
         protected const string comandoSelect = "SELECT ";
-        private static string conectionString = ConfigurationManager.AppSettings["conexion"];
-        protected SqlConnection sqlconection = new SqlConnection(conectionString);
+        private static string conectionString = ConfigurationHelper.ConnectionString;
 
-        protected Conexion(){}
+        protected Conexion() { }
 
         public static Conexion getInstance()
         {
@@ -33,23 +32,23 @@ namespace PalcoNet
         {
             public static string Libre(string var)
             {
-                return $"LIKE %{var}%";
+                return $"LIKE '%{var}%'";
             }
             public static string Exacto(string var)
             {
-                return $" = {var}";
+                return $" = '{var}'";
             }
         }
 
         public static class Tabla
         {
-            public static string Cliente { get { return "Cliente"; } }
-            public static string Grado { get { return "Grado"; } }
-            public static string Empresa { get { return "Empresa"; } }
-            public static string Rol { get { return "Rol"; } }
+            public static string Cliente { get { return "ESKHERE.[Cliente]"; } }
+            public static string Grado { get { return "ESKHERE.[Grado]"; } }
+            public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
+            public static string Rol { get { return "ESKHERE.[Rol]"; } }
         }
-        
-        protected string ponerFiltros(string comando, Dictionary<string,string> filtros)
+
+        protected string ponerFiltros(string comando, Dictionary<string, string> filtros)
         {
             foreach (KeyValuePair<string, string> entry in filtros)
             {
@@ -61,40 +60,66 @@ namespace PalcoNet
 
         public bool Insertar(string tabla, Dictionary<string, object> data)
         {
+
             try
             {
                 string comandoString = string.Copy(comandoInsert) + $" {tabla} (";
                 data.Keys.ToList().ForEach(k => comandoString += $"{k}, ");
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + ") VALUES (";
-                data.Values.ToList().ForEach(k => comandoString += $"@{k.ToString()}, ");
-                comandoString = comandoString.Substring(0, comandoString.Length - 2) + ");";
-                SqlCommand command = new SqlCommand(comandoString, sqlconection);
-                data.Values.ToList().ForEach(k => command.Parameters.AddWithValue($"@{k.ToString()}", k));
-                command.ExecuteNonQuery();
+                data.Keys.ToList().ForEach(k => comandoString += $"@{k}, ");
+                comandoString = comandoString.Substring(0, comandoString.Length - 2) + ")";
+                using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+                {
+                    sqlConnection.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = sqlConnection;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = comandoString;
+                        foreach (KeyValuePair<string, object> entry in data)
+                        {
+                            command.Parameters.AddWithValue($"@{entry.Key}", entry.Value);
+                        }
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
-            catch(Exception)
+            catch (Exception e)
             {
                 return false;
             }
             return true;
         }
-        public bool Modificar(string pk, string tabla, Dictionary<string, object> data)
+        public bool Modificar(int pk, string tabla, Dictionary<string, object> data)
         {
             try
             {
-                string comandoString = string.Copy(comandoUpdate) + $" '{tabla}' SET ";
-                foreach(KeyValuePair<string, object> entry in data)
+                string comandoString = string.Copy(comandoUpdate) + $" {tabla} SET ";
+                foreach (KeyValuePair<string, object> entry in data)
                 {
-                    comandoString += $"{entry.Key} = @{entry.Value.ToString()}, ";
+                    comandoString += $"{entry.Key} = @{entry.Key}, ";
                 }
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + " WHERE id = @id";
-                SqlCommand command = new SqlCommand(comandoString, sqlconection);
-                data.Values.ToList().ForEach(k => command.Parameters.AddWithValue($"@{k.ToString()}", k));
-                command.Parameters.AddWithValue("@id", pk);
-                command.ExecuteNonQuery();
+                using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+                {
+                    sqlConnection.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = sqlConnection;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = comandoString;
+                        command.Parameters.AddWithValue("@id", pk);
+                        foreach (KeyValuePair<string, object> entry in data)
+                        {
+                            command.Parameters.AddWithValue($"@{entry.Key}", entry.Value);
+                        }
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                string a = e.StackTrace;
                 return false;
             }
             return true;
@@ -103,20 +128,27 @@ namespace PalcoNet
         public void LlenarDataGridView(string tabla, ref DataGridView dataGrid, Dictionary<string, string> filtros)
         {
             string comandoString = comandoSelect + $" * FROM {tabla} WHERE ";
-            comandoString = ponerFiltros(comandoString, filtros);       
-            SqlCommand sqlCmd = new SqlCommand();
-            sqlCmd.Connection = sqlconection;
-            sqlCmd.CommandType = CommandType.Text;
-            sqlCmd.CommandText = comandoString;
-            SqlDataAdapter sqlDataAdap = new SqlDataAdapter(sqlCmd);
+            comandoString = ponerFiltros(comandoString, filtros);
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCmd = new SqlCommand())
+                {
+                    sqlCmd.Connection = sqlConnection;
+                    sqlCmd.CommandType = CommandType.Text;
+                    sqlCmd.CommandText = comandoString;
+                    SqlDataAdapter sqlDataAdap = new SqlDataAdapter(sqlCmd);
 
-            DataTable dtRecord = new DataTable();
-            sqlDataAdap.Fill(dtRecord);
-            dataGrid.DataSource = dtRecord;
+                    DataTable dtRecord = new DataTable();
+                    sqlDataAdap.Fill(dtRecord);
+                    dataGrid.DataSource = dtRecord;
+                }
+            }
         }
     }
+}
 
-    public class Conexion<T> : Conexion
+   /* public class Conexion<T> : Conexion
     {
         private static Conexion<T> instance = null;
         private IDbConnection connection;
@@ -155,3 +187,4 @@ namespace PalcoNet
         }
     }
 }
+*/

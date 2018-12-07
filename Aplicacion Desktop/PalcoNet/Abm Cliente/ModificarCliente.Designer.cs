@@ -110,6 +110,7 @@
             this.cbbTipo.Name = "cbbTipo";
             this.cbbTipo.Size = new System.Drawing.Size(100, 21);
             this.cbbTipo.TabIndex = 56;
+            this.cbbTipo.Leave += new System.EventHandler(this.cbbTipo_Leave);
             // 
             // txtCodPostal
             // 
@@ -117,6 +118,7 @@
             this.txtCodPostal.Name = "txtCodPostal";
             this.txtCodPostal.Size = new System.Drawing.Size(100, 20);
             this.txtCodPostal.TabIndex = 55;
+            this.txtCodPostal.Leave += new System.EventHandler(this.txtCodPostal_Leave);
             // 
             // lblTipo
             // 
@@ -143,6 +145,7 @@
             this.dtpNac.Size = new System.Drawing.Size(200, 20);
             this.dtpNac.TabIndex = 52;
             this.dtpNac.Value = new System.DateTime(2018, 11, 22, 16, 33, 36, 0);
+            this.dtpNac.Leave += new System.EventHandler(this.dtpNac_Leave);
             // 
             // lblNac
             // 
@@ -159,6 +162,7 @@
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 50;
+            this.txtLocalidad.Leave += new System.EventHandler(this.txtLocalidad_Leave);
             // 
             // lblApel
             // 
@@ -239,6 +243,7 @@
             this.txtPiso.Name = "txtPiso";
             this.txtPiso.Size = new System.Drawing.Size(100, 20);
             this.txtPiso.TabIndex = 41;
+            this.txtPiso.Leave += new System.EventHandler(this.txtPiso_Leave);
             // 
             // txtDepto
             // 
@@ -247,6 +252,7 @@
             this.txtDepto.Name = "txtDepto";
             this.txtDepto.Size = new System.Drawing.Size(100, 20);
             this.txtDepto.TabIndex = 40;
+            this.txtDepto.Leave += new System.EventHandler(this.txtDepto_Leave);
             // 
             // txtDir
             // 
@@ -254,6 +260,7 @@
             this.txtDir.Name = "txtDir";
             this.txtDir.Size = new System.Drawing.Size(100, 20);
             this.txtDir.TabIndex = 39;
+            this.txtDir.Leave += new System.EventHandler(this.txtDir_Leave);
             // 
             // txtTel
             // 
@@ -261,6 +268,7 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(100, 20);
             this.txtTel.TabIndex = 38;
+            this.txtTel.Leave += new System.EventHandler(this.txtTel_Leave);
             // 
             // txtMail
             // 
@@ -268,6 +276,7 @@
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(100, 20);
             this.txtMail.TabIndex = 37;
+            this.txtMail.Leave += new System.EventHandler(this.txtMail_Leave);
             // 
             // txtCUIL
             // 
@@ -275,6 +284,7 @@
             this.txtCUIL.Name = "txtCUIL";
             this.txtCUIL.Size = new System.Drawing.Size(100, 20);
             this.txtCUIL.TabIndex = 36;
+            this.txtCUIL.Leave += new System.EventHandler(this.txtCUIL_Leave);
             // 
             // txtApel
             // 
@@ -282,6 +292,7 @@
             this.txtApel.Name = "txtApel";
             this.txtApel.Size = new System.Drawing.Size(100, 20);
             this.txtApel.TabIndex = 35;
+            this.txtApel.Leave += new System.EventHandler(this.txtApel_Leave);
             // 
             // txtDoc
             // 
@@ -289,6 +300,7 @@
             this.txtDoc.Name = "txtDoc";
             this.txtDoc.Size = new System.Drawing.Size(100, 20);
             this.txtDoc.TabIndex = 34;
+            this.txtDoc.Leave += new System.EventHandler(this.txtDoc_Leave);
             // 
             // txtNombre
             // 
@@ -296,6 +308,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(100, 20);
             this.txtNombre.TabIndex = 33;
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // ModificarCliente
             // 

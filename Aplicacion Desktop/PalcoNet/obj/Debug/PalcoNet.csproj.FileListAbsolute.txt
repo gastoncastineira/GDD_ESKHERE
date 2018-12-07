@@ -22,3 +22,30 @@ C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\Pal
 C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Properties.Resources.resources
 C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Registro_de_Usuario.RegistroUsuario.resources
 C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.GenerateResource.Cache
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csprojAssemblyReference.cache
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.AltaCliente.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.ListadoClientes.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.ModificarCliente.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.AltaEmpresa.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.ListadoEmpresas.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.ModificarEmpresa.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.AltaGrado.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.ListaGrado.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.ModificarGrado.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Rol.ABMRol.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Rol.CrearRol.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Rol.ListadoRoles.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Rol.ModificarRol.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Login.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Properties.Resources.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Registro_de_Usuario.RegistroUsuario.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.GenerateResource.cache
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.CoreCompileInputs.cache
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.exe
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.pdb
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe.config
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.pdb
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\Dapper.dll
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\Dapper.xml
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.CopyComplete

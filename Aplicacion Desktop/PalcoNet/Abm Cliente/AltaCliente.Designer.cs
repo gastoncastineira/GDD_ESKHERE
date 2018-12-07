@@ -64,6 +64,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(100, 20);
             this.txtNombre.TabIndex = 0;
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // txtDoc
             // 
@@ -71,6 +72,7 @@
             this.txtDoc.Name = "txtDoc";
             this.txtDoc.Size = new System.Drawing.Size(100, 20);
             this.txtDoc.TabIndex = 1;
+            this.txtDoc.Leave += new System.EventHandler(this.txtDoc_Leave);
             // 
             // txtApel
             // 
@@ -78,6 +80,7 @@
             this.txtApel.Name = "txtApel";
             this.txtApel.Size = new System.Drawing.Size(100, 20);
             this.txtApel.TabIndex = 2;
+            this.txtApel.Leave += new System.EventHandler(this.txtApel_Leave);
             // 
             // txtCUIL
             // 
@@ -85,6 +88,7 @@
             this.txtCUIL.Name = "txtCUIL";
             this.txtCUIL.Size = new System.Drawing.Size(100, 20);
             this.txtCUIL.TabIndex = 3;
+            this.txtCUIL.Leave += new System.EventHandler(this.txtCUIL_Leave);
             // 
             // txtMail
             // 
@@ -92,6 +96,7 @@
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(100, 20);
             this.txtMail.TabIndex = 4;
+            this.txtMail.Leave += new System.EventHandler(this.txtMail_Leave);
             // 
             // txtTel
             // 
@@ -99,6 +104,7 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(100, 20);
             this.txtTel.TabIndex = 5;
+            this.txtTel.Leave += new System.EventHandler(this.txtTel_Leave);
             // 
             // txtDir
             // 
@@ -106,6 +112,7 @@
             this.txtDir.Name = "txtDir";
             this.txtDir.Size = new System.Drawing.Size(100, 20);
             this.txtDir.TabIndex = 6;
+            this.txtDir.Leave += new System.EventHandler(this.txtDir_Leave);
             // 
             // txtDepto
             // 
@@ -114,6 +121,7 @@
             this.txtDepto.Name = "txtDepto";
             this.txtDepto.Size = new System.Drawing.Size(100, 20);
             this.txtDepto.TabIndex = 7;
+            this.txtDepto.Leave += new System.EventHandler(this.txtPiso_Leave);
             // 
             // txtPiso
             // 
@@ -122,6 +130,7 @@
             this.txtPiso.Name = "txtPiso";
             this.txtPiso.Size = new System.Drawing.Size(100, 20);
             this.txtPiso.TabIndex = 8;
+            this.txtPiso.Leave += new System.EventHandler(this.txtDepto_Leave);
             // 
             // lblNombre
             // 
@@ -201,6 +210,7 @@
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 19;
+            this.txtLocalidad.Leave += new System.EventHandler(this.txtLocalidad_Leave);
             // 
             // lblNac
             // 
@@ -218,6 +228,7 @@
             this.dtpNac.Size = new System.Drawing.Size(200, 20);
             this.dtpNac.TabIndex = 24;
             this.dtpNac.Value = new System.DateTime(2018, 11, 22, 16, 33, 36, 0);
+            this.dtpNac.Leave += new System.EventHandler(this.dtpNac_Leave);
             // 
             // label1
             // 
@@ -243,6 +254,7 @@
             this.txtCodPostal.Name = "txtCodPostal";
             this.txtCodPostal.Size = new System.Drawing.Size(100, 20);
             this.txtCodPostal.TabIndex = 27;
+            this.txtCodPostal.Leave += new System.EventHandler(this.txtCodPostal_Leave);
             // 
             // cbbTipo
             // 
@@ -254,6 +266,7 @@
             this.cbbTipo.Name = "cbbTipo";
             this.cbbTipo.Size = new System.Drawing.Size(100, 21);
             this.cbbTipo.TabIndex = 28;
+            this.cbbTipo.Leave += new System.EventHandler(this.cbbTipo_Leave);
             // 
             // btnAceptar
             // 

@@ -22,7 +22,7 @@ namespace PalcoNet
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            string contraHasheada = Hasher.Hashear(txtContraseña.Text);
+            //string contraHasheada = Hasher.Hashear(txtContraseña.Text);
 
             //ver si existe en DB
             if(true /*si existe en DB*/)
