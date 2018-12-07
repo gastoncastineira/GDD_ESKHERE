@@ -161,8 +161,8 @@ CREATE TABLE ESKHERE.[Factura](
 	[Factura_Total] [numeric](18, 2) NULL,
 	Total_Comisiones [numeric](18, 2) NULL,
 	Cantidad_Item_Factura INT,
-	ID_Empresa [nvarchar](255) NULL,
-	CONSTRAINT FK_Factura_Empresa  FOREIGN KEY(ID_Empresa) REFERENCES ESKHERE.Empresa([Espec_Empresa_Cuit])	
+	CUIL_Empresa [nvarchar](255) NULL,
+	CONSTRAINT FK_Factura_Empresa  FOREIGN KEY(CUIL_Empresa) REFERENCES ESKHERE.Empresa([Espec_Empresa_Cuit])	
 );
 
 CREATE TABLE [ESKHERE].[Item_Factura](
@@ -236,6 +236,8 @@ SELECT  DISTINCT [Espec_Empresa_Fecha_Creacion],[Espectaculo_Fecha],[Espectaculo
 FROM gd_esquema.Maestra
 
 
+--MIGRACION DE CLIENTES
+
  INSERT INTO [ESKHERE].[Cliente]
           ([Cli_Dni],[Cuil], [Cli_ApellIDo],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
            ,[Piso],[Depto],[Cod_Postal], [ID_Usuario])
@@ -245,6 +247,8 @@ from gd_esquema.Maestra
 where [Cli_Dni]  IS NOT NULL
 
 
+--MIGRACION DE EMPRESAS
+
 INSERT INTO [ESKHERE].[Empresa] 
 ([Espec_Empresa_Razon_Social],[Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],[ID_Usuario],[Calle],[Numero],[Piso],[Depto],[Cod_Postal],Habilitado)
 SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],1,[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
@@ -252,41 +256,46 @@ SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empre
 FROM gd_esquema.Maestra
 WHERE [Espec_Empresa_Cuit]  IS NOT NULL 
 
+
+--MIGRACION DE PUBLICACIONES
+
+
 INSERT INTO [ESKHERE].[Publicacion]
  --NO tiene sentido que este ID_Grado xq no esta en el script original para migrar
            ([Codigo],[Descripcion],[Publicacion_Rubro],[ID_Empresa_publicante],[ID_Fecha],[ID_estado])
 SELECT DISTINCT [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Rubro_Descripcion],
-/*
-(SELECT  ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]),--Me quedo tranqui xq la razon social y cuit son unicos
-*/
 E.ID,
-(SELECT  ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ),
+(SELECT  ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = M.[Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =M.[Espectaculo_Fecha] AND PF.FVenc =M.[Espectaculo_Fecha_Venc] ),
 (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
 FROM gd_esquema.Maestra  M 
 JOIN ESKHERE.Empresa E ON ( E.Espec_Empresa_Razon_Social = M.[Espec_Empresa_Razon_Social] AND E.Espec_Empresa_Cuit = M.[Espec_Empresa_Cuit])
 
-delete from ESKHERE.compra;
-delete from eskhere.ubicacion;
-delete from ESKHERE.Publicacion;
+
+
+--MIGRACION DE UBICACIONES
 
 INSERT INTO [ESKHERE].[Ubicacion]
            ([ubicacion_Fila],[ubicacion_Asiento],[tipo],[precio],[Ubicacion_Sin_numerar],[Ubicacion_Tipo_Descripcion],[puntos],[ID_Publicacion])
 SELECT  DISTINCT [ubicacion_Fila],[Ubicacion_Asiento],[Ubicacion_Tipo_Codigo],[Ubicacion_Precio],[Ubicacion_Sin_numerar], [Ubicacion_Tipo_Descripcion], FLOOR([Ubicacion_Precio]/10),
-(SELECT TOP 1 ID FROM ESKHERE.Publicacion P WHERE
-												 P.Codigo = M.Espectaculo_Cod AND 
-												 P.Descripcion = M.Espectaculo_Descripcion AND
+P.ID
+FROM gd_esquema.Maestra M 
+JOIN ESKHERE.Publicacion P ON (					  P.Codigo = M.Espectaculo_Cod AND 
+												  P.Descripcion = M.Espectaculo_Descripcion AND
 												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
 												)
+								
+--MIGRACION DE COMPRAS
 
-FROM gd_esquema.Maestra M
-
+--OBS: En la maestra solo hay 708 fechas y cant distintas
+--OBS: ESTA BIEN que en compras haya menos cant de id_ubicaciones que ubicaciones original, ya que la original tiene ubicaciones sin vender!!!
 INSERT INTO [ESKHERE].[Compra]  ([Fecha],[Compra_Cantidad],[Forma_Pago_Desc],[ID_Ubicacion],[ID_Cliente])
-select distinct [Compra_Fecha],[Compra_Cantidad],[Forma_Pago_Desc], 
+SELECT DISTINCT [Compra_Fecha],[Compra_Cantidad],[Forma_Pago_Desc], Ubi.ID, Cli.ID
 --Tiene quilombo para encontrar el ID_Ubicacion
-(SELECT ID FROM ESKHERE.Ubicacion Ubi WHERE ubi.[ubicacion_Fila] =M.[ubicacion_Fila]	   AND
+FROM gd_esquema.Maestra M 
+JOIN ESKHERE.Ubicacion Ubi ON (ubi.[ubicacion_Fila] =M.[ubicacion_Fila]	   AND
 									 ubi.[Ubicacion_Asiento] = M.[Ubicacion_Asiento]  AND
 									 ubi.[tipo]	       =M.[Ubicacion_Tipo_Codigo] AND
 									  ubi.[precio]		       =M.[Ubicacion_Precio] AND
@@ -299,84 +308,67 @@ select distinct [Compra_Fecha],[Compra_Cantidad],[Forma_Pago_Desc],
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])	
-										)--Cierre SELECT de ID_Publicacion
-),
-(SELECT TOP 1 ID FROM ESKHERE.Cliente Cli WHERE
-	  M.[Cli_Dni]=      Cli.[Cli_Dni] AND
-	  M.[Cli_Apeliido]=    Cli.[Cli_ApellIDo] AND
-      M.[Cli_Nombre]= Cli.[Cli_Nombre] AND
-      M.[Cli_Fecha_Nac]= Cli.[Cli_Fecha_Nac] AND
-      M.[Cli_Mail]= Cli.[Cli_Mail] AND
-      M.[Cli_Dom_Calle]= Cli.[Calle] AND
-      M.[Cli_Nro_Calle]= Cli.[Numero] AND
-      M.[Cli_Piso]= Cli.[Piso] AND
-      M.[Cli_Depto]= Cli.[Depto] AND
-      M.[Cli_Cod_Postal]= Cli.[Cod_Postal])--Aca termina el select del ID_Cliente
-FROM gd_esquema.Maestra M
+										)--Cierre JOIN de ID_Publicacion
+									)
+JOIN ESKHERE.Cliente Cli ON (     M.[Cli_Dni]=      Cli.[Cli_Dni] AND
+								  M.[Cli_Apeliido]=    Cli.[Cli_ApellIDo] AND
+								  M.[Cli_Nombre]= Cli.[Cli_Nombre] AND
+								  M.[Cli_Fecha_Nac]= Cli.[Cli_Fecha_Nac] AND
+								  M.[Cli_Mail]= Cli.[Cli_Mail] AND
+								  M.[Cli_Dom_Calle]= Cli.[Calle] AND
+								  M.[Cli_Nro_Calle]= Cli.[Numero] AND
+								  M.[Cli_Piso]= Cli.[Piso] AND
+								  M.[Cli_Depto]= Cli.[Depto] AND
+								  M.[Cli_Cod_Postal]= Cli.[Cod_Postal])--Aca termina el select del ID_Cliente
 WHERE [Compra_Cantidad] is not null AND [Compra_Fecha] is not null AND [Forma_Pago_Desc] is not null
-/*
-JOIN [ESKHERE].Cliente Cli ON  (
-	  Maestra.[Cli_Dni]=      Cli.[Cli_Dni] AND
-	  Maestra.[Cli_Apeliido]=    Cli.[Cli_ApellIDo] AND
-      Maestra.[Cli_Nombre]= Cli.[Cli_Nombre] AND
-      Maestra.[Cli_Fecha_Nac]= Cli.[Cli_Fecha_Nac] AND
-      Maestra.[Cli_Mail]= Cli.[Cli_Mail] AND
-      Maestra.[Cli_Dom_Calle]= Cli.[Calle] AND
-      Maestra.[Cli_Nro_Calle]= Cli.[Numero] AND
-      Maestra.[Cli_Piso]= Cli.[Piso] AND
-      Maestra.[Cli_Depto]= Cli.[Depto] AND
-      Maestra.[Cli_Cod_Postal]= Cli.[Cod_Postal] )--De aca me aseguro el cliente
-
-	  */
 
 
-
-
-/* UNA POSIBLE FORMA DE HACERLO
-INSERT INTO [ESKHERE].[Compra]  ([Fecha],[Compra_Cantidad],[Forma_Pago_Desc],[ID_Ubicacion],[ID_Cliente])
-select distinct [Compra_Fecha],[Compra_Cantidad],[Forma_Pago_Desc], ubi.ID, Cli.ID
-FROM [ESKHERE].[Ubicacion] ubi 
-JOIN gd_esquema.Maestra Maestra ON ( Maestra.[ubicacion_Fila] = ubi.[ubicacion_Fila]	   AND
-									 Maestra.[Ubicacion_Asiento] = ubi.[Ubicacion_Asiento] AND
-									 Maestra.[Ubicacion_Tipo_Codigo]= ubi.[tipo]	       AND
-									 Maestra.[Ubicacion_Precio] = ubi.[precio]		       AND
-									 Maestra.[Ubicacion_Tipo_Descripcion] = ubi.[Ubicacion_Tipo_Descripcion])
-JOIN [ESKHERE].Cliente Cli ON  (
-	  Maestra.[Cli_Dni]=      Cli.[Cli_Dni] AND
-	  Maestra.[Cli_Apeliido]=    Cli.[Cli_ApellIDo] AND
-      Maestra.[Cli_Nombre]= Cli.[Cli_Nombre] AND
-      Maestra.[Cli_Fecha_Nac]= Cli.[Cli_Fecha_Nac] AND
-      Maestra.[Cli_Mail]= Cli.[Cli_Mail] AND
-      Maestra.[Cli_Dom_Calle]= Cli.[Calle] AND
-      Maestra.[Cli_Nro_Calle]= Cli.[Numero] AND
-      Maestra.[Cli_Piso]= Cli.[Piso] AND
-      Maestra.[Cli_Depto]= Cli.[Depto] AND
-      Maestra.[Cli_Cod_Postal]= Cli.[Cod_Postal] )--De aca me aseguro el cliente
-
-*/
+--MIGRACION PARA FACTURAS
 
 INSERT INTO [ESKHERE].[Factura]
-           ([Factura_Nro],[Factura_Fecha],[Factura_Total],Total_Comisiones,	[Cantidad_Item_Factura], ID_Empresa)
-SELECT Distinct([Factura_Nro]),[Factura_Fecha],[Factura_Total], 
-(SELECT SUM([Item_Factura_Monto])FROM ESKHERE.Item_Factura ITF JOIN gd_esquema.Maestra  M ON (ITF.ID_Factura = M.Factura_Nro),
-(SELECT COUNT(*) FROM ESKHERE.Item_Factura ITF JOIN gd_esquema.Maestra  M ON (ITF.ID_Factura = M.Factura_Nro),--Cuento la CANT de item_Facturas relacionadas con este factura_nro
-(SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit])
- FROM gd_esquema.Maestra 
+           ([Factura_Nro],[Factura_Fecha],[Factura_Total], CUIL_Empresa)
+SELECT Distinct([Factura_Nro]),[Factura_Fecha],[Factura_Total], E.[Espec_Empresa_Cuit]
+ FROM gd_esquema.Maestra M
+ JOIN ESKHERE.Empresa E ON ( E.Espec_Empresa_Razon_Social = M.[Espec_Empresa_Razon_Social] AND E.Espec_Empresa_Cuit = M.[Espec_Empresa_Cuit])
 WHERE [Factura_Nro] IS NOT NULL
  
 
---¿Como resuelvo la logica de asignacion puntos respecto a una compra? se lo doy a las ubicaciones y abz
-
+--MIGRACION PARA LOS ITEM_fACTURA
+--ACA HABRIA QUE PONER UN TRIGGER EN INSERT QUE ME LLENE LOS CAMPOS DE FACTURA, EL TOTAL_COMPRAS, TOTAL_COMISIONES Y LA CANT_TOTAL_UBICACIONESS
+ 
 INSERT INTO [ESKHERE].[Item_Factura]
            ([Item_Factura_Monto],[Item_Factura_Cantidad],[Item_Factura_Descripcion],[ID_Factura],[ID_Compra])
-SELECT [Item_Factura_Monto],[Item_Factura_Cantidad], [Item_Factura_Descripcion],
-(SELECT ID FROM gd_esquema.Maestra ),--¿Como resuelvo el ID_Factura?
-( SELECT TOP 1 ID FROM eskhere.Compra C JOIN gd_esquema.Maestra M ON ( ( C.[Fecha] = M.Compra_Fecha) AND
-																 ( C.Compra_Cantidad = M.Compra_Cantidad) AND
-																 ( C.Forma_Pago_Desc = M.Forma_Pago_Desc) AND
-
-from gd_esquema.Maestra
-where [Item_Factura_Monto]  IS NOT NULL
+SELECT [Item_Factura_Monto],[Item_Factura_Cantidad], [Item_Factura_Descripcion],F.[Factura_Nro], C.ID
+FROM gd_esquema.Maestra M
+JOIN ESKHERE.Factura F ON ( F.Factura_Nro = M.Factura_Nro) --De aca saco el ID_Factura
+JOIN ESKHERE.Compra C ON ( C.Compra_Cantidad= M.Compra_Cantidad AND
+							C.Fecha = M.Compra_Fecha AND
+							C.Forma_Pago_Desc = M.Forma_Pago_Desc AND
+							C.ID_Cliente = (SELECT ID FROM ESKHERE.Cliente Cli WHERE M.[Cli_Dni]=      Cli.[Cli_Dni] AND
+								  M.[Cli_Apeliido]=    Cli.[Cli_ApellIDo] AND
+								  M.[Cli_Nombre]= Cli.[Cli_Nombre] AND
+								  M.[Cli_Fecha_Nac]= Cli.[Cli_Fecha_Nac] AND
+								  M.[Cli_Mail]= Cli.[Cli_Mail] AND
+								  M.[Cli_Dom_Calle]= Cli.[Calle] AND
+								  M.[Cli_Nro_Calle]= Cli.[Numero] AND
+								  M.[Cli_Piso]= Cli.[Piso] AND
+								  M.[Cli_Depto]= Cli.[Depto] AND
+								  M.[Cli_Cod_Postal]= Cli.[Cod_Postal]) AND --Cierre de la busqueda ID_Cliente
+							C.ID_Ubicacion = ( SELECT ID FROM ESKHERE.Ubicacion  ubi WHERE ubi.[ubicacion_Fila] =M.[ubicacion_Fila]	   AND
+									 ubi.[Ubicacion_Asiento] = M.[Ubicacion_Asiento]  AND
+									 ubi.[tipo]	       =M.[Ubicacion_Tipo_Codigo] AND
+									 ubi.[precio]		       =M.[Ubicacion_Precio] AND
+									 ubi.[Ubicacion_Sin_numerar] = M.[Ubicacion_Sin_numerar] AND 
+									 ubi.[Ubicacion_Tipo_Descripcion] =M.[Ubicacion_Tipo_Descripcion]AND 
+									 ubi.ID_Publicacion = (SELECT TOP 1 ID FROM ESKHERE.Publicacion P WHERE
+												 P.Codigo = M.Espectaculo_Cod AND 
+												 P.Descripcion = M.Espectaculo_Descripcion AND
+												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
+												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
+												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
+												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])--Cierre de la busqueda ID_Ubicacion	
+						
+						)))--Cierre de busqueda ID_Compra
 
 
 -----------------------------------------------------------   INSERTS PARA TABLAS INTERMEDIAS  ------------------------------------------------------------------------------------------------
@@ -392,4 +384,4 @@ select count(*) from 	[ESKHERE].Item_Factura
 
 	
 
- 
+ */
