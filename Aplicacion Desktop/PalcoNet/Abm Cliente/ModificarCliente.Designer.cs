@@ -345,7 +345,6 @@
             this.Controls.Add(this.txtNombre);
             this.Name = "ModificarCliente";
             this.Text = "ModificarCliente";
-            this.Load += new System.EventHandler(this.ModificarCliente_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
