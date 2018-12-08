@@ -49,7 +49,8 @@ CREATE TABLE ESKHERE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
 	[Contrasenia] [nvarchar](50) NOT NULL,
-	[habilitado] [bit] NOT NULL,
+	[habilitado] [bit] default 1,
+	[contrasena_autogenerada] [bit] default 0,
 );
 
 
@@ -73,6 +74,7 @@ CREATE TABLE ESKHERE.[Cliente](
 	localidad [nvarchar](255) NULL,
 	[fecha_creacion] [datetime] NULL,
 	ID_Usuario INT	NOT NULL,
+	telefono varchar(15) NOT NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
 
@@ -382,6 +384,5 @@ select count(*) from 	[ESKHERE]. Ubicacion
 select count(*) from 	[ESKHERE].Item_Factura
 
 
-	
+	-----------------------------------------------------------   PROCEDURES DE VALIDACION  ------------------------------------------------------------------------------------------------
 
- */

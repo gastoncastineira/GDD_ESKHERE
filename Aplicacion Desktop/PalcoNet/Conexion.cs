@@ -43,7 +43,7 @@ namespace PalcoNet
         public static class Tabla
         {
             public static string Cliente { get { return "ESKHERE.[Cliente]"; } }
-            public static string Grado { get { return "ESKHERE.[Grado]"; } }
+            public static string Grado { get { return "ESKHERE.[Publicacion_Grado]"; } }
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
             public static string Rol { get { return "ESKHERE.[Rol]"; } }
         }
