@@ -46,6 +46,7 @@ A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.pdb
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe.config
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.pdb
-A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\Dapper.dll
-A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\Dapper.xml
-A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.CopyComplete
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.CambiarContraseña.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.EditarPublicacion.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.SeleccionarPublicacion.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Generar_Publicacion.GenerarPublicacion.resources

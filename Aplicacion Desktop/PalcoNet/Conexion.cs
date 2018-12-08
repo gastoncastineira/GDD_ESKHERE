@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
-using Dapper;
 
 namespace PalcoNet
 {
@@ -28,6 +24,7 @@ namespace PalcoNet
             return instance;
         }
 
+        //Conversion de string a filtro de busqueda necesario
         public static class Filtro
         {
             public static string Libre(string var)
@@ -40,16 +37,20 @@ namespace PalcoNet
             }
         }
 
+        //Nombres de tablas basicas de la BD
         public static class Tabla
         {
             public static string Cliente { get { return "ESKHERE.[Cliente]"; } }
             public static string Grado { get { return "ESKHERE.[Publicacion_Grado]"; } }
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
             public static string Rol { get { return "ESKHERE.[Rol]"; } }
+            public static string Usuario { get { return "ESKHERE.[Usuario]"; } }
+            public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario";  } }
         }
 
-        protected string ponerFiltros(string comando, Dictionary<string, string> filtros)
+        private string PonerFiltros(string comando, Dictionary<string, string> filtros)
         {
+            comando += " WHERE ";
             foreach (KeyValuePair<string, string> entry in filtros)
             {
                 comando += $"{entry.Key} {entry.Value} AND ";
@@ -58,6 +59,10 @@ namespace PalcoNet
             return comando;
         }
 
+
+        //Recibe el nombre de la tabla sacada de Conexion.Tabla, y un diccionario con el par 
+        //("nombre de columna en BD", dato a insertar)
+        //retorna true si se pudo realizar, false si fallo
         public bool Insertar(string tabla, Dictionary<string, object> data)
         {
 
@@ -90,6 +95,10 @@ namespace PalcoNet
             }
             return true;
         }
+
+        //Recibe el id de la fila, nombre de la tabla sacada de Conexion.Tabla, y 
+        //un diccionario con el par ("nombre de columna en BD", dato a insertar
+        //retorna true si se pudo realizar, false si fallo
         public bool Modificar(int pk, string tabla, Dictionary<string, object> data)
         {
             try
@@ -125,10 +134,13 @@ namespace PalcoNet
             return true;
         }
 
+        //Recibe el nombre de la tabla de Conexion.Tabla, el dataGrid POR REFERENCIA, y los filtros de busqueda sacados 
+        //de Conexion.Filtro 
         public void LlenarDataGridView(string tabla, ref DataGridView dataGrid, Dictionary<string, string> filtros)
         {
-            string comandoString = comandoSelect + $" * FROM {tabla} WHERE ";
-            comandoString = ponerFiltros(comandoString, filtros);
+            string comandoString = comandoSelect + $" * FROM {tabla}";
+            if(filtros.Count>0 || filtros == null)
+                comandoString = PonerFiltros(comandoString, filtros);
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
             {
                 sqlConnection.Open();
@@ -145,6 +157,7 @@ namespace PalcoNet
                 }
             }
         }
+
 
         public bool ValidarLogin(string usuario, string contraseña, ref bool contraseñaAutogenerada)
         {
@@ -201,11 +214,11 @@ namespace PalcoNet
                     SqlParameter parameter3 = new SqlParameter("@id", SqlDbType.Int);
                     parameter3.Direction = ParameterDirection.Output;
                     SqlParameter parameter4 = new SqlParameter("@nombre", SqlDbType.NVarChar);
-                    parameter1.Direction = ParameterDirection.Input;
-                    parameter1.Value = nombre;
+                    parameter4.Direction = ParameterDirection.Input;
+                    parameter4.Value = nombre;
                     SqlParameter parameter5 = new SqlParameter("@apellido", SqlDbType.NVarChar);
-                    parameter2.Direction = ParameterDirection.Input;
-                    parameter2.Value = apellido;
+                    parameter5.Direction = ParameterDirection.Input;
+                    parameter5.Value = apellido;
 
                     command.Parameters.Add(parameter1);
                     command.Parameters.Add(parameter2);
@@ -220,6 +233,71 @@ namespace PalcoNet
                     return Convert.ToInt32(command.Parameters["@id"].Value);
                 }
             }
+        }
+
+        public bool ActualizarContraseña(string contraseña, string usuario)
+        {
+            string comando = $"{comandoUpdate} {Tabla.Usuario} SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(conectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandType = CommandType.Text;
+                        command.Parameters.AddWithValue("@contrasenia", contraseña);
+                        command.Parameters.AddWithValue("@usuario", usuario);
+
+                        command.ExecuteNonQuery();
+
+                        return true;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+        }
+
+        private Dictionary<string, List<object>> HacerDictinary(List<string> colum)
+        {
+            Dictionary<string, List<object>> retorno = new Dictionary<string, List<object>>();
+            colum.ForEach(c => retorno.Add(c, new List<object>()));
+            return retorno;
+        }
+
+
+        //Recibe el nombre de la tabla sacado de Conexion.Tabla, una lista de strings con los nombres de las columnas a buscar
+        //y un diccionario con el par ("nombre de columna", valor) como filtro. Si no se quiere filtrar, se pasa null.
+        //Retorna un diccionario con el par ("nombre de columna", lista de valores retornados)
+        public Dictionary<string, List<object>> ConsultaPlana(string tabla, List<string> columnas, Dictionary<string, string> filtros)
+        {
+            Dictionary<string, List<object>> retorno = HacerDictinary(columnas);
+
+            string comandoString = $"{comandoSelect} * FROM {tabla}";
+
+            if (filtros != null && filtros.Count > 0)
+                comandoString = PonerFiltros(comandoString, filtros);
+
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = connection;
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while(reader.Read())
+                        columnas.ForEach(c => retorno[c].Add(reader[c]));
+                }
+            }
+        return retorno;
         }
     }
 }

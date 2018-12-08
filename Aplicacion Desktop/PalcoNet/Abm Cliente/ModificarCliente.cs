@@ -60,6 +60,8 @@ namespace PalcoNet.Abm_Cliente
                 if (c is TextBox)
                     textos.Add(c as TextBox);
             }
+            textos.Remove(txtDepto);
+            textos.Remove(txtPiso);
         }
 
         private bool cuilEsValido()
@@ -74,7 +76,6 @@ namespace PalcoNet.Abm_Cliente
 
         private void AgregarParaUpdate(string nombreCol, object data)
         {
-            if (textosSinModificar.All(s => !string.Equals(s, data.ToString())))
                 datos[nombreCol] = data;
         }
 

@@ -102,7 +102,6 @@
             // 
             // cbbTipo
             // 
-            this.cbbTipo.FormattingEnabled = true;
             this.cbbTipo.Items.AddRange(new object[] {
             "LE",
             "DNI"});

@@ -37,13 +37,13 @@
             this.label6 = new System.Windows.Forms.Label();
             this.lblTel = new System.Windows.Forms.Label();
             this.lblCUIT = new System.Windows.Forms.Label();
-            this.lblNombre = new System.Windows.Forms.Label();
+            this.lblCiudad = new System.Windows.Forms.Label();
             this.txtPiso = new System.Windows.Forms.TextBox();
             this.txtDepto = new System.Windows.Forms.TextBox();
             this.txtDir = new System.Windows.Forms.TextBox();
             this.txtTel = new System.Windows.Forms.TextBox();
-            this.txtCUIL = new System.Windows.Forms.TextBox();
-            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.txtCUIT = new System.Windows.Forms.TextBox();
+            this.txtCiudad = new System.Windows.Forms.TextBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.lblMail = new System.Windows.Forms.Label();
@@ -80,6 +80,7 @@
             this.txtCodPostal.Name = "txtCodPostal";
             this.txtCodPostal.Size = new System.Drawing.Size(100, 20);
             this.txtCodPostal.TabIndex = 46;
+            this.txtCodPostal.Leave += new System.EventHandler(this.txtCodPostal_Leave);
             // 
             // label1
             // 
@@ -96,6 +97,7 @@
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 44;
+            this.txtLocalidad.Leave += new System.EventHandler(this.txtLocalidad_Leave);
             // 
             // label9
             // 
@@ -133,14 +135,14 @@
             this.lblCUIT.TabIndex = 40;
             this.lblCUIT.Text = "CUIT";
             // 
-            // lblNombre
+            // lblCiudad
             // 
-            this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(9, 26);
-            this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(44, 13);
-            this.lblNombre.TabIndex = 39;
-            this.lblNombre.Text = "Nombre";
+            this.lblCiudad.AutoSize = true;
+            this.lblCiudad.Location = new System.Drawing.Point(9, 26);
+            this.lblCiudad.Name = "lblCiudad";
+            this.lblCiudad.Size = new System.Drawing.Size(40, 13);
+            this.lblCiudad.TabIndex = 39;
+            this.lblCiudad.Text = "Ciudad";
             // 
             // txtPiso
             // 
@@ -149,6 +151,7 @@
             this.txtPiso.Name = "txtPiso";
             this.txtPiso.Size = new System.Drawing.Size(100, 20);
             this.txtPiso.TabIndex = 38;
+            this.txtPiso.Leave += new System.EventHandler(this.txtPiso_Leave);
             // 
             // txtDepto
             // 
@@ -157,6 +160,7 @@
             this.txtDepto.Name = "txtDepto";
             this.txtDepto.Size = new System.Drawing.Size(100, 20);
             this.txtDepto.TabIndex = 37;
+            this.txtDepto.Leave += new System.EventHandler(this.txtDepto_Leave);
             // 
             // txtDir
             // 
@@ -164,6 +168,7 @@
             this.txtDir.Name = "txtDir";
             this.txtDir.Size = new System.Drawing.Size(100, 20);
             this.txtDir.TabIndex = 36;
+            this.txtDir.Leave += new System.EventHandler(this.txtDir_Leave);
             // 
             // txtTel
             // 
@@ -171,20 +176,23 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(100, 20);
             this.txtTel.TabIndex = 35;
+            this.txtTel.Leave += new System.EventHandler(this.txtTel_Leave);
             // 
-            // txtCUIL
+            // txtCUIT
             // 
-            this.txtCUIL.Location = new System.Drawing.Point(93, 61);
-            this.txtCUIL.Name = "txtCUIL";
-            this.txtCUIL.Size = new System.Drawing.Size(100, 20);
-            this.txtCUIL.TabIndex = 34;
+            this.txtCUIT.Location = new System.Drawing.Point(93, 61);
+            this.txtCUIT.Name = "txtCUIT";
+            this.txtCUIT.Size = new System.Drawing.Size(100, 20);
+            this.txtCUIT.TabIndex = 34;
+            this.txtCUIT.Leave += new System.EventHandler(this.txtCUIT_Leave);
             // 
-            // txtNombre
+            // txtCiudad
             // 
-            this.txtNombre.Location = new System.Drawing.Point(93, 23);
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(100, 20);
-            this.txtNombre.TabIndex = 33;
+            this.txtCiudad.Location = new System.Drawing.Point(93, 23);
+            this.txtCiudad.Name = "txtCiudad";
+            this.txtCiudad.Size = new System.Drawing.Size(100, 20);
+            this.txtCiudad.TabIndex = 33;
+            this.txtCiudad.Leave += new System.EventHandler(this.txtCiudad_Leave);
             // 
             // btnCancelar
             // 
@@ -230,6 +238,7 @@
             this.txtMail.Name = "txtMail";
             this.txtMail.Size = new System.Drawing.Size(100, 20);
             this.txtMail.TabIndex = 52;
+            this.txtMail.Leave += new System.EventHandler(this.txtMail_Leave);
             // 
             // txtRazon
             // 
@@ -237,6 +246,7 @@
             this.txtRazon.Name = "txtRazon";
             this.txtRazon.Size = new System.Drawing.Size(100, 20);
             this.txtRazon.TabIndex = 51;
+            this.txtRazon.Leave += new System.EventHandler(this.txtRazon_Leave);
             // 
             // AltaEmpresa
             // 
@@ -258,13 +268,13 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lblTel);
             this.Controls.Add(this.lblCUIT);
-            this.Controls.Add(this.lblNombre);
+            this.Controls.Add(this.lblCiudad);
             this.Controls.Add(this.txtPiso);
             this.Controls.Add(this.txtDepto);
             this.Controls.Add(this.txtDir);
             this.Controls.Add(this.txtTel);
-            this.Controls.Add(this.txtCUIL);
-            this.Controls.Add(this.txtNombre);
+            this.Controls.Add(this.txtCUIT);
+            this.Controls.Add(this.txtCiudad);
             this.Name = "AltaEmpresa";
             this.Text = "Alta Empresa";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AltaEmpresa_Paint);
@@ -284,13 +294,13 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lblTel;
         private System.Windows.Forms.Label lblCUIT;
-        private System.Windows.Forms.Label lblNombre;
+        private System.Windows.Forms.Label lblCiudad;
         private System.Windows.Forms.TextBox txtPiso;
         private System.Windows.Forms.TextBox txtDepto;
         private System.Windows.Forms.TextBox txtDir;
         private System.Windows.Forms.TextBox txtTel;
-        private System.Windows.Forms.TextBox txtCUIL;
-        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.TextBox txtCUIT;
+        private System.Windows.Forms.TextBox txtCiudad;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.Label lblMail;

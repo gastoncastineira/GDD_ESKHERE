@@ -13,30 +13,46 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
     public partial class ModificarEmpresa : Form
     {
         private bool errorCUIT = false;
-        private List<TextBox> textos;
+        private Dictionary<string, object> datos = new Dictionary<string, object>();
+        private List<TextBox> textos = new List<TextBox>();
+        List<string> textosSinModificar = new List<string>();
+        private int id;
 
-        public ModificarEmpresa(string nombre, string cuit, string razonSocial, string direccion, string mail, string telefono, string piso, string depto, string codPostal, string localidad)
+        public ModificarEmpresa(DataGridViewCellCollection data)
         {
             InitializeComponent();
-            foreach (Control c in Controls)
+
+            foreach(Control c in Controls)
             {
                 if (c is TextBox)
                     textos.Add(c as TextBox);
             }
+
             textos.Remove(txtPiso);
             textos.Remove(txtDepto);
 
+            id = Convert.ToInt32(data["id"].Value);
 
-            txtCodPostal.Text = codPostal;
-            txtCUIT.Text = cuit;
-            txtDepto.Text = depto;
-            txtDir.Text = direccion;
-            txtRazon.Text = razonSocial;
-            txtLocalidad.Text = localidad;
-            txtMail.Text = mail;
-            txtNombre.Text = nombre;
-            txtPiso.Text = piso;
-            txtTel.Text = telefono;
+            txtCodPostal.Text = data["cod_postal"].Value.ToString();
+            textosSinModificar.Add(txtCodPostal.Text);
+            txtCUIT.Text = data["Espec_Empresa_Cuit"].Value.ToString();
+            textosSinModificar.Add(txtCUIT.Text);
+            txtDepto.Text = data["depto"].Value.ToString();
+            textosSinModificar.Add(txtDepto.Text);
+            txtDir.Text = data["calle"].Value.ToString();
+            textosSinModificar.Add(txtDir.Text);
+            txtRazon.Text = data["Espec_Empresa_Razon_Social"].Value.ToString();
+            textosSinModificar.Add(txtRazon.Text);
+            txtLocalidad.Text = data["localidad"].Value.ToString();
+            textosSinModificar.Add(txtLocalidad.Text);
+            txtMail.Text = data["Espec_Empresa_Mail"].Value.ToString();
+            textosSinModificar.Add(txtMail.Text);
+            txtCiudad.Text = data["ciudad"].Value.ToString();
+            textosSinModificar.Add(txtCiudad.Text);
+            txtPiso.Text = data["piso"].Value.ToString();
+            textosSinModificar.Add(txtPiso.Text);
+            txtTel.Text = data["telefono"].Value.ToString();
+            textosSinModificar.Add(txtTel.Text);
             if (string.IsNullOrEmpty(txtPiso.Text))
                 chbPiso.Enabled = true;
             if (string.IsNullOrEmpty(txtDepto.Text))
@@ -67,8 +83,10 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 }
                 else
                 {
-                    //TODO: cambiar a null el piso y depto para isnertar en BD si no tiene el usuario. validar con Checkbox
-                    DialogResult = DialogResult.OK;
+                    if (Conexion.getInstance().Modificar(id, Conexion.Tabla.Empresa, datos))
+                        DialogResult = DialogResult.OK;
+                    else
+                        DialogResult = DialogResult.Abort;
                     //this.Close();
                 }
             }
@@ -100,6 +118,61 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             }
             else
                 txtCUIT.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void AgregarParaUpdate(string nombreCol, object data)
+        {
+                datos[nombreCol] = data;
+        }
+
+        private void txtCiudad_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("ciudad", txtCiudad.Text);
+        }
+
+        private void txtCUIT_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Espec_Empresa_Cuit", txtCUIT.Text);
+        }
+
+        private void txtTel_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("telefono", txtTel.Text);
+        }
+
+        private void txtMail_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Espec_Empresa_mail", txtMail.Text);
+        }
+
+        private void txtRazon_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Espec_Empresa_razon_social", txtRazon.Text);
+        }
+
+        private void txtDir_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("calle", txtDir.Text);
+        }
+
+        private void txtDepto_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("depto", txtDepto.Text);
+        }
+
+        private void txtPiso_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("piso", txtPiso.Text);
+        }
+
+        private void txtLocalidad_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("localidad", txtLocalidad.Text);
+        }
+
+        private void txtCodPostal_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("cod_postal", txtCodPostal.Text);
         }
     }
 }
