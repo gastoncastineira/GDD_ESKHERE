@@ -43,7 +43,7 @@ namespace PalcoNet
         public static class Tabla
         {
             public static string Cliente { get { return "ESKHERE.[Cliente]"; } }
-            public static string Grado { get { return "ESKHERE.[Grado]"; } }
+            public static string Grado { get { return "ESKHERE.[Publicacion_Grado]"; } }
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
             public static string Rol { get { return "ESKHERE.[Rol]"; } }
         }
@@ -142,6 +142,82 @@ namespace PalcoNet
                     DataTable dtRecord = new DataTable();
                     sqlDataAdap.Fill(dtRecord);
                     dataGrid.DataSource = dtRecord;
+                }
+            }
+        }
+
+        public bool ValidarLogin(string usuario, string contraseña, ref bool contraseñaAutogenerada)
+        {
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "[ESKHERE].existe_usuario";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter parameter1 = new SqlParameter("@Usuario", SqlDbType.NVarChar);
+                    parameter1.Direction = ParameterDirection.Input;
+                    parameter1.Value = usuario;
+                    SqlParameter parameter2 = new SqlParameter("@Contrasenia", SqlDbType.NVarChar);
+                    parameter2.Direction = ParameterDirection.Input;
+                    parameter2.Value = contraseña;
+                    SqlParameter parameter3 = new SqlParameter("@resultado", SqlDbType.Bit);
+                    parameter3.Direction = ParameterDirection.Output;
+                    SqlParameter parameter4 = new SqlParameter("@autogenerada", SqlDbType.Bit);
+                    parameter4.Direction = ParameterDirection.Output;
+
+                    command.Parameters.Add(parameter1);
+                    command.Parameters.Add(parameter2);
+                    command.Parameters.Add(parameter3);
+                    command.Parameters.Add(parameter4);
+
+                    command.ExecuteNonQuery();
+
+                    bool resultado = Convert.ToBoolean(command.Parameters["@resultado"].Value);
+                    if(resultado)
+                        contraseñaAutogenerada = Convert.ToBoolean(command.Parameters["@autogenerada"].Value);
+                    return resultado;
+                }
+            }
+        }
+
+        public int GenerarUsuarioAleatorio(string nombre, string apellido, ref string usuario, ref string contraseña)
+        {
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "[ESKHERE].crear_usuario_aleatorio";
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter parameter1 = new SqlParameter("@Usuario", SqlDbType.NVarChar);
+                    parameter1.Direction = ParameterDirection.Output;
+                    SqlParameter parameter2 = new SqlParameter("@Contrasenia", SqlDbType.NVarChar);
+                    parameter2.Direction = ParameterDirection.Output;
+                    SqlParameter parameter3 = new SqlParameter("@id", SqlDbType.Int);
+                    parameter3.Direction = ParameterDirection.Output;
+                    SqlParameter parameter4 = new SqlParameter("@nombre", SqlDbType.NVarChar);
+                    parameter1.Direction = ParameterDirection.Input;
+                    parameter1.Value = nombre;
+                    SqlParameter parameter5 = new SqlParameter("@apellido", SqlDbType.NVarChar);
+                    parameter2.Direction = ParameterDirection.Input;
+                    parameter2.Value = apellido;
+
+                    command.Parameters.Add(parameter1);
+                    command.Parameters.Add(parameter2);
+                    command.Parameters.Add(parameter3);
+                    command.Parameters.Add(parameter4);
+                    command.Parameters.Add(parameter5);
+
+                    command.ExecuteNonQuery();
+
+                    usuario = Convert.ToString(command.Parameters["@Usuario"].Value);
+                    contraseña = Convert.ToString(command.Parameters["@Contrasenia"].Value);
+                    return Convert.ToInt32(command.Parameters["@id"].Value);
                 }
             }
         }

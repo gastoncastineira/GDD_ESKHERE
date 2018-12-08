@@ -48,8 +48,9 @@ CREATE TABLE ESKHERE.[Publicacion_Grado](
 CREATE TABLE ESKHERE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
-	[Contrasenia] [nvarchar](50) NOT NULL,
-	[habilitado] [bit] NOT NULL,
+	[Contrasenia] [binary](32) NOT NULL,
+	[habilitado] [bit] default 1,
+	[contrasena_autogenerada] [bit] default 0,
 );
 
 
@@ -73,6 +74,7 @@ CREATE TABLE ESKHERE.[Cliente](
 	localidad [nvarchar](255) NULL,
 	[fecha_creacion] [datetime] NULL,
 	ID_Usuario INT	NOT NULL,
+	telefono varchar(15) NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
 
@@ -382,6 +384,57 @@ select count(*) from 	[ESKHERE]. Ubicacion
 select count(*) from 	[ESKHERE].Item_Factura
 
 
-	
+	-----------------------------------------------------------   PROCEDURES DE VALIDACION  ------------------------------------------------------------------------------------------------
 
- */
+CREATE PROCEDURE [ESKHERE].existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT, @autogenerada bit output
+AS
+BEGIN
+	declare @hash binary(32) = (select HASHBYTES('SHA2_256', @Contrasenia))
+	select @resultado = (select case when (select count(*) from ESKHERE.Usuario where Contrasenia = @hash and Usuario = @Usuario) >=1 then 1 else 0 end)
+	if(@resultado = 1)
+	begin
+		set @autogenerada = (select contrasena_autogenerada from Usuario where Usuario = @Usuario)
+	end
+END
+
+
+CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @nombre nvarchar(20), @apellido nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
+AS
+BEGIN
+	DECLARE @letra nvarchar = (select SUBSTRING(@nombre, 1, 1))
+	DECLARE @proto_usuario nvarchar(20) = (select concat(@letra, @apellido))
+
+	DECLARE @s nvarchar(5);
+
+	SET @s = (SELECT c1 AS [text()]	FROM(SELECT TOP (5) c1 FROM (
+		VALUES
+		  ('A'), ('B'), ('C'), ('D'), ('E'), ('F'), ('G'), ('H'), ('I'), ('J'),
+		  ('K'), ('L'), ('M'), ('N'), ('O'), ('P'), ('Q'), ('R'), ('S'), ('T'),
+		  ('U'), ('V'), ('W'), ('X'), ('Y'), ('Z'), ('0'), ('1'), ('2'), ('3'),
+		  ('4'), ('5'), ('6'), ('7'), ('8'), ('9')	
+		  ) AS T1(c1)
+		ORDER BY ABS(CHECKSUM(NEWID()))
+		) AS T2
+	FOR XML PATH('')
+	)
+
+	insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
+
+	if(@@ERROR != 0)
+	begin
+		declare @num_aux int = 1
+		set @proto_usuario = (select CONCAT(@proto_usuario, CAST(@num_aux as nvarchar)))
+		insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
+		while(@@ERROR != 0)
+		begin
+			set @num_aux += 1
+			set @proto_usuario = substring(@proto_usuario, 1, (len(@proto_usuario) - 1))
+			set @proto_usuario = (select CONCAT(@proto_usuario, CAST(@num_aux as nvarchar)))
+			insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
+		end
+	end
+
+	set @id = scope_identity()
+	set @usuario = @proto_usuario
+	set @contrasenia = @s
+END
