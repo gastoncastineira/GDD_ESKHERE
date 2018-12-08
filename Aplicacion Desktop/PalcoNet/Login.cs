@@ -22,13 +22,12 @@ namespace PalcoNet
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            //string contraHasheada = Hasher.Hashear(txtContraseña.Text);
-
-            //ver si existe en DB
-            if(true /*si existe en DB*/)
+            bool cambioContraseña = false;
+            if(Conexion.getInstance().ValidarLogin(txtusuario.Text, txtContraseña.Text,ref cambioContraseña))
             {
-                /*cosas
-                 * cantAccesos = 0;*/
+                //TODO: usar cambio contraseña para abrir formulario que obligue a hacer el cambio de la temporal. Hacer formulario y update a BD
+                cantAccesos = 0;
+                //TODO: dirigir a formulario que corresponda segun el rol que tenga el usuario
             }
             else
             {
@@ -54,6 +53,7 @@ namespace PalcoNet
         {
             Hide();
             new Registro_de_Usuario.RegistroUsuario().ShowDialog();
+            Show();
         }
     }
 }

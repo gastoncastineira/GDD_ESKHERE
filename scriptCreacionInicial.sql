@@ -386,11 +386,15 @@ select count(*) from 	[ESKHERE].Item_Factura
 
 	-----------------------------------------------------------   PROCEDURES DE VALIDACION  ------------------------------------------------------------------------------------------------
 
-CREATE PROCEDURE [ESKHERE].existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT
+CREATE PROCEDURE [ESKHERE].existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT, @autogenerada bit output
 AS
 BEGIN
 	declare @hash binary(32) = (select HASHBYTES('SHA2_256', @Contrasenia))
 	select @resultado = (select case when (select count(*) from ESKHERE.Usuario where Contrasenia = @hash and Usuario = @Usuario) >=1 then 1 else 0 end)
+	if(@resultado = 1)
+	begin
+		set @autogenerada = (select contrasena_autogenerada from Usuario where Usuario = @Usuario)
+	end
 END
 
 
