@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Comprar
 {
-    public partial class Form1 : Form
+    public partial class ElegirUbicaciones : Form
     {
-        public Form1()
+        public ElegirUbicaciones()
         {
             InitializeComponent();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -129,23 +132,29 @@
     <Compile Include="Abm Rubro\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="CambiarContraseña.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CambiarContraseña.Designer.cs">
-      <DependentUpon>CambiarContraseña.cs</DependentUpon>
-    </Compile>
     <Compile Include="Canje Puntos\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Canje Puntos\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Comprar\Form1.cs">
+    <Compile Include="Comprar\AgregarTarjeta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Comprar\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Comprar\AgregarTarjeta.Designer.cs">
+      <DependentUpon>AgregarTarjeta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comprar\Comprar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar\Comprar.Designer.cs">
+      <DependentUpon>Comprar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Comprar\ElegirUbicaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar\ElegirUbicaciones.Designer.cs">
+      <DependentUpon>ElegirUbicaciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Conexion.cs" />
     <Compile Include="ConfigurationHelper.cs" />
@@ -154,6 +163,12 @@
     </Compile>
     <Compile Include="Editar Publicacion\EditarPublicacion.Designer.cs">
       <DependentUpon>EditarPublicacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editar Publicacion\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editar Publicacion\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Editar Publicacion\SeleccionarPublicacion.cs">
       <SubType>Form</SubType>
@@ -174,6 +189,12 @@
     </Compile>
     <Compile Include="Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generar Publicacion\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Publicacion\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Generar Rendicion Comisiones\Form1.cs">
       <SubType>Form</SubType>
@@ -245,8 +266,14 @@
     <EmbeddedResource Include="Abm Rol\ModificarRol.resx">
       <DependentUpon>ModificarRol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CambiarContraseña.resx">
-      <DependentUpon>CambiarContraseña.cs</DependentUpon>
+    <EmbeddedResource Include="Comprar\AgregarTarjeta.resx">
+      <DependentUpon>AgregarTarjeta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprar\Comprar.resx">
+      <DependentUpon>Comprar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprar\ElegirUbicaciones.resx">
+      <DependentUpon>ElegirUbicaciones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editar Publicacion\EditarPublicacion.resx">
       <DependentUpon>EditarPublicacion.cs</DependentUpon>
@@ -272,6 +299,7 @@
     <EmbeddedResource Include="Registro de Usuario\RegistroUsuario.resx">
       <DependentUpon>RegistroUsuario.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\PalcoNET.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>PalcoNET.Designer.cs</LastGenOutput>

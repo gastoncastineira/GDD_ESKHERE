@@ -46,7 +46,19 @@ A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.pdb
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe.config
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.pdb
-A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.CambiarContraseña.resources
-A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.EditarPublicacion.resources
-A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.SeleccionarPublicacion.resources
-A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Generar_Publicacion.GenerarPublicacion.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\Dapper.dll
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\Dapper.xml
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.CopyComplete
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.AltaCliente.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.ListadoClientes.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.ModificarCliente.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.AltaEmpresa.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.ListadoEmpresas.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.ModificarEmpresa.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.AltaGrado.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.ListaGrado.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.ModificarGrado.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.AgregarTarjeta.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.fechaHasta.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.ElegirUbicaciones.resources
+C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.Comprar.resources
