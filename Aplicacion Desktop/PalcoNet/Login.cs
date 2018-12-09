@@ -23,11 +23,24 @@ namespace PalcoNet
         private void btnLogin_Click(object sender, EventArgs e)
         {
             bool cambioContraseña = false;
-            if(Conexion.getInstance().ValidarLogin(txtusuario.Text, txtContraseña.Text,ref cambioContraseña))
+            if (Conexion.getInstance().ValidarLogin(txtusuario.Text, txtContraseña.Text, ref cambioContraseña))
             {
-                //TODO: usar cambio contraseña para abrir formulario que obligue a hacer el cambio de la temporal. Hacer formulario y update a BD
                 cantAccesos = 0;
-                //TODO: dirigir a formulario que corresponda segun el rol que tenga el usuario
+                if (cambioContraseña)
+                {
+                    if (new CambiarContraseña(txtusuario.Text).ShowDialog() == DialogResult.OK)
+                    {
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Se canceló la operación");
+                    }
+                }
+                else
+                {
+
+                }
             }
             else
             {

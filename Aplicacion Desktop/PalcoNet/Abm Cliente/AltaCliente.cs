@@ -127,7 +127,7 @@ namespace PalcoNet.Abm_Cliente
 
         private void txtTel_Leave(object sender, EventArgs e)
         {
-            //AgregarParaInsert("tenefono", txtTel.Text);
+            AgregarParaInsert("telefono", txtTel.Text);
         }
 
         private void txtDir_Leave(object sender, EventArgs e)

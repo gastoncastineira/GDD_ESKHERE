@@ -13,7 +13,8 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
     public partial class AltaEmpresa : Form
     {
         private bool errorCUIT = false;
-        private List<TextBox> textos;
+        private List<TextBox> textos = new List<TextBox>();
+        private Dictionary<string, object> datos = new Dictionary<string, object>();
 
         public AltaEmpresa()
         {
@@ -51,16 +52,23 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 }
                 else
                 {
-                    //TODO: cambiar a null el piso y depto para isnertar en BD si no tiene el usuario. validar con Checkbox
-                    DialogResult = DialogResult.OK;
+                    if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos))
+                        DialogResult = DialogResult.OK;
+                    else
+                        DialogResult = DialogResult.Abort;
                     //this.Close();
                 }
             }
         }
 
+        private void AgregarParaInsert(string nombreCol, object data)
+        {
+            datos[nombreCol] = data;
+        }
+
         private bool cuitEsValido()
         {
-            string cuil = txtCUIL.Text;
+            string cuil = txtCUIT.Text;
             if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27")) && cuil.Substring(4, cuil.Length - 2).Equals(txtRazon.Text))
                 return true;
             return false;
@@ -76,14 +84,64 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         {
                 if (errorCUIT)
                 {
-                    txtCUIL.BorderStyle = BorderStyle.None;
+                    txtCUIT.BorderStyle = BorderStyle.None;
                     Pen p = new Pen(Color.Red);
                     Graphics g = e.Graphics;
                     int variance = 3;
-                    g.DrawRectangle(p, new Rectangle(txtCUIL.Location.X - variance, txtCUIL.Location.Y - variance, txtCUIL.Width + variance, txtCUIL.Height + variance));
+                    g.DrawRectangle(p, new Rectangle(txtCUIT.Location.X - variance, txtCUIT.Location.Y - variance, txtCUIT.Width + variance, txtCUIT.Height + variance));
                 }
                 else
-                    txtCUIL.BorderStyle = BorderStyle.FixedSingle;
+                    txtCUIT.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void txtCiudad_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("ciudad", txtCiudad.Text);
+        }
+
+        private void txtCUIT_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Espec_Empresa_Cuit", txtCUIT.Text);
+        }
+
+        private void txtTel_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("telefono", txtTel.Text);
+        }
+
+        private void txtMail_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Espec_Empresa_mail", txtMail.Text);
+        }
+
+        private void txtRazon_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Espec_Empresa_razon_social", txtRazon.Text);
+        }
+
+        private void txtDir_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("calle", txtDir.Text);
+        }
+
+        private void txtDepto_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("depto", txtDepto.Text);
+        }
+
+        private void txtPiso_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("piso", txtPiso.Text);
+        }
+
+        private void txtLocalidad_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("localidad", txtLocalidad.Text);
+        }
+
+        private void txtCodPostal_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("cod_postal", txtCodPostal.Text);
         }
     }
 }

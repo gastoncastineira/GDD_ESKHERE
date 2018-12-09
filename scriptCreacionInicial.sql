@@ -97,6 +97,9 @@ CREATE TABLE ESKHERE.[Empresa](
 	Piso numeric(18, 0) NULL,
 	Depto nvarchar(50) NULL,
 	Cod_Postal [nvarchar](50) NULL,
+	localidad [nvarchar](50) NULL,
+	ciudad [nvarchar](50) NULL,
+	telefono [nvarchar](12) NULL,
 	Habilitado BIT NOT NULL,
 	ID_Usuario INT NOT NULL,
 	CONSTRAINT FK_UsuarioEmpresa FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
@@ -438,3 +441,12 @@ BEGIN
 	set @usuario = @proto_usuario
 	set @contrasenia = @s
 END
+
+CREATE VIEW [ESKHERE].funciones_usuario
+AS
+select u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion from Usuario u 
+join Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
+join Rol r on r.ID = ru.ID_ROL 
+join Rol_X_Funcion rf on rf.ID_Rol = r.ID 
+join Funcion f on f.ID = rf.ID_Funcion
+GO

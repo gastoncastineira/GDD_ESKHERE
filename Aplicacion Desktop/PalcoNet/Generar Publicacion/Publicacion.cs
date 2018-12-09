@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PalcoNet.Generar_Publicacion
 {
-    class Publicacion
+    public class Publicacion
     {
         public String descripcion { get; set; }
         public String rubro { get; set; }
