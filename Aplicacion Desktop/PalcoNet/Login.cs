@@ -28,14 +28,14 @@ namespace PalcoNet
                 cantAccesos = 0;
                 if (cambioContraseña)
                 {
-                    if (new CambiarContraseña(txtusuario.Text).ShowDialog() == DialogResult.OK)
+                   /* if (new Registro_de_Usuario.CambiarContraseña(txtusuario.Text).ShowDialog() == DialogResult.OK)
                     {
 
                     }
                     else
                     {
                         MessageBox.Show("Se canceló la operación");
-                    }
+                    }*/
                 }
                 else
                 {

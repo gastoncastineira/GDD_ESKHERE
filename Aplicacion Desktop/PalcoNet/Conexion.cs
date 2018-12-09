@@ -209,8 +209,10 @@ namespace PalcoNet
 
                     SqlParameter parameter1 = new SqlParameter("@Usuario", SqlDbType.NVarChar);
                     parameter1.Direction = ParameterDirection.Output;
+                    parameter1.Size = 20;
                     SqlParameter parameter2 = new SqlParameter("@Contrasenia", SqlDbType.NVarChar);
                     parameter2.Direction = ParameterDirection.Output;
+                    parameter2.Size = 5; 
                     SqlParameter parameter3 = new SqlParameter("@id", SqlDbType.Int);
                     parameter3.Direction = ParameterDirection.Output;
                     SqlParameter parameter4 = new SqlParameter("@nombre", SqlDbType.NVarChar);
