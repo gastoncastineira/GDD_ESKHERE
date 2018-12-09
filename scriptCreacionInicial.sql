@@ -206,7 +206,52 @@ CREATE TABLE ESKHERE.cliente_premio(
 	CONSTRAINT FK_ClientePremio   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente(ID),	
 	CONSTRAINT FK_premio  FOREIGN KEY(ID_premio) REFERENCES ESKHERE. Premios(ID)	
 );
+----------------------------------------------------------------------------- TRIGGERS --------------------------------------------------------------------------------------------
+		       
 
+CREATE TRIGGER Actualizar_Puntos_Cliente ON ESKHERE.Compra
+	AFTER INSERT
+	AS
+	BEGIN
+		DECLARE @ID_Compra INT
+		DECLARE @ID_Ubicacion INT
+		DECLARE @ID_Cliente INT
+		DECLARE @Puntos FLOAT
+		
+		--Obtengo los ptos y cliente relacionados a esa compra
+		DECLARE Obtener_Puntos_Cliente CURSOR FOR
+		SELECT u.Puntos, Cli.ID FROM inserted i
+		JOIN Ubicacion U ON (i.ID_Ubicacion = U.ID)
+		JOIN Cliente Cli ON (i.ID_Cliente = Cli.ID)
+
+		OPEN Obtener_Puntos_Cliente
+		FETCH NEXT FROM Obtener_Puntos_Cliente INTO @Puntos, @ID_Cliente
+
+		WHILE @@FETCH_STATUS =0
+			BEGIN
+			IF (SELECT puntos FROM Cliente WHERE ID= @ID_Cliente) IS NULL
+				BEGIN	
+					UPDATE Cliente SET puntos= @Puntos 
+					WHERE ID=@ID_Cliente
+				END
+			ELSE
+				BEGIN 
+					UPDATE Cliente SET puntos= puntos +@Puntos 
+					WHERE ID=@ID_Cliente
+				END	
+					FETCH NEXT FROM Obtener_Puntos_Cliente INTO @Puntos, @ID_Cliente
+
+			END
+		CLOSE Obtener_Puntos_Cliente
+		DEALLOCATE Obtener_Puntos_Cliente
+	END
+	GO
+			       
+		       
+		       
+		       
+		       
+		       
 --------------------------------------------------------------------------- INSERTS DE VALORES GENERICOS ------------------------------------------------------------------------------------------------
 
 INSERT INTO [ESKHERE].[Usuario]([Usuario],[Contrasenia],habilitado) 
@@ -484,3 +529,4 @@ SELECT TOP 5 Espec_Empresa_Razon_Social, pub.ID publicacion, pf.FPublicacion fec
 	where ubi.ID not in (select ID_Ubicacion from ESKHERE.Compra com2) 
 	GROUP BY Espec_Empresa_Razon_Social, pub.ID,pf.FPublicacion, pg.ID
 	order by 5 desc, pf.FPublicacion, pg.ID asc
+
