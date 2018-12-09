@@ -453,6 +453,8 @@ join Rol_X_Funcion rf on rf.ID_Rol = r.ID
 join Funcion f on f.ID = rf.ID_Funcion
 GO
 
+--------------------------------  VIEWS Y PROCEDURES PARA TOP5 DE PUNTO 14 ------------------------------------------------------------------------------------------------
+
 CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
 AS
 SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , sum(Cant) cantPuntosVencidos
@@ -469,3 +471,24 @@ SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , count(compra.ID) cantCompras
 	group by Cli_Nombre , Cli_ApellIDo
 	order by count(compra.ID) desc
 GO
+
+CREATE PROCEDURE [ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender
+(
+    @gradoVis INT, @mes int, @anio int
+) 
+AS 
+BEGIN
+SELECT TOP 5 Espec_Empresa_Razon_Social, pub.ID publicacion, pf.FPublicacion fechaPublicacion, 
+			pg.ID grado, count(ubi.ID) cantUbicacionesSinVender
+	from ESKHERE.Empresa emp join ESKHERE.Publicacion pub on (emp.ID = pub.ID_Empresa_publicante)
+		join ESKHERE.Ubicacion ubi on (pub.ID = ubi.ID_Publicacion)
+		left join ESKHERE.Compra com on (ubi.ID = com.ID_Ubicacion)
+		JOIN ESKHERE.Publicacion_Fechas pf on (pub.ID_Fecha = pf.ID) 
+		join ESKHERE.Publicacion_Grado pg on (pub.ID_Grado = pg.ID)
+	where ubi.ID not in (select ID_Ubicacion from ESKHERE.Compra com2) 
+			and YEAR(pf.FPublicacion) = @anio and MONTH(pf.FPublicacion) = @mes 
+			and pg.ID = @gradoVis
+
+	GROUP BY Espec_Empresa_Razon_Social, pub.ID,pf.FPublicacion, pg.ID
+	order by 5 desc, pf.FPublicacion, pg.ID asc
+END
