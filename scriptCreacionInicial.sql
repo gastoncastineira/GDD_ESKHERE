@@ -472,12 +472,8 @@ SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , count(compra.ID) cantCompras
 	order by count(compra.ID) desc
 GO
 
-CREATE PROCEDURE [ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender
-(
-    @gradoVis INT, @mes int, @anio int
-) 
+CREATE VIEW [ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender
 AS 
-BEGIN
 SELECT TOP 5 Espec_Empresa_Razon_Social, pub.ID publicacion, pf.FPublicacion fechaPublicacion, 
 			pg.ID grado, count(ubi.ID) cantUbicacionesSinVender
 	from ESKHERE.Empresa emp join ESKHERE.Publicacion pub on (emp.ID = pub.ID_Empresa_publicante)
@@ -486,9 +482,5 @@ SELECT TOP 5 Espec_Empresa_Razon_Social, pub.ID publicacion, pf.FPublicacion fec
 		JOIN ESKHERE.Publicacion_Fechas pf on (pub.ID_Fecha = pf.ID) 
 		join ESKHERE.Publicacion_Grado pg on (pub.ID_Grado = pg.ID)
 	where ubi.ID not in (select ID_Ubicacion from ESKHERE.Compra com2) 
-			and YEAR(pf.FPublicacion) = @anio and MONTH(pf.FPublicacion) = @mes 
-			and pg.ID = @gradoVis
-
 	GROUP BY Espec_Empresa_Razon_Social, pub.ID,pf.FPublicacion, pg.ID
 	order by 5 desc, pf.FPublicacion, pg.ID asc
-END
