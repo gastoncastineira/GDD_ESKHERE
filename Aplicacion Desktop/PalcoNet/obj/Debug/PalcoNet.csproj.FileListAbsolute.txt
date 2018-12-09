@@ -62,3 +62,9 @@ C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\Pal
 C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.fechaHasta.resources
 C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.ElegirUbicaciones.resources
 C:\Users\Federico Dos Santos\Documents\GitHub\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.Comprar.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.AgregarTarjeta.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.Comprar.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.ElegirUbicaciones.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.EditarPublicacion.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.SeleccionarPublicacion.resources
+A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Generar_Publicacion.GenerarPublicacion.resources

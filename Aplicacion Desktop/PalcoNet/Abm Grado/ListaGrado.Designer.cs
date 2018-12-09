@@ -28,25 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgvGrado = new System.Windows.Forms.DataGridView();
             this.btnAgregar = new System.Windows.Forms.Button();
-            this.btnDeshabilitar = new System.Windows.Forms.Button();
             this.lblComision = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
             this.txtComision = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGrado)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dgvGrado
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(2, 179);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(328, 149);
-            this.dataGridView1.TabIndex = 0;
+            this.dgvGrado.AllowUserToAddRows = false;
+            this.dgvGrado.AllowUserToDeleteRows = false;
+            this.dgvGrado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvGrado.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvGrado.Location = new System.Drawing.Point(2, 136);
+            this.dgvGrado.MultiSelect = false;
+            this.dgvGrado.Name = "dgvGrado";
+            this.dgvGrado.ReadOnly = true;
+            this.dgvGrado.Size = new System.Drawing.Size(328, 149);
+            this.dgvGrado.TabIndex = 0;
             // 
             // btnAgregar
             // 
@@ -56,16 +60,7 @@
             this.btnAgregar.TabIndex = 35;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
-            // 
-            // btnDeshabilitar
-            // 
-            this.btnDeshabilitar.Enabled = false;
-            this.btnDeshabilitar.Location = new System.Drawing.Point(212, 137);
-            this.btnDeshabilitar.Name = "btnDeshabilitar";
-            this.btnDeshabilitar.Size = new System.Drawing.Size(118, 23);
-            this.btnDeshabilitar.TabIndex = 34;
-            this.btnDeshabilitar.Text = "Deshabilitar/Habilitar";
-            this.btnDeshabilitar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
             // lblComision
             // 
@@ -102,12 +97,13 @@
             // btnModificar
             // 
             this.btnModificar.Enabled = false;
-            this.btnModificar.Location = new System.Drawing.Point(2, 137);
+            this.btnModificar.Location = new System.Drawing.Point(128, 98);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 23);
             this.btnModificar.TabIndex = 27;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnBuscar
             // 
@@ -117,24 +113,24 @@
             this.btnBuscar.TabIndex = 26;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // ListaGrado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(332, 327);
+            this.ClientSize = new System.Drawing.Size(332, 287);
             this.Controls.Add(this.btnAgregar);
-            this.Controls.Add(this.btnDeshabilitar);
             this.Controls.Add(this.lblComision);
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.txtComision);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnBuscar);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvGrado);
             this.Name = "ListaGrado";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvGrado)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -142,9 +138,8 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgvGrado;
         private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.Button btnDeshabilitar;
         private System.Windows.Forms.Label lblComision;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.TextBox txtComision;

@@ -12,6 +12,8 @@ namespace PalcoNet.Abm_Grado
 {
     public partial class AltaGrado : Form
     {
+        private Dictionary<string, object> datos = new Dictionary<string, object>();
+
         public AltaGrado()
         {
             InitializeComponent();
@@ -19,20 +21,36 @@ namespace PalcoNet.Abm_Grado
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtComision.Text) || string.IsNullOrEmpty(txtNombre.Text))
-                MessageBox.Show("Se detectaron campos vacios. Por favor, revise");
+            if (Controls.OfType<TextBox>().Any(t => string.IsNullOrEmpty(t.Text)))
+                MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
             {
-                //TODO: Persistir
-                DialogResult = DialogResult.OK;
-                //this.Close();
+                if (Conexion.getInstance().Insertar(Conexion.Tabla.Grado, datos))
+                    DialogResult = DialogResult.OK;
+                else
+                    DialogResult = DialogResult.Abort;
+
             }
+        }
+
+        private void AgregarParaInsert(string nombreCol, object data)
+        {
+            datos[nombreCol] = data;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            //this.Close();
+        }
+
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("descripcion", txtNombre.Text);
+        }
+
+        private void txtComision_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("comision", Convert.ToInt32(txtComision.Text));
         }
     }
 }

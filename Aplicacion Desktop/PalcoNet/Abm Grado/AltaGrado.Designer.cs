@@ -80,6 +80,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(100, 20);
             this.txtNombre.TabIndex = 4;
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // txtComision
             // 
@@ -87,6 +88,7 @@
             this.txtComision.Name = "txtComision";
             this.txtComision.Size = new System.Drawing.Size(100, 20);
             this.txtComision.TabIndex = 5;
+            this.txtComision.Leave += new System.EventHandler(this.txtComision_Leave);
             // 
             // AltaGrado
             // 

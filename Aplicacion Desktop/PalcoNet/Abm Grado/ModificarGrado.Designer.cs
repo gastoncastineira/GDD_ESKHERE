@@ -42,6 +42,7 @@
             this.txtComision.Name = "txtComision";
             this.txtComision.Size = new System.Drawing.Size(100, 20);
             this.txtComision.TabIndex = 11;
+            this.txtComision.Leave += new System.EventHandler(this.txtComision_Leave);
             // 
             // txtNombre
             // 
@@ -49,6 +50,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(100, 20);
             this.txtNombre.TabIndex = 10;
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // lblComision
             // 

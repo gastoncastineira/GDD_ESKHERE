@@ -12,11 +12,17 @@ namespace PalcoNet.Abm_Grado
 {
     public partial class ModificarGrado : Form
     {
-        public ModificarGrado(string nombre, string comision)
+
+        private Dictionary<string, object> datos = new Dictionary<string, object>();
+        private int id;
+
+        public ModificarGrado(DataGridViewCellCollection data)
         {
+            id = Convert.ToInt32(data["id"].Value);
+
             InitializeComponent();
-            txtComision.Text = comision;
-            txtNombre.Text = nombre;
+            txtComision.Text = data["comision"].Value.ToString();
+            txtNombre.Text = data["descripcion"].Value.ToString();
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
@@ -25,16 +31,31 @@ namespace PalcoNet.Abm_Grado
                 MessageBox.Show("Se detectaron campos vacios. Por favor, revise");
             else
             {
-                //TODO: Persistir
-                DialogResult = DialogResult.OK;
-                //this.Close();
+                if (Conexion.getInstance().Modificar(id, Conexion.Tabla.Grado, datos))
+                    DialogResult = DialogResult.OK;
+                else
+                    DialogResult = DialogResult.Abort;
             }
+        }
+
+        private void AgregarParaInsert(string nombreCol, object data)
+        {
+            datos[nombreCol] = data;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            //this.Close();
+        }
+
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("descripcion", txtNombre.Text);
+        }
+
+        private void txtComision_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("comision", Convert.ToInt32(txtComision.Text));
         }
     }
 }
