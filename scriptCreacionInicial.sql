@@ -82,7 +82,9 @@ CREATE TABLE ESKHERE.[Puntos](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Cant INT,
 	Habilitados BIT,
-	FechaObtenIDos DATETIME
+	FechaObtenIDos DATETIME,
+	[ID_cliente] [int] NOT NULL,
+	CONSTRAINT FK_ClientePuntos   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente(ID)
 );
 
 
