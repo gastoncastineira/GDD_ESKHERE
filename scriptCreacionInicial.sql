@@ -452,3 +452,12 @@ join Rol r on r.ID = ru.ID_ROL
 join Rol_X_Funcion rf on rf.ID_Rol = r.ID 
 join Funcion f on f.ID = rf.ID_Funcion
 GO
+
+CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
+AS
+SELECT TOP 10 Cli_Nombre , Cli_ApellIDo , sum(Cant) cantPuntosVencidos
+	from ESKHERE.Cliente c Join ESKHERE.Puntos p on (c.ID = p.ID_Cliente)
+	where YEAR(p.FechaObtenIDos) = YEAR(GETDATE())
+	GROUP BY Cli_Nombre, Cli_ApellIDo
+	order by sum(Cant) desc
+GO
