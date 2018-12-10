@@ -13,7 +13,11 @@ DOING---------ABM para Tabla Publicacion_Grado:
 
 
 6)Triggers
-DOING-------------Trigger para la asignacion de puntos a los clientes basados en sus compras durante la migracion
+DONE 8/12/18-------------Trigger para la asignacion de puntos a los clientes basados en sus compras durante la migracion
+
+
+7)BUGS
+PENDING-----------------BUG en el stored procedure crear_usuario_aleatorio
 
 7)PDF explicando cosas
 
