@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -29,11 +29,11 @@ namespace PalcoNet
         {
             public static string Libre(string var)
             {
-                return $"LIKE '%{var}%'";
+                return "LIKE '%"+var+"%'";
             }
             public static string Exacto(string var)
             {
-                return $" = '{var}'";
+                return " = '" + var +"'";
             }
         }
 
@@ -68,10 +68,10 @@ namespace PalcoNet
 
             try
             {
-                string comandoString = string.Copy(comandoInsert) + $" {tabla} (";
-                data.Keys.ToList().ForEach(k => comandoString += $"{k}, ");
+                string comandoString = string.Copy(comandoInsert) + tabla +" (";
+                data.Keys.ToList().ForEach(k => comandoString += k + ", ");
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + ") VALUES (";
-                data.Keys.ToList().ForEach(k => comandoString += $"@{k}, ");
+                data.Keys.ToList().ForEach(k => comandoString += "@"+k+", ");
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + ")";
                 using (SqlConnection sqlConnection = new SqlConnection(conectionString))
                 {
@@ -83,7 +83,7 @@ namespace PalcoNet
                         command.CommandText = comandoString;
                         foreach (KeyValuePair<string, object> entry in data)
                         {
-                            command.Parameters.AddWithValue($"@{entry.Key}", entry.Value);
+                            command.Parameters.AddWithValue("@"+entry.Key, entry.Value);
                         }
                         command.ExecuteNonQuery();
                     }
@@ -103,10 +103,10 @@ namespace PalcoNet
         {
             try
             {
-                string comandoString = string.Copy(comandoUpdate) + $" {tabla} SET ";
+                string comandoString = string.Copy(comandoUpdate) + tabla + " SET ";
                 foreach (KeyValuePair<string, object> entry in data)
                 {
-                    comandoString += $"{entry.Key} = @{entry.Key}, ";
+                    comandoString += entry.Key+" = @" + entry.Key + ", ";
                 }
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + " WHERE id = @id";
                 using (SqlConnection sqlConnection = new SqlConnection(conectionString))
@@ -120,7 +120,7 @@ namespace PalcoNet
                         command.Parameters.AddWithValue("@id", pk);
                         foreach (KeyValuePair<string, object> entry in data)
                         {
-                            command.Parameters.AddWithValue($"@{entry.Key}", entry.Value);
+                            command.Parameters.AddWithValue("@"+entry.Key, entry.Value);
                         }
                         command.ExecuteNonQuery();
                     }
@@ -138,7 +138,7 @@ namespace PalcoNet
         //de Conexion.Filtro 
         public void LlenarDataGridView(string tabla, ref DataGridView dataGrid, Dictionary<string, string> filtros)
         {
-            string comandoString = comandoSelect + $" * FROM {tabla}";
+            string comandoString = comandoSelect + " * FROM " + tabla;
             if(filtros.Count>0 || filtros == null)
                 comandoString = PonerFiltros(comandoString, filtros);
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
@@ -239,7 +239,7 @@ namespace PalcoNet
 
         public bool ActualizarContraseña(string contraseña, string usuario)
         {
-            string comando = $"{comandoUpdate} {Tabla.Usuario} SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
+            string comando = comandoUpdate + Tabla.Usuario +" SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
             try
             {
                 using (SqlConnection connection = new SqlConnection(conectionString))
@@ -279,7 +279,7 @@ namespace PalcoNet
         {
             Dictionary<string, List<object>> retorno = HacerDictinary(columnas);
 
-            string comandoString = $"{comandoSelect} * FROM {tabla}";
+            string comandoString = comandoSelect + " * FROM " + tabla;
 
             if (filtros != null && filtros.Count > 0)
                 comandoString = PonerFiltros(comandoString, filtros);
