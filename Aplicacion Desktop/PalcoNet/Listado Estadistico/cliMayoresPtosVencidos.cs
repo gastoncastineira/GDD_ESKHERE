@@ -10,11 +10,14 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Listado_Estadistico
 {
-    public partial class Form1 : Form
+    public partial class CliMayoresPtosvencidos : Form
     {
-        public Form1()
+        public CliMayoresPtosvencidos()
         {
             InitializeComponent();
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.ClientesConMayoresPtosVencidos, ref dgvCMPV, null);
         }
+
+
     }
 }
