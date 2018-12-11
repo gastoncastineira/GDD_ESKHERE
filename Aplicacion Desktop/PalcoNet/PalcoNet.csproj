@@ -175,6 +175,30 @@
     </Compile>
     <Compile Include="Generar Publicacion\Publicacion.cs" />
     <Compile Include="Generar Publicacion\Ubicacion.cs" />
+    <Compile Include="Listado Estadistico\CliMayorCantidadCompras.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listado Estadistico\CliMayorCantidadCompras.Designer.cs">
+      <DependentUpon>CliMayorCantidadCompras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listado Estadistico\cliMayoresPtosVencidos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listado Estadistico\cliMayoresPtosVencidos.Designer.cs">
+      <DependentUpon>cliMayoresPtosVencidos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listado Estadistico\EmpresasConMayorCantUbisNoVend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listado Estadistico\EmpresasConMayorCantUbisNoVend.Designer.cs">
+      <DependentUpon>EmpresasConMayorCantUbisNoVend.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Listado Estadistico\ListadoEstadistico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listado Estadistico\ListadoEstadistico.Designer.cs">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,12 +215,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Historial Cliente\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Listado Estadistico\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Listado Estadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\PalcoNET.Designer.cs">
@@ -274,6 +292,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Publicacion\GenerarPublicacion.resx">
       <DependentUpon>GenerarPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listado Estadistico\CliMayorCantidadCompras.resx">
+      <DependentUpon>CliMayorCantidadCompras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listado Estadistico\cliMayoresPtosVencidos.resx">
+      <DependentUpon>cliMayoresPtosVencidos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listado Estadistico\EmpresasConMayorCantUbisNoVend.resx">
+      <DependentUpon>EmpresasConMayorCantUbisNoVend.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listado Estadistico\ListadoEstadistico.resx">
+      <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
