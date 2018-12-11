@@ -33,7 +33,11 @@ namespace PalcoNet
             }
             public static string Exacto(string var)
             {
-                return " = " + var +"";
+                return " = '" + var +"'";
+            }
+            public static string ExactoParaInts(string var)
+            {
+                return " = " + var ;
             }
             public static string Between(string menor, string mayor)
             {
