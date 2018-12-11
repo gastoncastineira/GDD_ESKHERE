@@ -206,40 +206,32 @@ CREATE TABLE ESKHERE.cliente_premio(
 	CONSTRAINT FK_ClientePremio   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente(ID),	
 	CONSTRAINT FK_premio  FOREIGN KEY(ID_premio) REFERENCES ESKHERE. Premios(ID)	
 );
+GO
 ----------------------------------------------------------------------------- TRIGGERS --------------------------------------------------------------------------------------------
-		       
-
+		     
 CREATE TRIGGER Actualizar_Puntos_Cliente ON ESKHERE.Compra
 	AFTER INSERT
 	AS
 	BEGIN
 		DECLARE @ID_Compra INT
-		DECLARE @ID_Ubicacion INT
+		DECLARE @Fecha DATETIME
 		DECLARE @ID_Cliente INT
 		DECLARE @Puntos FLOAT
 		
 		--Obtengo los ptos y cliente relacionados a esa compra
 		DECLARE Obtener_Puntos_Cliente CURSOR FOR
-		SELECT u.Puntos, Cli.ID FROM inserted i
+		SELECT u.Puntos, I.Fecha,Cli.ID  FROM inserted i
 		JOIN Ubicacion U ON (i.ID_Ubicacion = U.ID)
 		JOIN Cliente Cli ON (i.ID_Cliente = Cli.ID)
 
 		OPEN Obtener_Puntos_Cliente
-		FETCH NEXT FROM Obtener_Puntos_Cliente INTO @Puntos, @ID_Cliente
+		FETCH NEXT FROM Obtener_Puntos_Cliente INTO @Puntos, @Fecha, @ID_Cliente
 
 		WHILE @@FETCH_STATUS =0
 			BEGIN
-			IF (SELECT puntos FROM Cliente WHERE ID= @ID_Cliente) IS NULL
-				BEGIN	
-					UPDATE Cliente SET puntos= @Puntos 
-					WHERE ID=@ID_Cliente
-				END
-			ELSE
-				BEGIN 
-					UPDATE Cliente SET puntos= puntos +@Puntos 
-					WHERE ID=@ID_Cliente
-				END	
-					FETCH NEXT FROM Obtener_Puntos_Cliente INTO @Puntos, @ID_Cliente
+				INSERT INTO PUNTOS(Cant,FechaObtenIDos,[ID_cliente]) VALUES (@Puntos, @Fecha, @ID_Cliente)
+				
+				FETCH NEXT FROM Obtener_Puntos_Cliente INTO @Puntos, @Fecha, @ID_Cliente
 
 			END
 		CLOSE Obtener_Puntos_Cliente
@@ -421,7 +413,7 @@ JOIN ESKHERE.Compra C ON ( C.Compra_Cantidad= M.Compra_Cantidad AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])--Cierre de la busqueda ID_Ubicacion	
 						
 						)))--Cierre de busqueda ID_Compra
-
+GO
 
 -----------------------------------------------------------   INSERTS PARA TABLAS INTERMEDIAS  ------------------------------------------------------------------------------------------------
 -- 1)Las tablas que merecen migracion son las del scema maestra
@@ -435,7 +427,7 @@ select count(*) from 	[ESKHERE].Item_Factura
 
 
 	-----------------------------------------------------------   PROCEDURES DE VALIDACION  ------------------------------------------------------------------------------------------------
-
+GO
 CREATE PROCEDURE [ESKHERE].existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT, @autogenerada bit output
 AS
 BEGIN
@@ -446,8 +438,9 @@ BEGIN
 		set @autogenerada = (select contrasena_autogenerada from Usuario where Usuario = @Usuario)
 	end
 END
+GO
 
-
+GO
 CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @nombre nvarchar(20), @apellido nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
 AS
 BEGIN
@@ -488,7 +481,9 @@ BEGIN
 	set @usuario = @proto_usuario
 	set @contrasenia = @s
 END
+GO
 
+GO
 CREATE VIEW [ESKHERE].funciones_usuario
 AS
 select u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion from Usuario u 
@@ -499,7 +494,7 @@ join Funcion f on f.ID = rf.ID_Funcion
 GO
 
 --------------------------------  VIEWS Y PROCEDURES PARA TOP5 DE PUNTO 14 ------------------------------------------------------------------------------------------------
-
+GO
 CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
 AS
 SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , sum(Cant) cantPuntosVencidos
@@ -517,6 +512,7 @@ SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , count(compra.ID) cantCompras
 	order by count(compra.ID) desc
 GO
 
+GO
 CREATE VIEW [ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender
 AS 
 SELECT TOP 5 Espec_Empresa_Razon_Social, pub.ID publicacion, pf.FPublicacion fechaPublicacion, 
@@ -529,4 +525,4 @@ SELECT TOP 5 Espec_Empresa_Razon_Social, pub.ID publicacion, pf.FPublicacion fec
 	where ubi.ID not in (select ID_Ubicacion from ESKHERE.Compra com2) 
 	GROUP BY Espec_Empresa_Razon_Social, pub.ID,pf.FPublicacion, pg.ID
 	order by 5 desc, pf.FPublicacion, pg.ID asc
-
+GO
