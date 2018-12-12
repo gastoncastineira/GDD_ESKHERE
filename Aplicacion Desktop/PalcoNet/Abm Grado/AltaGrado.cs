@@ -26,7 +26,10 @@ namespace PalcoNet.Abm_Grado
             else
             {
                 if (Conexion.getInstance().Insertar(Conexion.Tabla.Grado, datos))
+                {
                     DialogResult = DialogResult.OK;
+                    this.Close();
+                }
                 else
                     DialogResult = DialogResult.Abort;
 

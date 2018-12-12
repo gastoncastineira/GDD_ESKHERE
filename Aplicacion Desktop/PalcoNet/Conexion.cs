@@ -53,7 +53,7 @@ namespace PalcoNet
             comando += " WHERE ";
             foreach (KeyValuePair<string, string> entry in filtros)
             {
-                comando += entry.Key " = " + entry.Value + " AND ";
+                comando += entry.Key +" = " + entry.Value + " AND ";
             }
             comando = comando.Substring(0, comando.Length - 4);
             return comando;

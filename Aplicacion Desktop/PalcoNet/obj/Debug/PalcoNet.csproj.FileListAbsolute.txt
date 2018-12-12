@@ -66,3 +66,33 @@ A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_P
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.SeleccionarPublicacion.resources
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Generar_Publicacion.GenerarPublicacion.resources
 A:\Palco.NET\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.CambiarContraseña.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe.config
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.exe
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.pdb
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csprojResolveAssemblyReference.cache
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.AltaCliente.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.ListadoClientes.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Cliente.ModificarCliente.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.AltaEmpresa.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.ListadoEmpresas.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Empresa_Espectaculo.ModificarEmpresa.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.AltaGrado.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.ListaGrado.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Grado.ModificarGrado.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Rol.ABMRol.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Rol.CrearRol.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Rol.ListadoRoles.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Abm_Rol.ModificarRol.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.AgregarTarjeta.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.Comprar.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Comprar.ElegirUbicaciones.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.EditarPublicacion.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Editar_Publicacion.SeleccionarPublicacion.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Generar_Publicacion.GenerarPublicacion.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Login.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Properties.Resources.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.CambiarContraseña.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Registro_de_Usuario.RegistroUsuario.resources
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.GenerateResource.Cache
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.pdb
