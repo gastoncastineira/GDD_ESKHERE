@@ -497,18 +497,18 @@ GO
 GO
 CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
 AS
-SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , sum(Cant) cantPuntosVencidos
+SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , p.FechaObtenIDos, sum(Cant) cantPuntosVencidos
 	from ESKHERE.Cliente c Join ESKHERE.Puntos p on (c.ID = p.ID_Cliente)
 	where YEAR(p.FechaObtenIDos) = YEAR(GETDATE())
-	GROUP BY Cli_Nombre, Cli_ApellIDo
+	GROUP BY Cli_Nombre, Cli_ApellIDo, p.FechaObtenIDos
 	order by sum(Cant) desc
 GO
 
 CREATE VIEW [ESKHERE].clientes_con_mayor_cantidad_de_compras
 AS
-SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , count(compra.ID) cantCompras
+SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , compra.Fecha fechaCompra, count(compra.ID) cantCompras 
 	from ESKHERE.Cliente c join ESKHERE.Compra compra on (c.ID = compra.ID_Cliente)
-	group by Cli_Nombre , Cli_ApellIDo
+	group by Cli_Nombre , Cli_ApellIDo, compra.Fecha
 	order by count(compra.ID) desc
 GO
 
