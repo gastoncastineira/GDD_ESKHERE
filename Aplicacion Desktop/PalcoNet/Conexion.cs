@@ -35,6 +35,14 @@ namespace PalcoNet
             {
                 return " = '" + var +"'";
             }
+            public static string ExactoParaInts(string var)
+            {
+                return " = " + var ;
+            }
+            public static string Between(string menor, string mayor)
+            {
+                return "BETWEEN " + menor + " AND " + mayor;
+            }
         }
 
         //Nombres de tablas basicas de la BD
@@ -46,6 +54,11 @@ namespace PalcoNet
             public static string Rol { get { return "ESKHERE.[Rol]"; } }
             public static string Usuario { get { return "ESKHERE.[Usuario]"; } }
             public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario";  } }
+            public static string AniosQueSePublicaron { get { return "[ESKHERE].anios_que_se_publicaron_espectaculos"; } }
+            public static string CliMayorCantCompras { get { return "[ESKHERE].clientes_con_mayor_cantidad_de_compras"; } }
+            public static string CliMayorPtosVencidos { get { return "[ESKHERE].clientes_con_mayores_ptos_vencidos"; } }
+            public static string EmpMayorCantUbiSinVender { get { return "[ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender"; } }
+            public static string AnioMinimo{ get { return "[ESKHERE].anios_minimo_de_publicacion"; } }
         }
 
         private string PonerFiltros(string comando, Dictionary<string, string> filtros)
@@ -54,6 +67,7 @@ namespace PalcoNet
             foreach (KeyValuePair<string, string> entry in filtros)
             {
                 comando += entry.Key +" = " + entry.Value + " AND ";
+
             }
             comando = comando.Substring(0, comando.Length - 4);
             return comando;
@@ -139,7 +153,7 @@ namespace PalcoNet
         public void LlenarDataGridView(string tabla, ref DataGridView dataGrid, Dictionary<string, string> filtros)
         {
             string comandoString = comandoSelect + " * FROM " + tabla;
-            if(filtros.Count>0 || filtros == null)
+            if( filtros != null && filtros.Count > 0)
                 comandoString = PonerFiltros(comandoString, filtros);
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
             {

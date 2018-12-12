@@ -15,27 +15,65 @@ namespace PalcoNet.Listado_Estadistico
         public ListadoEstadistico()
         {
             InitializeComponent();
-            List<string> lista = new List<string>();
-            lista.Add("AniosPublicacion"); 
-            List<object> resultadoConsulta = ((Conexion.getInstance().ConsultaPlana(Conexion.Tabla.AniosQueSePublicaron, lista, null))["AniosPublicacion"]) ;
-            resultadoConsulta.Sort(); 
-            cmbAño.DataSource = resultadoConsulta;
+            List<string> columnas = new List<string>();
+            columnas.Add("anio"); 
+            List<object> resultadoConsulta = ((Conexion.getInstance().ConsultaPlana(Conexion.Tabla.AnioMinimo, columnas, null))["anio"]) ;
+            //resultadoConsulta.Sort(); 
+            //cmbAño.DataSource = resultadoConsulta;
+            int añoactual = ConfigurationHelper.fechaActual.Year;
+            
+            for (int año = añoactual; año>= (int)resultadoConsulta[0]; año--)
+            {
+                cmbAño.Items.Add(año);
+            }
+            cmbAño.Text = añoactual.ToString();
             cmbTrimestre.Items.Add("1");
             cmbTrimestre.Items.Add("2");
             cmbTrimestre.Items.Add("3");
             cmbTrimestre.Items.Add("4");
+           
         }
 
         private void btnClientesPtsVnc_Click(object sender, EventArgs e)
         {
-            CliMayoresPtosvencidos cpv = new CliMayoresPtosvencidos();
+            Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "FechaObtenIDos");
+            CliMayoresPtosvencidos cpv = new CliMayoresPtosvencidos(filtros);
             cpv.ShowDialog();
         }
 
         private void btnClientesCantCompra_Click(object sender, EventArgs e)
         {
-            CliMayoresPtosvencidos cpv = new CliMayoresPtosvencidos();
-            cpv.ShowDialog();
+            Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "Fecha");
+            ClientesConMayorCantComprasForm ccc = new ClientesConMayorCantComprasForm(filtros);
+            ccc.ShowDialog();
+        }
+
+        private void btnEmpresasLocNoVendidas_Click(object sender, EventArgs e)
+        {
+            Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "FPublicacion");
+            EmpresasConMayorCantUbisNoVendForm emcnv = new EmpresasConMayorCantUbisNoVendForm(filtros);
+             emcnv.ShowDialog();
+        }
+        private Dictionary<string, string> ArmaFiltroDeAñoYTrimestre(string trimestre, string año, string campoFecha)
+        {
+            Dictionary<string, string> filtros = new Dictionary<string, string>();
+            filtros.Add("YEAR(" + campoFecha + ")", Conexion.Filtro.Exacto(año));
+            switch (trimestre) {
+                case "1":
+                    filtros.Add("MONTH("+ campoFecha +")", Conexion.Filtro.Between("1", "3"));
+                    break;
+                case "2":
+                    filtros.Add("MONTH(" + campoFecha + ")", Conexion.Filtro.Between("4", "6"));
+                    break;
+                case "3":
+                    filtros.Add("MONTH(" + campoFecha + ")", Conexion.Filtro.Between("7", "9"));
+                    break;
+                case "4":
+                    filtros.Add("MONTH(" + campoFecha + ")", Conexion.Filtro.Between("10", "12"));
+                    break;
+
+            }
+            return filtros;
         }
     }
 }

@@ -10,14 +10,12 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Listado_Estadistico
 {
-    public partial class CliMayoresPtosvencidos : Form
+    public partial class ClientesConMayorCantComprasForm : Form
     {
-        public CliMayoresPtosvencidos(Dictionary<string, string> filtros)
+        public ClientesConMayorCantComprasForm(Dictionary<string, string> filtros)
         {
             InitializeComponent();
-            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.CliMayorPtosVencidos, ref dgvCMPV, filtros);
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.CliMayorCantCompras, ref dgvCMCC, filtros);
         }
-
-
     }
 }

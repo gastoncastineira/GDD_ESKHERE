@@ -83,6 +83,7 @@
             this.btnEmpresasLocNoVendidas.TabIndex = 6;
             this.btnEmpresasLocNoVendidas.Text = "Empresas con mayor cantidad de ubicaciones no vendidas";
             this.btnEmpresasLocNoVendidas.UseVisualStyleBackColor = true;
+            this.btnEmpresasLocNoVendidas.Click += new System.EventHandler(this.btnEmpresasLocNoVendidas_Click);
             // 
             // cmbAño
             // 
@@ -99,6 +100,7 @@
             this.cmbTrimestre.Name = "cmbTrimestre";
             this.cmbTrimestre.Size = new System.Drawing.Size(121, 21);
             this.cmbTrimestre.TabIndex = 8;
+            this.cmbTrimestre.Text = "1";
             // 
             // ListadoEstadistico
             // 

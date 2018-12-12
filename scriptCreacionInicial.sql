@@ -493,7 +493,7 @@ join Rol_X_Funcion rf on rf.ID_Rol = r.ID
 join Funcion f on f.ID = rf.ID_Funcion
 GO
 
---------------------------------  VIEWS Y PROCEDURES PARA TOP5 DE PUNTO 14 ------------------------------------------------------------------------------------------------
+--------------------------------  VIEWS Y PROCEDURES PARA LISTADO ESTADISTICO ------------------------------------------------------------------------------------------------
 GO
 CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
 AS
@@ -525,4 +525,16 @@ SELECT TOP 5 Espec_Empresa_Razon_Social, pub.ID publicacion, pf.FPublicacion fec
 	where ubi.ID not in (select ID_Ubicacion from ESKHERE.Compra com2) 
 	GROUP BY Espec_Empresa_Razon_Social, pub.ID,pf.FPublicacion, pg.ID
 	order by 5 desc, pf.FPublicacion, pg.ID asc
+GO
+
+CREATE VIEW [ESKHERE].anios_que_se_publicaron_espectaculos
+AS
+SELECT DISTINCT YEAR(FPublicacion) AS AniosPublicacion
+FROM            ESKHERE.Publicacion_Fechas
+GO
+
+CREATE VIEW [ESKHERE].anios_minimo_de_publicacion
+AS
+SELECT MIN(YEAR(FPublicacion)) anio
+FROM ESKHERE.Publicacion_Fechas
 GO
