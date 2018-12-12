@@ -52,11 +52,13 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 }
                 else
                 {
+                    string usuario = string.Empty;
+                    string contraseña = string.Empty;
+                    AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtRazon.Text, txtCUIT.Text, ref usuario, ref contraseña));
                     if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos))
                         DialogResult = DialogResult.OK;
                     else
                         DialogResult = DialogResult.Abort;
-                    //this.Close();
                 }
             }
         }
@@ -68,10 +70,11 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private bool cuitEsValido()
         {
-            string cuil = txtCUIT.Text;
+           /* string cuil = txtCUIT.Text;
             if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27")) && cuil.Substring(4, cuil.Length - 2).Equals(txtRazon.Text))
                 return true;
-            return false;
+            return false;*/
+            return true;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -119,11 +122,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             AgregarParaInsert("Espec_Empresa_razon_social", txtRazon.Text);
         }
 
-        private void txtDir_Leave(object sender, EventArgs e)
-        {
-            AgregarParaInsert("calle", txtDir.Text);
-        }
-
+  
         private void txtDepto_Leave(object sender, EventArgs e)
         {
             AgregarParaInsert("depto", txtDepto.Text);
@@ -131,7 +130,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void txtPiso_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("piso", txtPiso.Text);
+            AgregarParaInsert("piso", Convert.ToInt32(txtPiso.Text));
         }
 
         private void txtLocalidad_Leave(object sender, EventArgs e)
@@ -142,6 +141,17 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         private void txtCodPostal_Leave(object sender, EventArgs e)
         {
             AgregarParaInsert("cod_postal", txtCodPostal.Text);
+        }
+ 
+        private void txt_Calle_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Calle", txt_Calle.Text);
+        }
+
+        private void txt_Numero_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Numero", Convert.ToInt32(txt_Numero.Text));
+
         }
     }
 }

@@ -96,3 +96,4 @@ C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\
 C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.csproj.GenerateResource.Cache
 C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.exe
 C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\bin\Debug\PalcoNet.pdb
+C:\Users\diego\Desktop\mis cosas\UTN\2018\Materias\GESTION DE DATOS\GDD_ESKHERE\Aplicacion Desktop\PalcoNet\obj\Debug\PalcoNet.Listado_Estadistico.ListadoEstadistico.resources

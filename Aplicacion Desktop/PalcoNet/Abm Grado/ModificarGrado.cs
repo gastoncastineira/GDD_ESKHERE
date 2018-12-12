@@ -16,7 +16,9 @@ namespace PalcoNet.Abm_Grado
         private Dictionary<string, object> datos = new Dictionary<string, object>();
         private int id;
 
-        public ModificarGrado(DataGridViewCellCollection data)
+        public ModificarGrado() { InitializeComponent(); }
+        
+        /*public ModificarGrado(DataGridViewCellCollection data)
         {
             id = Convert.ToInt32(data["id"].Value);
 
@@ -24,6 +26,7 @@ namespace PalcoNet.Abm_Grado
             txtComision.Text = data["comision"].Value.ToString();
             txtNombre.Text = data["descripcion"].Value.ToString();
         }
+         */
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {

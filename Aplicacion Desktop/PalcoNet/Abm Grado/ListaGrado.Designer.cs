@@ -67,18 +67,18 @@
             this.lblComision.AutoSize = true;
             this.lblComision.Location = new System.Drawing.Point(83, 57);
             this.lblComision.Name = "lblComision";
-            this.lblComision.Size = new System.Drawing.Size(32, 13);
+            this.lblComision.Size = new System.Drawing.Size(49, 13);
             this.lblComision.TabIndex = 33;
-            this.lblComision.Text = "CUIT";
+            this.lblComision.Text = "Comision";
             // 
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
             this.lblNombre.Location = new System.Drawing.Point(83, 31);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(44, 13);
+            this.lblNombre.Size = new System.Drawing.Size(63, 13);
             this.lblNombre.TabIndex = 31;
-            this.lblNombre.Text = "Nombre";
+            this.lblNombre.Text = "Descripcion";
             // 
             // txtComision
             // 
