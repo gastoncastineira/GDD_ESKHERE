@@ -37,22 +37,22 @@ namespace PalcoNet.Listado_Estadistico
         private void btnClientesPtsVnc_Click(object sender, EventArgs e)
         {
             Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "FechaObtenIDos");
-            CliMayoresPtosvencidos cpv = new CliMayoresPtosvencidos(filtros);
-            cpv.ShowDialog();
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.CliMayorPtosVencidos, ref dgv, filtros);
+            lblPiola.Text = "Clientes con mayores puntos vencidos";
         }
 
         private void btnClientesCantCompra_Click(object sender, EventArgs e)
         {
-            Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "Fecha");
-            ClientesConMayorCantComprasForm ccc = new ClientesConMayorCantComprasForm(filtros);
-            ccc.ShowDialog();
+            Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "fechaCompra");
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.CliMayorCantCompras, ref dgv, filtros);
+            lblPiola.Text= "Clientes con mayor cantidad de compras";
         }
 
         private void btnEmpresasLocNoVendidas_Click(object sender, EventArgs e)
         {
-            Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "FPublicacion");
-            EmpresasConMayorCantUbisNoVendForm emcnv = new EmpresasConMayorCantUbisNoVendForm(filtros);
-             emcnv.ShowDialog();
+            Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "fechaPublicacion");
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.EmpMayorCantUbiSinVender, ref dgv, filtros);
+            lblPiola.Text = "Empresas con mayor cantidad de ubicaciones no vendidas";
         }
         private Dictionary<string, string> ArmaFiltroDeAñoYTrimestre(string trimestre, string año, string campoFecha)
         {

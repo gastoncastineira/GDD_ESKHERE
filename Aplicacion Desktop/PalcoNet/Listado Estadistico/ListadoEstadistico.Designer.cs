@@ -35,6 +35,9 @@
             this.btnEmpresasLocNoVendidas = new System.Windows.Forms.Button();
             this.cmbAño = new System.Windows.Forms.ComboBox();
             this.cmbTrimestre = new System.Windows.Forms.ComboBox();
+            this.dgv = new System.Windows.Forms.DataGridView();
+            this.lblPiola = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -57,7 +60,7 @@
             // 
             // btnClientesPtsVnc
             // 
-            this.btnClientesPtsVnc.Location = new System.Drawing.Point(17, 125);
+            this.btnClientesPtsVnc.Location = new System.Drawing.Point(17, 80);
             this.btnClientesPtsVnc.Name = "btnClientesPtsVnc";
             this.btnClientesPtsVnc.Size = new System.Drawing.Size(94, 53);
             this.btnClientesPtsVnc.TabIndex = 4;
@@ -67,7 +70,7 @@
             // 
             // btnClientesCantCompra
             // 
-            this.btnClientesCantCompra.Location = new System.Drawing.Point(151, 125);
+            this.btnClientesCantCompra.Location = new System.Drawing.Point(151, 80);
             this.btnClientesCantCompra.Name = "btnClientesCantCompra";
             this.btnClientesCantCompra.Size = new System.Drawing.Size(92, 53);
             this.btnClientesCantCompra.TabIndex = 5;
@@ -77,7 +80,7 @@
             // 
             // btnEmpresasLocNoVendidas
             // 
-            this.btnEmpresasLocNoVendidas.Location = new System.Drawing.Point(273, 125);
+            this.btnEmpresasLocNoVendidas.Location = new System.Drawing.Point(273, 80);
             this.btnEmpresasLocNoVendidas.Name = "btnEmpresasLocNoVendidas";
             this.btnEmpresasLocNoVendidas.Size = new System.Drawing.Size(143, 53);
             this.btnEmpresasLocNoVendidas.TabIndex = 6;
@@ -102,11 +105,32 @@
             this.cmbTrimestre.TabIndex = 8;
             this.cmbTrimestre.Text = "1";
             // 
+            // dgv
+            // 
+            this.dgv.AllowUserToAddRows = false;
+            this.dgv.AllowUserToDeleteRows = false;
+            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv.Location = new System.Drawing.Point(16, 159);
+            this.dgv.Name = "dgv";
+            this.dgv.ReadOnly = true;
+            this.dgv.Size = new System.Drawing.Size(399, 183);
+            this.dgv.TabIndex = 9;
+            // 
+            // lblPiola
+            // 
+            this.lblPiola.AutoSize = true;
+            this.lblPiola.Location = new System.Drawing.Point(14, 143);
+            this.lblPiola.Name = "lblPiola";
+            this.lblPiola.Size = new System.Drawing.Size(0, 13);
+            this.lblPiola.TabIndex = 10;
+            // 
             // ListadoEstadistico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(428, 226);
+            this.ClientSize = new System.Drawing.Size(428, 352);
+            this.Controls.Add(this.lblPiola);
+            this.Controls.Add(this.dgv);
             this.Controls.Add(this.cmbTrimestre);
             this.Controls.Add(this.cmbAño);
             this.Controls.Add(this.btnEmpresasLocNoVendidas);
@@ -116,6 +140,7 @@
             this.Controls.Add(this.label1);
             this.Name = "ListadoEstadistico";
             this.Text = "Listados estadisticos";
+            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,5 +154,7 @@
         private System.Windows.Forms.Button btnEmpresasLocNoVendidas;
         private System.Windows.Forms.ComboBox cmbAño;
         private System.Windows.Forms.ComboBox cmbTrimestre;
+        private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.Label lblPiola;
     }
 }
