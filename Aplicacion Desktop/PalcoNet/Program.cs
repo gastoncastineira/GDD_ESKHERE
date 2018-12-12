@@ -16,7 +16,7 @@ namespace PalcoNet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Abm_Empresa_Espectaculo.AltaEmpresa());
+            Application.Run(new Abm_Grado.ListaGrado());
         }
     }
 }
