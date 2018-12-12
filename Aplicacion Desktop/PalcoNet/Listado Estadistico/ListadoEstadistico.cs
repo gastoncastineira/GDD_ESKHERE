@@ -22,7 +22,7 @@ namespace PalcoNet.Listado_Estadistico
             //cmbAño.DataSource = resultadoConsulta;
             int añoactual = ConfigurationHelper.fechaActual.Year;
             
-            for (int año = añoactual; año>= (int)resultadoConsulta[0]; año--)
+            for (int año = añoactual; año>= Convert.ToInt32(resultadoConsulta[0]); año--)
             {
                 cmbAño.Items.Add(año);
             }

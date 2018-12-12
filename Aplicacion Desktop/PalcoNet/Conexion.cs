@@ -35,10 +35,6 @@ namespace PalcoNet
             {
                 return " = '" + var +"'";
             }
-            public static string ExactoParaInts(string var)
-            {
-                return " = " + var ;
-            }
             public static string Between(string menor, string mayor)
             {
                 return "BETWEEN " + menor + " AND " + mayor;
@@ -66,7 +62,7 @@ namespace PalcoNet
             comando += " WHERE ";
             foreach (KeyValuePair<string, string> entry in filtros)
             {
-                comando += entry.Key +" = " + entry.Value + " AND ";
+                comando += entry.Key+ " " + entry.Value + " AND ";
 
             }
             comando = comando.Substring(0, comando.Length - 4);
