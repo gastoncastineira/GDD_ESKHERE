@@ -53,12 +53,13 @@
             this.lbl_FechaCreacion = new System.Windows.Forms.Label();
             this.lbl_Calle = new System.Windows.Forms.Label();
             this.txt_Calle = new System.Windows.Forms.TextBox();
+            this.dtp_FechaCreacion = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // chbDepto
             // 
             this.chbDepto.AutoSize = true;
-            this.chbDepto.Location = new System.Drawing.Point(282, 157);
+            this.chbDepto.Location = new System.Drawing.Point(416, 159);
             this.chbDepto.Name = "chbDepto";
             this.chbDepto.Size = new System.Drawing.Size(55, 17);
             this.chbDepto.TabIndex = 48;
@@ -69,7 +70,7 @@
             // chbPiso
             // 
             this.chbPiso.AutoSize = true;
-            this.chbPiso.Location = new System.Drawing.Point(282, 110);
+            this.chbPiso.Location = new System.Drawing.Point(416, 112);
             this.chbPiso.Name = "chbPiso";
             this.chbPiso.Size = new System.Drawing.Size(46, 17);
             this.chbPiso.TabIndex = 47;
@@ -79,7 +80,7 @@
             // 
             // txtCodPostal
             // 
-            this.txtCodPostal.Location = new System.Drawing.Point(360, 237);
+            this.txtCodPostal.Location = new System.Drawing.Point(494, 239);
             this.txtCodPostal.Name = "txtCodPostal";
             this.txtCodPostal.Size = new System.Drawing.Size(100, 20);
             this.txtCodPostal.TabIndex = 46;
@@ -88,7 +89,7 @@
             // lblCodPostal
             // 
             this.lblCodPostal.AutoSize = true;
-            this.lblCodPostal.Location = new System.Drawing.Point(279, 240);
+            this.lblCodPostal.Location = new System.Drawing.Point(413, 242);
             this.lblCodPostal.Name = "lblCodPostal";
             this.lblCodPostal.Size = new System.Drawing.Size(58, 13);
             this.lblCodPostal.TabIndex = 45;
@@ -96,7 +97,7 @@
             // 
             // txtLocalidad
             // 
-            this.txtLocalidad.Location = new System.Drawing.Point(360, 194);
+            this.txtLocalidad.Location = new System.Drawing.Point(494, 196);
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(100, 20);
             this.txtLocalidad.TabIndex = 44;
@@ -105,7 +106,7 @@
             // lblLocalidad
             // 
             this.lblLocalidad.AutoSize = true;
-            this.lblLocalidad.Location = new System.Drawing.Point(279, 197);
+            this.lblLocalidad.Location = new System.Drawing.Point(413, 199);
             this.lblLocalidad.Name = "lblLocalidad";
             this.lblLocalidad.Size = new System.Drawing.Size(53, 13);
             this.lblLocalidad.TabIndex = 43;
@@ -114,7 +115,7 @@
             // lbl_Numero
             // 
             this.lbl_Numero.AutoSize = true;
-            this.lbl_Numero.Location = new System.Drawing.Point(279, 68);
+            this.lbl_Numero.Location = new System.Drawing.Point(413, 70);
             this.lbl_Numero.Name = "lbl_Numero";
             this.lbl_Numero.Size = new System.Drawing.Size(44, 13);
             this.lbl_Numero.TabIndex = 42;
@@ -150,7 +151,7 @@
             // txtPiso
             // 
             this.txtPiso.Enabled = false;
-            this.txtPiso.Location = new System.Drawing.Point(360, 110);
+            this.txtPiso.Location = new System.Drawing.Point(494, 112);
             this.txtPiso.Name = "txtPiso";
             this.txtPiso.Size = new System.Drawing.Size(100, 20);
             this.txtPiso.TabIndex = 38;
@@ -159,7 +160,7 @@
             // txtDepto
             // 
             this.txtDepto.Enabled = false;
-            this.txtDepto.Location = new System.Drawing.Point(360, 157);
+            this.txtDepto.Location = new System.Drawing.Point(494, 159);
             this.txtDepto.Name = "txtDepto";
             this.txtDepto.Size = new System.Drawing.Size(100, 20);
             this.txtDepto.TabIndex = 37;
@@ -167,7 +168,7 @@
             // 
             // txt_Numero
             // 
-            this.txt_Numero.Location = new System.Drawing.Point(360, 65);
+            this.txt_Numero.Location = new System.Drawing.Point(494, 67);
             this.txt_Numero.Name = "txt_Numero";
             this.txt_Numero.Size = new System.Drawing.Size(100, 20);
             this.txt_Numero.TabIndex = 36;
@@ -199,7 +200,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(282, 291);
+            this.btnCancelar.Location = new System.Drawing.Point(355, 290);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 50;
@@ -209,7 +210,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(165, 291);
+            this.btnAceptar.Location = new System.Drawing.Point(238, 290);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 49;
@@ -263,7 +264,7 @@
             // lbl_Calle
             // 
             this.lbl_Calle.AutoSize = true;
-            this.lbl_Calle.Location = new System.Drawing.Point(282, 16);
+            this.lbl_Calle.Location = new System.Drawing.Point(416, 18);
             this.lbl_Calle.Name = "lbl_Calle";
             this.lbl_Calle.Size = new System.Drawing.Size(30, 13);
             this.lbl_Calle.TabIndex = 57;
@@ -271,17 +272,26 @@
             // 
             // txt_Calle
             // 
-            this.txt_Calle.Location = new System.Drawing.Point(360, 16);
+            this.txt_Calle.Location = new System.Drawing.Point(494, 18);
             this.txt_Calle.Name = "txt_Calle";
             this.txt_Calle.Size = new System.Drawing.Size(100, 20);
             this.txt_Calle.TabIndex = 58;
             this.txt_Calle.Leave += new System.EventHandler(this.txt_Calle_Leave);
             // 
+            // dtp_FechaCreacion
+            // 
+            this.dtp_FechaCreacion.Location = new System.Drawing.Point(93, 108);
+            this.dtp_FechaCreacion.Name = "dtp_FechaCreacion";
+            this.dtp_FechaCreacion.Size = new System.Drawing.Size(200, 20);
+            this.dtp_FechaCreacion.TabIndex = 59;
+            this.dtp_FechaCreacion.Leave += new System.EventHandler(this.dtp_FechaCreacion_Leave);
+            // 
             // AltaEmpresa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 334);
+            this.ClientSize = new System.Drawing.Size(619, 348);
+            this.Controls.Add(this.dtp_FechaCreacion);
             this.Controls.Add(this.txt_Calle);
             this.Controls.Add(this.lbl_Calle);
             this.Controls.Add(this.lbl_FechaCreacion);
@@ -342,5 +352,6 @@
         private System.Windows.Forms.Label lbl_FechaCreacion;
         private System.Windows.Forms.Label lbl_Calle;
         private System.Windows.Forms.TextBox txt_Calle;
+        private System.Windows.Forms.DateTimePicker dtp_FechaCreacion;
     }
 }

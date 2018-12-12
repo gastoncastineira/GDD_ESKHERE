@@ -153,5 +153,10 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             AgregarParaInsert("Numero", Convert.ToInt32(txt_Numero.Text));
 
         }
+
+        private void dtp_FechaCreacion_Leave(object sender, EventArgs e)
+        {
+            AgregarParaInsert("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value);
+        }
     }
 }
