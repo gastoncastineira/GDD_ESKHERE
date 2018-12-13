@@ -66,9 +66,9 @@
             this.lblNombre.AutoSize = true;
             this.lblNombre.Location = new System.Drawing.Point(29, 23);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(44, 13);
+            this.lblNombre.Size = new System.Drawing.Size(63, 13);
             this.lblNombre.TabIndex = 8;
-            this.lblNombre.Text = "Nombre";
+            this.lblNombre.Text = "Descripcion";
             // 
             // btnCancelar
             // 

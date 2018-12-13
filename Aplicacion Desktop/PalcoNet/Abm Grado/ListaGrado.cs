@@ -47,6 +47,7 @@ namespace PalcoNet.Abm_Grado
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
+            //MostrarResultado(new ModificarGrado().ShowDialog());
             MostrarResultado(new ModificarGrado(dgvGrado.SelectedCells[0].OwningRow.Cells).ShowDialog());
         }
 
