@@ -175,24 +175,6 @@
     </Compile>
     <Compile Include="Generar Publicacion\Publicacion.cs" />
     <Compile Include="Generar Publicacion\Ubicacion.cs" />
-    <Compile Include="Listado Estadistico\CliMayorCantidadCompras.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Listado Estadistico\CliMayorCantidadCompras.Designer.cs">
-      <DependentUpon>CliMayorCantidadCompras.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Listado Estadistico\cliMayoresPtosVencidos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Listado Estadistico\cliMayoresPtosVencidos.Designer.cs">
-      <DependentUpon>cliMayoresPtosVencidos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Listado Estadistico\EmpresasConMayorCantUbisNoVend.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Listado Estadistico\EmpresasConMayorCantUbisNoVend.Designer.cs">
-      <DependentUpon>EmpresasConMayorCantUbisNoVend.cs</DependentUpon>
-    </Compile>
     <Compile Include="Listado Estadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -293,15 +275,6 @@
     <EmbeddedResource Include="Generar Publicacion\GenerarPublicacion.resx">
       <DependentUpon>GenerarPublicacion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Listado Estadistico\CliMayorCantidadCompras.resx">
-      <DependentUpon>CliMayorCantidadCompras.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Listado Estadistico\cliMayoresPtosVencidos.resx">
-      <DependentUpon>cliMayoresPtosVencidos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Listado Estadistico\EmpresasConMayorCantUbisNoVend.resx">
-      <DependentUpon>EmpresasConMayorCantUbisNoVend.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Listado Estadistico\ListadoEstadistico.resx">
       <DependentUpon>ListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
@@ -341,9 +314,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Listado Estadistico\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
