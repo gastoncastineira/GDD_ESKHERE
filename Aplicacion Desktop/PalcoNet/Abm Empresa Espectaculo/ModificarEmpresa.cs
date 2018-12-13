@@ -33,24 +33,29 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
             id = Convert.ToInt32(data["id"].Value);
 
-            txtCodPostal.Text = data["cod_postal"].Value.ToString();
-            textosSinModificar.Add(txtCodPostal.Text);
-            txtCUIT.Text = data["Espec_Empresa_Cuit"].Value.ToString();
-            textosSinModificar.Add(txtCUIT.Text);
-            txtDepto.Text = data["depto"].Value.ToString();
-            textosSinModificar.Add(txtDepto.Text);
-            txtDir.Text = data["calle"].Value.ToString();
-            textosSinModificar.Add(txtDir.Text);
+
             txtRazon.Text = data["Espec_Empresa_Razon_Social"].Value.ToString();
             textosSinModificar.Add(txtRazon.Text);
-            txtLocalidad.Text = data["localidad"].Value.ToString();
-            textosSinModificar.Add(txtLocalidad.Text);
+            txtCUIT.Text = data["Espec_Empresa_Cuit"].Value.ToString();
+            textosSinModificar.Add(txtCUIT.Text);
+            dtp_FechaCreacion.Text = data["Espec_Empresa_Fecha_Creacion"].Value.ToString();
+            textosSinModificar.Add(dtp_FechaCreacion.Text);
             txtMail.Text = data["Espec_Empresa_Mail"].Value.ToString();
             textosSinModificar.Add(txtMail.Text);
-            txtCiudad.Text = data["ciudad"].Value.ToString();
-            textosSinModificar.Add(txtCiudad.Text);
+            txt_Calle.Text = data["calle"].Value.ToString();
+            textosSinModificar.Add(txt_Calle.Text);
+            txt_Numero.Text = data["Numero"].Value.ToString();
+            textosSinModificar.Add(txt_Numero.Text);
             txtPiso.Text = data["piso"].Value.ToString();
             textosSinModificar.Add(txtPiso.Text);
+            txtDepto.Text = data["depto"].Value.ToString();
+            textosSinModificar.Add(txtDepto.Text);
+            txtCodPostal.Text = data["cod_postal"].Value.ToString();
+            textosSinModificar.Add(txtCodPostal.Text);
+            txtLocalidad.Text = data["localidad"].Value.ToString();
+            textosSinModificar.Add(txtLocalidad.Text);
+            txtCiudad.Text = data["ciudad"].Value.ToString();
+            textosSinModificar.Add(txtCiudad.Text);
             txtTel.Text = data["telefono"].Value.ToString();
             textosSinModificar.Add(txtTel.Text);
             if (string.IsNullOrEmpty(txtPiso.Text))
@@ -93,11 +98,13 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         }
 
         private bool cuitEsValido()
-        {
+        {/*
             string cuil = txtCUIT.Text;
             if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27")) && cuil.Substring(4, cuil.Length - 2).Equals(txtRazon.Text))
                 return true;
             return false;
+          */
+            return true;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -125,6 +132,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 datos[nombreCol] = data;
         }
 
+
         private void txtCiudad_Leave(object sender, EventArgs e)
         {
             AgregarParaUpdate("ciudad", txtCiudad.Text);
@@ -150,10 +158,6 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             AgregarParaUpdate("Espec_Empresa_razon_social", txtRazon.Text);
         }
 
-        private void txtDir_Leave(object sender, EventArgs e)
-        {
-            AgregarParaUpdate("calle", txtDir.Text);
-        }
 
         private void txtDepto_Leave(object sender, EventArgs e)
         {
@@ -162,7 +166,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void txtPiso_Leave(object sender, EventArgs e)
         {
-            AgregarParaUpdate("piso", txtPiso.Text);
+            AgregarParaUpdate("piso", Convert.ToInt32(txtPiso.Text));
         }
 
         private void txtLocalidad_Leave(object sender, EventArgs e)
@@ -173,6 +177,22 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         private void txtCodPostal_Leave(object sender, EventArgs e)
         {
             AgregarParaUpdate("cod_postal", txtCodPostal.Text);
+        }
+
+        private void txt_Calle_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Calle", txt_Calle.Text);
+        }
+
+        private void txt_Numero_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Numero", Convert.ToInt32(txt_Numero.Text));
+
+        }
+
+        private void dtp_FechaCreacion_Leave(object sender, EventArgs e)
+        {
+            AgregarParaUpdate("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value);
         }
     }
 }
