@@ -49,12 +49,14 @@ namespace PalcoNet
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
             public static string Rol { get { return "ESKHERE.[Rol]"; } }
             public static string Usuario { get { return "ESKHERE.[Usuario]"; } }
+            public static string Factura { get { return "ESKHERE.[Factura]"; } }
             public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario";  } }
             public static string AniosQueSePublicaron { get { return "[ESKHERE].anios_que_se_publicaron_espectaculos"; } }
             public static string CliMayorCantCompras { get { return "[ESKHERE].clientes_con_mayor_cantidad_de_compras"; } }
             public static string CliMayorPtosVencidos { get { return "[ESKHERE].clientes_con_mayores_ptos_vencidos"; } }
             public static string EmpMayorCantUbiSinVender { get { return "[ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender"; } }
             public static string AnioMinimo{ get { return "[ESKHERE].anios_minimo_de_publicacion"; } }
+            public static string HistorialCompras { get { return "[ESKHERE].Historial_Compras"; } }
         }
 
         private string PonerFiltros(string comando, Dictionary<string, string> filtros)
@@ -148,8 +150,13 @@ namespace PalcoNet
         //de Conexion.Filtro 
         public void LlenarDataGridView(string tabla, ref DataGridView dataGrid, Dictionary<string, string> filtros)
         {
+            dataGrid.DataSource = conseguirTabla(tabla, filtros);
+        }
+
+        public DataTable conseguirTabla(string tabla, Dictionary<string, string> filtros)
+        {
             string comandoString = comandoSelect + " * FROM " + tabla;
-            if( filtros != null && filtros.Count > 0)
+            if (filtros != null && filtros.Count > 0)
                 comandoString = PonerFiltros(comandoString, filtros);
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
             {
@@ -163,11 +170,11 @@ namespace PalcoNet
 
                     DataTable dtRecord = new DataTable();
                     sqlDataAdap.Fill(dtRecord);
-                    dataGrid.DataSource = dtRecord;
+
+                    return dtRecord;
                 }
             }
         }
-
 
         public bool ValidarLogin(string usuario, string contraseña, ref bool contraseñaAutogenerada)
         {
@@ -268,10 +275,44 @@ namespace PalcoNet
                     }
                 }
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return false;
             }
+        }
+
+        public bool existeRegistro(string tabla, List<string> columnas, Dictionary<string, string> filtros)
+        {
+            var datos = ConsultaPlana(tabla, columnas, filtros);
+            return (datos.Count > 0);
+        }
+
+        private void cambiarHabilitacion(string tabla, int id, string cambio)
+        {
+            string comandoString = comandoUpdate + tabla + " SET deshabilitado = " + cambio + " WHERE id = @id";
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@id", id);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void deshabilitar(string tabla, int id)
+        {
+            cambiarHabilitacion(tabla, id, "1");
+        }
+
+        public void habilitar(string tabla, int id)
+        {
+            cambiarHabilitacion(tabla, id, "0");
         }
 
         private Dictionary<string, List<object>> HacerDictinary(List<string> colum)

@@ -168,6 +168,7 @@ CREATE TABLE ESKHERE.[Factura](
 	Total_Comisiones [numeric](18, 2) NULL,
 	Cantidad_Item_Factura INT,
 	CUIL_Empresa [nvarchar](255) NULL,
+	rendido bit default 0,
 	CONSTRAINT FK_Factura_Empresa  FOREIGN KEY(CUIL_Empresa) REFERENCES ESKHERE.Empresa([Espec_Empresa_Cuit])	
 );
 
@@ -536,4 +537,12 @@ CREATE VIEW [ESKHERE].anios_minimo_de_publicacion
 AS
 SELECT MIN(YEAR(FPublicacion)) anio
 FROM ESKHERE.Publicacion_Fechas
+GO
+
+CREATE VIEW [ESKHERE].Historial_Compras AS
+SELECT Cli.ID as id_cliente, Cli.Cli_Nombre, Pub.Codigo, Ubi.tipo, Ubi.Ubicacion_Tipo_Descripcion, Com.Compra_Cantidad, ubi.precio, ubi.precio 'Precio Total', com.Fecha, com.Forma_Pago_Desc
+FROM ESKHERE.Cliente Cli 
+JOIN ESKHERE.Compra Com ON ( Cli.ID = Com.ID_Cliente)
+JOIN ESKHERE.Ubicacion Ubi ON ( Com.ID_Ubicacion = Ubi.ID)
+JOIN ESKHERE.Publicacion Pub ON ( Ubi.ID_Publicacion = Pub.id)
 GO
