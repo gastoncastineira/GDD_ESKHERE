@@ -16,7 +16,7 @@ namespace PalcoNet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Abm_Empresa_Espectaculo.ListadoEmpresas());
+            Application.Run(new Generar_Rendicion_Comisiones.Rendicion());
         }
     }
 }

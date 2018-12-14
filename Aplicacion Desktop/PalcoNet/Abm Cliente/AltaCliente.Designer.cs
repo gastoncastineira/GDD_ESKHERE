@@ -258,6 +258,7 @@
             // 
             // cbbTipo
             // 
+            this.cbbTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbTipo.Items.AddRange(new object[] {
             "LE",
             "DNI"});
