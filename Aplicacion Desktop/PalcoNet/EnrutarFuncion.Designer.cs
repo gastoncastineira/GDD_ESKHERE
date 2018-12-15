@@ -40,6 +40,7 @@
             this.cbbSeleccion.Name = "cbbSeleccion";
             this.cbbSeleccion.Size = new System.Drawing.Size(121, 21);
             this.cbbSeleccion.TabIndex = 0;
+            this.cbbSeleccion.SelectedIndexChanged += new System.EventHandler(this.cbbSeleccion_SelectedIndexChanged);
             // 
             // label1
             // 

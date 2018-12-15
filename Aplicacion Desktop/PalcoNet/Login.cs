@@ -24,7 +24,7 @@ namespace PalcoNet
             bool cambioContraseña = false;
             Dictionary<string, string> filtros = new Dictionary<string, string>();
             filtros["usuario"] = Conexion.Filtro.Exacto(txtusuario.Text.Trim());
-            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "cant_accesos_fallidos" }), filtros);
+            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "ID", "cant_accesos_fallidos" }), filtros);
             int cantAccesos = Convert.ToInt32(resul["cant_accesos_fallidos"][0]);
             if (cantAccesos >= CANT_MAXIMA)
             {
@@ -34,7 +34,6 @@ namespace PalcoNet
             }
             if (Conexion.getInstance().ValidarLogin(txtusuario.Text, txtContraseña.Text, ref cambioContraseña))
             {
-                cantAccesos = 0;
                 if (cambioContraseña)
                 {
                     if (new Registro_de_Usuario.CambiarContraseña(txtusuario.Text).ShowDialog() != DialogResult.OK)
@@ -43,6 +42,8 @@ namespace PalcoNet
                         return;
                     }
                 }
+                Hide();
+                new EnrutarFuncion(Convert.ToInt32(resul["ID"][0]), txtusuario.Text.Trim()).Show();
             }
             else
             {
