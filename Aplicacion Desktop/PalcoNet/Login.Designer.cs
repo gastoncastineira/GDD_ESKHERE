@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.txtusuario = new System.Windows.Forms.TextBox();
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblContraseña = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.tmrLoginFallido = new System.Windows.Forms.Timer(this.components);
             this.btnRegistrar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -81,11 +79,6 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // tmrLoginFallido
-            // 
-            this.tmrLoginFallido.Interval = 5000;
-            this.tmrLoginFallido.Tick += new System.EventHandler(this.tmrLoginFallido_Tick);
-            // 
             // btnRegistrar
             // 
             this.btnRegistrar.Location = new System.Drawing.Point(63, 209);
@@ -121,7 +114,6 @@
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.Label lblContraseña;
         private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.Timer tmrLoginFallido;
         private System.Windows.Forms.Button btnRegistrar;
     }
 }

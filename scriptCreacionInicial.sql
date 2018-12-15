@@ -15,13 +15,13 @@ END
 CREATE TABLE ESKHERE.[Rol](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Nombre] [nvarchar](50) NOT NULL UNIQUE,
-	[Habilitado] [bit] NOT NULL
+	[Habilitado] [bit] default 1
 );	
 
+
 CREATE TABLE ESKHERE.[Funcion](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[ID] [int] NOT NULL PRIMARY KEY,
 	[nombre] [nvarchar](50) NOT NULL,
-	[descripcion] [nvarchar](255) NOT NULL
 );
 
 CREATE TABLE ESKHERE.[Rol_X_Funcion](
@@ -49,6 +49,7 @@ CREATE TABLE ESKHERE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
 	[Contrasenia] [binary](32) NOT NULL,
+	[cant_accesos_fallidos] int default 0,
 	[habilitado] [bit] default 1,
 	[contrasena_autogenerada] [bit] default 0,
 );
@@ -247,7 +248,7 @@ CREATE TRIGGER Actualizar_Puntos_Cliente ON ESKHERE.Compra
 --------------------------------------------------------------------------- INSERTS DE VALORES GENERICOS ------------------------------------------------------------------------------------------------
 
 INSERT INTO [ESKHERE].[Usuario]([Usuario],[Contrasenia],habilitado) 
-VALUES ('1234',HASHBYTES('SHA2_256','1234'),1)
+VALUES ('admin',HASHBYTES('SHA2_256', N'w23e'),1)
 
 
 INSERT INTO [ESKHERE].[Publicacion_Estado] ([Descripcion],[puedeModificarse])
@@ -261,17 +262,21 @@ VALUES ('ALTA', 0.10), ('MEDIA', 0.05), ('BAJA', 0.01)
 
 
 INSERT INTO [ESKHERE].[Rol] ([Nombre],[Habilitado])
-VALUES ('Empresa',1),('Administrativo',1),('Cliente',1)
+VALUES ('Empresa'),('Administrativo'),('Cliente')
 
-INSERT INTO [ESKHERE].Funcion([Nombre],descripcion)
-VALUES ('ContabilIDad','dificil'),('Limpieza','medio'),('Mantenimiento','facil'),('Ventas','facil')
+INSERT INTO [ESKHERE].Funcion
+VALUES (1, 'ABM Cliente'),(2,'ABM Empresa Espectaculo'),
+(3,'ABM Grado'),(4, 'Canje de Puntos'), (5, 'Comprar')
+, (6, 'Editar Publicacion'), (7, 'Generar Publicacion')
+, (8, 'Generar Rendicion de Comisiones'), (9, 'Historial de Compras de Cliente')
+, (10, 'Listado Estadistico')
 
 
 INSERT INTO [ESKHERE].[Rol_X_Funcion]   ([ID_ROL],ID_Funcion)
-VALUES (1,2),(2,3),(2,2),(2,1)
+VALUES (2,3),(2,2),(2,1),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(3,5),(3,9),(3,4),(1,6),(1,7)
 
 INSERT INTO [ESKHERE].[Rol_X_Usuario] ([ID_ROL],[ID_Usuario])
-VALUES (1,1),(2,1),(3,1)
+VALUES (1,1),(2,1),(3,1),(3,4),(3,5),(3,6),(3,7),(3,8),(3,9),(3,10)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO [ESKHERE].[Publicacion_Fechas] --Revisar, en realIDad deberia insertarse SOLO 1 vez una fila con esos valores, despues no debería repetirse
@@ -436,9 +441,24 @@ BEGIN
 	if(@resultado = 1)
 	begin
 		set @autogenerada = (select contrasena_autogenerada from Usuario where Usuario = @Usuario)
+		update Usuario set [cant_accesos_fallidos] = 0 where Usuario = @Usuario
+	end
+	else
+	begin
+		if(exists(select * from ESKHERE.Usuario where Usuario = @Usuario))
+		begin
+			update Usuario set [cant_accesos_fallidos] = ((select cant_accesos_fallidos from ESKHERE.Usuario where Usuario = @Usuario) + 1) where Usuario = @Usuario
+		end
 	end
 END
 GO
+
+CREATE PROCEDURE [ESKHERE].insertar_usuario @usuario nvarchar(50), @contrasenia nvarchar(max)
+AS
+BEGIN
+	insert into ESKHERE.Usuario (Usuario, Contrasenia) values (@usuario, HASHBYTES('SHA2_256', @contrasenia))
+	return SCOPE_IDENTITY()
+END
 
 GO
 CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @nombre nvarchar(20), @apellido nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
@@ -545,4 +565,13 @@ FROM ESKHERE.Cliente Cli
 JOIN ESKHERE.Compra Com ON ( Cli.ID = Com.ID_Cliente)
 JOIN ESKHERE.Ubicacion Ubi ON ( Com.ID_Ubicacion = Ubi.ID)
 JOIN ESKHERE.Publicacion Pub ON ( Ubi.ID_Publicacion = Pub.id)
+GO
+
+CREATE VIEW [ESKHERE].funciones_usuarios AS
+SELECT u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion, f.ID as funcion_id FROM ESKHERE.Usuario u 
+join ESKHERE.Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
+join ESKHERE.Rol r on r.ID = ru.ID_ROL 
+join ESKHERE.Rol_X_Funcion rf on rf.ID_Rol = r.ID 
+join ESKHERE.Funcion f on f.ID = rf.ID_Funcion 
+WHERE r.Habilitado = 1
 GO

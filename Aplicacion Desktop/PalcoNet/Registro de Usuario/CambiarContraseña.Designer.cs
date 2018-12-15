@@ -1,4 +1,4 @@
-﻿namespace PalcoNet
+﻿namespace PalcoNet.Registro_de_Usuario
 {
     partial class CambiarContraseña
     {
@@ -33,7 +33,6 @@
             this.txtContraRepe = new System.Windows.Forms.TextBox();
             this.txtContra = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
-            this.btnCancelar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblContra
@@ -70,7 +69,7 @@
             // 
             // btnAceptar
             // 
-            this.btnAceptar.Location = new System.Drawing.Point(35, 153);
+            this.btnAceptar.Location = new System.Drawing.Point(79, 153);
             this.btnAceptar.Name = "btnAceptar";
             this.btnAceptar.Size = new System.Drawing.Size(75, 23);
             this.btnAceptar.TabIndex = 4;
@@ -78,22 +77,11 @@
             this.btnAceptar.UseVisualStyleBackColor = true;
             this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
-            // btnCancelar
-            // 
-            this.btnCancelar.Location = new System.Drawing.Point(139, 153);
-            this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelar.TabIndex = 5;
-            this.btnCancelar.Text = "cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = true;
-            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
-            // 
             // CambiarContraseña
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(241, 188);
-            this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnAceptar);
             this.Controls.Add(this.txtContra);
             this.Controls.Add(this.txtContraRepe);
@@ -101,6 +89,7 @@
             this.Controls.Add(this.lblContra);
             this.Name = "CambiarContraseña";
             this.Text = "CambiarContraseña";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CambiarContraseña_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -113,6 +102,5 @@
         private System.Windows.Forms.TextBox txtContraRepe;
         private System.Windows.Forms.TextBox txtContra;
         private System.Windows.Forms.Button btnAceptar;
-        private System.Windows.Forms.Button btnCancelar;
     }
 }

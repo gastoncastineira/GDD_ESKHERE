@@ -15,6 +15,7 @@ namespace PalcoNet.Abm_Cliente
         private bool errorCUIL = false;
         private List<TextBox> textos = new List<TextBox>();
         private Dictionary<string, object> datos = new Dictionary<string, object>();
+        int idUser = -1;
 
         public AltaCliente()
         {
@@ -26,6 +27,20 @@ namespace PalcoNet.Abm_Cliente
             }
             textos.Remove(txtPiso);
             textos.Remove(txtDepto);
+        }
+
+        public AltaCliente(int id)
+        {
+            id = -1;
+            InitializeComponent();
+            foreach (Control c in Controls)
+            {
+                if (c is TextBox)
+                    textos.Add(c as TextBox);
+            }
+            textos.Remove(txtPiso);
+            textos.Remove(txtDepto);
+            btnCancelar.Enabled = false;
         }
 
         private bool cuilEsValido()
@@ -59,7 +74,10 @@ namespace PalcoNet.Abm_Cliente
                 {
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
-                    AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtNombre.Text, txtApel.Text, ref usuario, ref contraseña));
+                    if(idUser == -1)
+                        AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtNombre.Text, txtApel.Text, ref usuario, ref contraseña));
+                    else
+                        AgregarParaInsert("id_usuario", idUser);
                     MessageBox.Show("Se generado un usuario aleatorio\nUsuario:" + usuario+"\nContraseña: "+contraseña);
                     if (Conexion.getInstance().Insertar(Conexion.Tabla.Cliente, datos))
                     
@@ -165,6 +183,15 @@ namespace PalcoNet.Abm_Cliente
         private void dtpNac_Leave(object sender, EventArgs e)
         {
             AgregarParaInsert("cli_fecha_nac", dtpNac.Value);
+        }
+
+        private void AltaCliente_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(idUser != -1)
+            {
+                MessageBox.Show("No se pudo cancelar");
+                e.Cancel = true;
+            }
         }
     }
 }

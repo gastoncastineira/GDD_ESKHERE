@@ -16,7 +16,7 @@ namespace PalcoNet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Generar_Rendicion_Comisiones.Rendicion());
+            Application.Run(new Login());
         }
     }
 }

@@ -167,6 +167,13 @@
     <Compile Include="Editar Publicacion\SeleccionarPublicacion.Designer.cs">
       <DependentUpon>SeleccionarPublicacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="EnrutarFuncion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EnrutarFuncion.Designer.cs">
+      <DependentUpon>EnrutarFuncion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Funcion.cs" />
     <Compile Include="Generar Publicacion\GenerarPublicacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -271,6 +278,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editar Publicacion\SeleccionarPublicacion.resx">
       <DependentUpon>SeleccionarPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EnrutarFuncion.resx">
+      <DependentUpon>EnrutarFuncion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Publicacion\GenerarPublicacion.resx">
       <DependentUpon>GenerarPublicacion.cs</DependentUpon>

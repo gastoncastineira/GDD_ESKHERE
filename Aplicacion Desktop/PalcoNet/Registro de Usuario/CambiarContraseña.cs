@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PalcoNet
+namespace PalcoNet.Registro_de_Usuario
 {
     public partial class CambiarContraseña : Form
     {
         private string usuario;
+        private bool flag = true;
 
         public CambiarContraseña(string usuario)
         {
@@ -32,11 +33,13 @@ namespace PalcoNet
             {
                 MessageBox.Show("Las contraseñas no son iguales. Revise");
             }
+            flag = false;
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private void CambiarContraseña_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
+            if (flag)
+                e.Cancel = true;
         }
     }
 }

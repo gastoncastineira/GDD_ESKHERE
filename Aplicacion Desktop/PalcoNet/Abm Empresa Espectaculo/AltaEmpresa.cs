@@ -15,6 +15,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         private bool errorCUIT = false;
         private List<TextBox> textos = new List<TextBox>();
         private Dictionary<string, object> datos = new Dictionary<string, object>();
+        private int idUser = -1;
 
         public AltaEmpresa()
         {
@@ -26,6 +27,20 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             }
             textos.Remove(txtPiso);
             textos.Remove(txtDepto);
+        }
+
+        public AltaEmpresa(int idUser)
+        {
+            this.idUser = idUser;
+            InitializeComponent();
+            foreach (Control c in Controls)
+            {
+                if (c is TextBox)
+                    textos.Add(c as TextBox);
+            }
+            textos.Remove(txtPiso);
+            textos.Remove(txtDepto);
+            btnCancelar.Enabled = false;
         }
 
         private void chbPiso_CheckedChanged(object sender, EventArgs e)
@@ -54,7 +69,10 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 {
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
-                    AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtRazon.Text, txtCUIT.Text, ref usuario, ref contraseña));
+                    if (idUser == -1)
+                        AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtRazon.Text, txtCUIT.Text, ref usuario, ref contraseña));
+                    else
+                        AgregarParaInsert("id_usuario", idUser);
                     if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos))
                         DialogResult = DialogResult.OK;
                     else
@@ -157,6 +175,15 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         private void dtp_FechaCreacion_Leave(object sender, EventArgs e)
         {
             AgregarParaInsert("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value);
+        }
+
+        private void AltaEmpresa_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(idUser != -1)
+            {
+                MessageBox.Show("No se puede cancelar");
+                e.Cancel = true;
+            }
         }
     }
 }

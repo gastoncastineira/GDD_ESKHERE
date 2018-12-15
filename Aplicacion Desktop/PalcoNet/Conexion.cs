@@ -57,6 +57,7 @@ namespace PalcoNet
             public static string EmpMayorCantUbiSinVender { get { return "[ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender"; } }
             public static string AnioMinimo{ get { return "[ESKHERE].anios_minimo_de_publicacion"; } }
             public static string HistorialCompras { get { return "[ESKHERE].Historial_Compras"; } }
+            public static string FuncionesUsuario { get { return "[ESKHERE].funciones_usuarios"; } }
         }
 
         private string PonerFiltros(string comando, Dictionary<string, string> filtros)
@@ -77,7 +78,6 @@ namespace PalcoNet
         //retorna true si se pudo realizar, false si fallo
         public bool Insertar(string tabla, Dictionary<string, object> data)
         {
-
             try
             {
                 string comandoString = string.Copy(comandoInsert) + tabla +" (";
@@ -155,7 +155,7 @@ namespace PalcoNet
 
         public DataTable conseguirTabla(string tabla, Dictionary<string, string> filtros)
         {
-            string comandoString = comandoSelect + " * FROM " + tabla;
+            string comandoString = string.Copy(comandoSelect) + " * FROM " + tabla;
             if (filtros != null && filtros.Count > 0)
                 comandoString = PonerFiltros(comandoString, filtros);
             using (SqlConnection sqlConnection = new SqlConnection(conectionString))
@@ -213,6 +213,44 @@ namespace PalcoNet
             }
         }
 
+        public int InsertarUsuario(string usuario, string contraseña)
+        {
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    try
+                    {
+                        command.Connection = connection;
+                        command.CommandText = "[ESKHERE].insertar_usuario";
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        SqlParameter parameter1 = new SqlParameter("@usuario", SqlDbType.NVarChar);
+                        parameter1.Direction = ParameterDirection.Input;
+                        parameter1.Value = usuario;
+                        SqlParameter parameter2 = new SqlParameter("@contrasenia", SqlDbType.NVarChar);
+                        parameter2.Direction = ParameterDirection.Input;
+                        parameter2.Value = contraseña;
+                        SqlParameter retorno = new SqlParameter("@ReturnVal", SqlDbType.Int);
+                        retorno.Direction = ParameterDirection.ReturnValue;
+
+                        command.Parameters.Add(parameter1);
+                        command.Parameters.Add(parameter2);
+                        command.Parameters.Add(retorno);
+
+                        command.ExecuteNonQuery();
+                        return Convert.ToInt32(retorno.Value);
+                    }
+                    catch(SqlException)
+                    {
+                        return -1;
+                    }
+
+                }
+            }
+        }
+
         public int GenerarUsuarioAleatorio(string nombre, string apellido, ref string usuario, ref string contraseña)
         {
             using (SqlConnection connection = new SqlConnection(conectionString))
@@ -256,7 +294,7 @@ namespace PalcoNet
 
         public bool ActualizarContraseña(string contraseña, string usuario)
         {
-            string comando = comandoUpdate + Tabla.Usuario +" SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
+            string comando = string.Copy(comandoUpdate) + Tabla.Usuario +" SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
             try
             {
                 using (SqlConnection connection = new SqlConnection(conectionString))
@@ -289,7 +327,7 @@ namespace PalcoNet
 
         private void cambiarHabilitacion(string tabla, int id, string cambio)
         {
-            string comandoString = comandoUpdate + tabla + " SET deshabilitado = " + cambio + " WHERE id = @id";
+            string comandoString = string.Copy(comandoUpdate) + tabla + " SET deshabilitado = " + cambio + " WHERE id = @id";
             using (SqlConnection connection = new SqlConnection(conectionString))
             {
                 connection.Open();
@@ -318,7 +356,7 @@ namespace PalcoNet
         private Dictionary<string, List<object>> HacerDictinary(List<string> colum)
         {
             Dictionary<string, List<object>> retorno = new Dictionary<string, List<object>>();
-            colum.ForEach(c => retorno.Add(c, new List<object>()));
+            colum.ForEach(c => retorno.Add(c.Split(' ').Last(), new List<object>()));
             return retorno;
         }
 
@@ -330,8 +368,12 @@ namespace PalcoNet
         {
             Dictionary<string, List<object>> retorno = HacerDictinary(columnas);
 
-            string comandoString = comandoSelect + " * FROM " + tabla;
+            string comandoString = string.Copy(comandoSelect);
 
+            columnas.ForEach(c => comandoString += c + ", ");
+            comandoString = comandoString.Substring(0, comandoString.Length - 2);
+
+            comandoString += " FROM " + tabla;
             if (filtros != null && filtros.Count > 0)
                 comandoString = PonerFiltros(comandoString, filtros);
 
@@ -347,7 +389,7 @@ namespace PalcoNet
                     SqlDataReader reader = command.ExecuteReader();
 
                     while(reader.Read())
-                        columnas.ForEach(c => retorno[c].Add(reader[c]));
+                        columnas.ForEach(c => retorno[c.Split(' ').Last()].Add(reader[c.Split(' ').Last()]));
                 }
             }
         return retorno;
