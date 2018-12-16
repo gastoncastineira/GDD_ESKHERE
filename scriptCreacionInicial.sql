@@ -119,7 +119,7 @@ CREATE TABLE ESKHERE.[Publicacion](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Codigo] [numeric](18, 0) NULL,
 	[Descripcion] [nvarchar](255) NULL, 
-	[Publicacion_Rubro] [nvarchar](255) NULL, 
+	[Publicacion_Rubro] [nvarchar](255) NULL DEFAULT 'Otros', 
 	[Stock] [int] NULL ,
 	[ID_Empresa_publicante] INT NOT NULL,
 	[ID_Fecha] INT NOT NULL,
