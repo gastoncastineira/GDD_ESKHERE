@@ -28,26 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.txtusuario = new System.Windows.Forms.TextBox();
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblContraseña = new System.Windows.Forms.Label();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.tmrLoginFallido = new System.Windows.Forms.Timer(this.components);
             this.btnRegistrar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtusuario
             // 
-            this.txtusuario.Location = new System.Drawing.Point(91, 55);
+            this.txtusuario.Location = new System.Drawing.Point(91, 25);
             this.txtusuario.Name = "txtusuario";
             this.txtusuario.Size = new System.Drawing.Size(100, 20);
             this.txtusuario.TabIndex = 0;
             // 
             // txtContraseña
             // 
-            this.txtContraseña.Location = new System.Drawing.Point(91, 95);
+            this.txtContraseña.Location = new System.Drawing.Point(91, 65);
             this.txtContraseña.Name = "txtContraseña";
             this.txtContraseña.PasswordChar = '*';
             this.txtContraseña.Size = new System.Drawing.Size(100, 20);
@@ -56,7 +54,7 @@
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(12, 58);
+            this.lblUsuario.Location = new System.Drawing.Point(12, 28);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(41, 13);
             this.lblUsuario.TabIndex = 2;
@@ -65,7 +63,7 @@
             // lblContraseña
             // 
             this.lblContraseña.AutoSize = true;
-            this.lblContraseña.Location = new System.Drawing.Point(12, 98);
+            this.lblContraseña.Location = new System.Drawing.Point(12, 68);
             this.lblContraseña.Name = "lblContraseña";
             this.lblContraseña.Size = new System.Drawing.Size(61, 13);
             this.lblContraseña.TabIndex = 3;
@@ -73,7 +71,7 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(63, 162);
+            this.btnLogin.Location = new System.Drawing.Point(63, 132);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 4;
@@ -81,14 +79,9 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
-            // tmrLoginFallido
-            // 
-            this.tmrLoginFallido.Interval = 5000;
-            this.tmrLoginFallido.Tick += new System.EventHandler(this.tmrLoginFallido_Tick);
-            // 
             // btnRegistrar
             // 
-            this.btnRegistrar.Location = new System.Drawing.Point(63, 209);
+            this.btnRegistrar.Location = new System.Drawing.Point(63, 179);
             this.btnRegistrar.Name = "btnRegistrar";
             this.btnRegistrar.Size = new System.Drawing.Size(75, 23);
             this.btnRegistrar.TabIndex = 5;
@@ -100,7 +93,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(213, 244);
+            this.ClientSize = new System.Drawing.Size(207, 213);
             this.Controls.Add(this.btnRegistrar);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.lblContraseña);
@@ -108,7 +101,7 @@
             this.Controls.Add(this.txtContraseña);
             this.Controls.Add(this.txtusuario);
             this.Name = "Login";
-            this.Text = "Form1";
+            this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -121,7 +114,6 @@
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.Label lblContraseña;
         private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.Timer tmrLoginFallido;
         private System.Windows.Forms.Button btnRegistrar;
     }
 }

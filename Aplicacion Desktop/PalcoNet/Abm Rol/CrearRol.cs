@@ -17,43 +17,53 @@ namespace PalcoNet.Abm_Rol
             InitializeComponent();
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void CrearRol_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void Login_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
+            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Funcion, new List<string>(new string[] { "nombre" }), null);
+            resul["nombre"].ForEach(o => checkedListBoxFuncion.Items.Add(o.ToString(), false));
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(textBox1.Text))
+            if(string.IsNullOrEmpty(txtNombre.Text))
             {
-                string nombreRol = textBox1.Text;
-                //guardar nombre rol
-
-                //chequeo que haya funcionalidades
-                if(checkedListBox1.Items.Count > 0)
-                {   
-                    List<string> funcionalidades = new List<string>();
-                    foreach(var item in checkedListBox1.CheckedItems){
-	                    //guardo funcionalidades en una lista
-                        funcionalidades.Add(item.ToString());
-                    }
+                MessageBox.Show("Se debe ingresar un nombre");
+                return;
+            }
+            List<Funcion> funciones = new List<Funcion>();
+            for (int i = 1; i <= checkedListBoxFuncion.Items.Count; i++)
+            {
+                if (checkedListBoxFuncion.GetItemChecked(i))
+                {
+                    funciones.Add((Funcion)i);
                 }
             }
+            if(funciones.Count == 0)
+            {
+                MessageBox.Show("Se debe seleccionar al menos una funcion");
+                return;
+            }
+            Dictionary<string, object> datos = new Dictionary<string, object>();
+            datos["nombre"] = txtNombre.Text.Trim();
+            Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
+            datos = new Dictionary<string, object>();
+            datos["id_rol"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Rol, new List<string>(new string[] { "SCOPE_IDENTITY() AS id" }), null)["id"][0];
+            foreach(int f in funciones)
+            {
+                datos["ID_funcion"] = f;
+                Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
+            }
+            MessageBox.Show("Rol creado exitosamente");
+            foreach (int i in checkedListBoxFuncion.CheckedIndices)
+            {
+                checkedListBoxFuncion.SetItemCheckState(i, CheckState.Unchecked);
+            }
+            txtNombre.Text = string.Empty;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            DialogResult = DialogResult.Cancel;
         }
     }
 }

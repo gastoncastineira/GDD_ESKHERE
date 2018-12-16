@@ -8,6 +8,7 @@ namespace PalcoNet
 {
     static class Program
     {
+        public static Form FormInicial { get; set; }
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>
@@ -16,7 +17,8 @@ namespace PalcoNet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Generar_Rendicion_Comisiones.Rendicion());
+            FormInicial = new Login();
+            Application.Run(FormInicial);
         }
     }
 }

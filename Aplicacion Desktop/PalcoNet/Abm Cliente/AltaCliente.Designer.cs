@@ -345,6 +345,7 @@
             this.Controls.Add(this.txtNombre);
             this.Name = "AltaCliente";
             this.Text = "Alta Cliente";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AltaCliente_FormClosing);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.formAltaUsuario_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();

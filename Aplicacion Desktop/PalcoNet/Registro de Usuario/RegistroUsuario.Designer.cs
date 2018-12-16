@@ -41,6 +41,7 @@
             // 
             // cbbRol
             // 
+            this.cbbRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbRol.FormattingEnabled = true;
             this.cbbRol.Location = new System.Drawing.Point(74, 110);
             this.cbbRol.Name = "cbbRol";
@@ -110,16 +111,16 @@
             // 
             // cbbTipo
             // 
+            this.cbbTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbTipo.FormattingEnabled = true;
             this.cbbTipo.Items.AddRange(new object[] {
             "Cliente",
-            "Empresa"});
+            "Proveedor"});
             this.cbbTipo.Location = new System.Drawing.Point(74, 148);
             this.cbbTipo.Name = "cbbTipo";
             this.cbbTipo.Size = new System.Drawing.Size(121, 21);
             this.cbbTipo.Sorted = true;
             this.cbbTipo.TabIndex = 8;
-            this.cbbTipo.SelectedIndexChanged += new System.EventHandler(this.cbbTipo_SelectedIndexChanged);
             // 
             // RegistroUsuario
             // 

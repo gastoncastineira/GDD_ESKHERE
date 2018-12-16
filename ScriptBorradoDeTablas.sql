@@ -20,4 +20,14 @@ DROP TABLE ESKHERE.Puntos
 DROP TABLE ESKHERE.Cliente
 DROP TABLE ESKHERE.Usuario
 
-
+DROP PROCEDURE [ESKHERE].existe_usuario
+DROP PROCEDURE [ESKHERE].insertar_usuario
+DROP PROCEDURE [ESKHERE].crear_usuario_aleatorio
+DROP VIEW [ESKHERE].funciones_usuario
+DROP VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
+DROP VIEW [ESKHERE].clientes_con_mayor_cantidad_de_compras
+DROP VIEW [ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender
+DROP VIEW [ESKHERE].anios_que_se_publicaron_espectaculos
+DROP VIEW [ESKHERE].anios_minimo_de_publicacion
+DROP VIEW [ESKHERE].Historial_Compras
+DROP VIEW [ESKHERE].funciones_usuarios

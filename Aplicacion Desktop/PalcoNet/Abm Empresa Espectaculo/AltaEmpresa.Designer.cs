@@ -319,6 +319,7 @@
             this.Controls.Add(this.txtCiudad);
             this.Name = "AltaEmpresa";
             this.Text = "Alta Empresa";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AltaEmpresa_FormClosing);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.AltaEmpresa_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
