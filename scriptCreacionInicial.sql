@@ -44,7 +44,7 @@ CREATE TABLE ESKHERE.[Publicacion_Grado](
 	[Descripcion] [nvarchar](255) NULL,
 	[Comision] int
 	);
-	update ESKHERE.[Usuario] set cant_accesos_fallidos = 0, habilitado = 1 where ID= 1
+
 CREATE TABLE ESKHERE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
