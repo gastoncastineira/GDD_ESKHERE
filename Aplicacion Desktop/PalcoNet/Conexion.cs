@@ -60,6 +60,7 @@ namespace PalcoNet
             public static string AnioMinimo{ get { return "[ESKHERE].anios_minimo_de_publicacion"; } }
             public static string HistorialCompras { get { return "[ESKHERE].Historial_Compras"; } }
             public static string FuncionesUsuario { get { return "[ESKHERE].funciones_usuarios"; } }
+            public static string RolesUsuario { get { return "[ESKHERE].Roles_usuario"; } }
         }
 
         private string PonerFiltros(string comando, Dictionary<string, string> filtros)

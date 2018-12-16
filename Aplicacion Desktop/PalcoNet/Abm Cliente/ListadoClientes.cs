@@ -37,7 +37,6 @@ namespace PalcoNet.Abm_Cliente
                 Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Cliente, ref dgbClientes, filtros);
                 dgbClientes.Columns.Remove("fecha_creacion");
                 dgbClientes.Columns.Remove("ID_Usuario");
-                dgbClientes.Columns.Remove("Tipo_Doc");
             }
         }
 

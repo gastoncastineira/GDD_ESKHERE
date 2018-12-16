@@ -60,6 +60,7 @@
             this.Controls.Add(this.cbbSeleccion);
             this.Name = "EnrutarFuncion";
             this.Text = "EnrutarFuncion";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EnrutarFuncion_FormClosing);
             this.Load += new System.EventHandler(this.EnrutarFuncion_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

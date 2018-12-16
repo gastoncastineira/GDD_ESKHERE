@@ -575,3 +575,11 @@ join [ESKHERE].Rol_X_Funcion rf on rf.ID_Rol = r.ID
 join [ESKHERE].Funcion f on f.ID = rf.ID_Funcion 
 WHERE r.Habilitado = 1
 GO
+
+CREATE VIEW [ESKHERE].Roles_usuario
+AS
+SELECT u.Usuario, r.Nombre as nombre_rol, r.ID as rol_id FROM [ESKHERE].Usuario u 
+join [ESKHERE].Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
+join [ESKHERE].Rol r on r.ID = ru.ID_ROL 
+WHERE r.Habilitado = 1
+GO

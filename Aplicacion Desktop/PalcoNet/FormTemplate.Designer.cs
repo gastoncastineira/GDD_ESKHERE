@@ -68,6 +68,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormTemplate";
             this.Text = "FormTemplate";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormTemplate_FormClosed);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

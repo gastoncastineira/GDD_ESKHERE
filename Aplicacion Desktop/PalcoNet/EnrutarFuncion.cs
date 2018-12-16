@@ -12,15 +12,15 @@ namespace PalcoNet
 {
     public partial class EnrutarFuncion : Form
     {
-        private int id;
+        private string rolSeleccionado;
         private string usuario;
         List<Funcion> funcion;
         private bool flag = false;
 
-        public EnrutarFuncion(int id, string usuario)
+        public EnrutarFuncion(string rolSeleccionado, string usuario)
         {
             InitializeComponent();
-            this.id = id;
+            this.rolSeleccionado = rolSeleccionado;
             this.usuario = usuario;
         }
 
@@ -64,6 +64,7 @@ namespace PalcoNet
                     new Abm_Rol.ListadoRoles().Show();
                     break;
             }
+            flag = false;
             Close();
         }
 
@@ -71,6 +72,7 @@ namespace PalcoNet
         {
             Dictionary<string, string> filtros = new Dictionary<string, string>();
             filtros.Add("usuario", Conexion.Filtro.Exacto(usuario));
+            filtros.Add("nombre_rol", Conexion.Filtro.Exacto(rolSeleccionado));
             Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.FuncionesUsuario, new List<string>(new string[] { "nombre_funcion", "funcion_id" }), filtros);
             funcion = resul["funcion_id"].Cast<Funcion>().ToList();
             FormTemplate.Funciones = funcion;
@@ -90,6 +92,12 @@ namespace PalcoNet
         private void cbbSeleccion_SelectedIndexChanged(object sender, EventArgs e)
         {
             enrutar(cbbSeleccion.SelectedIndex);
+        }
+
+        private void EnrutarFuncion_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(flag)
+                Program.FormInicial.Show();
         }
     }
 }
