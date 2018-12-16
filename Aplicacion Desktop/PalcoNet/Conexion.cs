@@ -48,6 +48,8 @@ namespace PalcoNet
             public static string Grado { get { return "ESKHERE.[Publicacion_Grado]"; } }
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
             public static string Rol { get { return "ESKHERE.[Rol]"; } }
+            public static string Funcion { get { return "ESKHERE.[funcion]"; } }
+            public static string RolFuncion { get { return "ESKHERE.[Rol_X_Funcion]"; } }
             public static string Usuario { get { return "ESKHERE.[Usuario]"; } }
             public static string Factura { get { return "ESKHERE.[Factura]"; } }
             public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario";  } }
@@ -213,6 +215,33 @@ namespace PalcoNet
             }
         }
 
+        public bool eliminarTablaIntermedia(string tabla, string col1, string col2, int pk1, int pk2)
+        {
+            string comando = "DELETE FROM " + tabla + " WHERE " + col1 + "= @pk1 AND " + col2 + " = @pk2";
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    try
+                    {
+                        command.Connection = connection;
+                        command.CommandText = comando;
+                        command.CommandType = CommandType.Text;
+                        command.Parameters.AddWithValue("@pk1", pk1);
+                        command.Parameters.AddWithValue("@pk2", pk2);
+
+                        command.ExecuteNonQuery();
+                    }
+                    catch (SqlException)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public int InsertarUsuario(string usuario, string contraseña)
         {
             using (SqlConnection connection = new SqlConnection(conectionString))
@@ -322,12 +351,12 @@ namespace PalcoNet
         public bool existeRegistro(string tabla, List<string> columnas, Dictionary<string, string> filtros)
         {
             var datos = ConsultaPlana(tabla, columnas, filtros);
-            return (datos.Count > 0);
+            return (datos[columnas[0]].Count > 0);
         }
 
         private void cambiarHabilitacion(string tabla, int id, string cambio)
         {
-            string comandoString = string.Copy(comandoUpdate) + tabla + " SET deshabilitado = " + cambio + " WHERE id = @id";
+            string comandoString = string.Copy(comandoUpdate) + tabla + " SET habilitado = " + cambio + " WHERE id = @id";
             using (SqlConnection connection = new SqlConnection(conectionString))
             {
                 connection.Open();
@@ -345,12 +374,12 @@ namespace PalcoNet
 
         public void deshabilitar(string tabla, int id)
         {
-            cambiarHabilitacion(tabla, id, "1");
+            cambiarHabilitacion(tabla, id, "0");
         }
 
         public void habilitar(string tabla, int id)
         {
-            cambiarHabilitacion(tabla, id, "0");
+            cambiarHabilitacion(tabla, id, "1");
         }
 
         private Dictionary<string, List<object>> HacerDictinary(List<string> colum)
@@ -384,6 +413,7 @@ namespace PalcoNet
                 {
                     command.CommandText = comandoString;
                     command.CommandType = CommandType.Text;
+
                     command.Connection = connection;
 
                     SqlDataReader reader = command.ExecuteReader();

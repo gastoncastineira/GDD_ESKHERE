@@ -24,14 +24,13 @@ namespace PalcoNet
             bool cambioContraseña = false;
             Dictionary<string, string> filtros = new Dictionary<string, string>();
             filtros["usuario"] = Conexion.Filtro.Exacto(txtusuario.Text.Trim());
-            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "ID", "cant_accesos_fallidos" }), filtros);
-            int cantAccesos = Convert.ToInt32(resul["cant_accesos_fallidos"][0]);
-            if (cantAccesos >= CANT_MAXIMA)
+            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "ID", "cant_accesos_fallidos", "habilitado" }), filtros);
+            if (!Convert.ToBoolean(resul["habilitado"][0]))
             {
-                MessageBox.Show("Se llegó al límite de intentos y se inhabilitó el usuario. Por favor, contacte al administrador");
-                Conexion.getInstance().deshabilitar(Conexion.Tabla.Usuario, Convert.ToInt32(resul["id"][0]));
+                MessageBox.Show("Este usuario se encuentra deshanilitado");
                 return;
             }
+            int cantAccesos = Convert.ToInt32(resul["cant_accesos_fallidos"][0]);
             if (Conexion.getInstance().ValidarLogin(txtusuario.Text, txtContraseña.Text, ref cambioContraseña))
             {
                 if (cambioContraseña)
@@ -48,6 +47,15 @@ namespace PalcoNet
             else
             {
                 MessageBox.Show("Usuario o contraseña incorrecto");
+                cantAccesos++;
+            }
+            if (cantAccesos >= CANT_MAXIMA)
+            {
+                MessageBox.Show("Se llegó al límite de intentos y se inhabilitó el usuario. Por favor, contacte al administrador");
+                Conexion.getInstance().deshabilitar(Conexion.Tabla.Usuario, Convert.ToInt32(resul["ID"][0]));
+                Dictionary<string, object> datos = new Dictionary<string, object>();
+                datos["cant_accesos_fallidos"] = 0;
+                Conexion.getInstance().Modificar(Convert.ToInt32(resul["ID"][0]), Conexion.Tabla.Usuario, datos);
             }
         }
 

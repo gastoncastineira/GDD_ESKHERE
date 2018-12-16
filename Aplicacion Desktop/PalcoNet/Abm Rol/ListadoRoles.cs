@@ -17,39 +17,41 @@ namespace PalcoNet.Abm_Rol
             InitializeComponent();
         }
 
+        private void MostrarResultado(DialogResult dr)
+        {
+            if (dr == DialogResult.OK)
+                MessageBox.Show("Se actualizó correctamente");
+            if (dr == DialogResult.Abort)
+                MessageBox.Show("Se encontró un error fatal y se abortó la actualización");
+            if (dr == DialogResult.Cancel)
+                MessageBox.Show("Se canceló la solicitud");
+        }
+
         private void ListadoRoles_Load(object sender, EventArgs e)
         {
-
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Rol, ref dataGridView1, null);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnModificar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            MostrarResultado(new ModificarRol(Convert.ToInt32(dataGridView1.SelectedCells[0].OwningRow.Cells["id"].Value), dataGridView1.SelectedCells[0].OwningRow.Cells["nombre"].Value.ToString()).ShowDialog());
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void btnAgregar_Click(object sender, EventArgs e)
         {
-            //va a mostrar la tabla de roles
-
+            MostrarResultado(new CrearRol().ShowDialog());
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnDeshabilitar_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count == 1)
-            {
-                Int64 id = Convert.ToInt64(dataGridView1.CurrentRow.Cells[0].Value);
-                //seleccion del rol
-
-            }
-            else
-            {
-                MessageBox.Show("Seleccione un rol");
-            }
+            Conexion.getInstance().deshabilitar(Conexion.Tabla.Rol, Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id"].Value));
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Rol, ref dataGridView1, null);
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void btnHabilitar_Click(object sender, EventArgs e)
         {
-            this.Hide();
+            Conexion.getInstance().habilitar(Conexion.Tabla.Rol, Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id"].Value));
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Rol, ref dataGridView1, null);
         }
     }
 }

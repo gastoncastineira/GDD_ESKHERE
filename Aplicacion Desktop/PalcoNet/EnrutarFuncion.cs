@@ -15,6 +15,7 @@ namespace PalcoNet
         private int id;
         private string usuario;
         List<Funcion> funcion;
+        private bool flag = false;
 
         public EnrutarFuncion(int id, string usuario)
         {
@@ -25,6 +26,8 @@ namespace PalcoNet
 
         private void enrutar(int index)
         {
+            if (!flag)
+                return;
             switch (funcion[index])
             {
                 case Funcion.ABM_CLIENTE:
@@ -57,6 +60,9 @@ namespace PalcoNet
                 case Funcion.LISTADO_ESTADISTICO:
                     new Listado_Estadistico.ListadoEstadistico().Show();
                     break;
+                case Funcion.ABM_ROL:
+                    new Abm_Rol.ListadoRoles().Show();
+                    break;
             }
             Close();
         }
@@ -66,7 +72,8 @@ namespace PalcoNet
             Dictionary<string, string> filtros = new Dictionary<string, string>();
             filtros.Add("usuario", Conexion.Filtro.Exacto(usuario));
             Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.FuncionesUsuario, new List<string>(new string[] { "nombre_funcion", "funcion_id" }), filtros);
-            funcion = resul["ID"].Cast<Funcion>().ToList();
+            funcion = resul["funcion_id"].Cast<Funcion>().ToList();
+            FormTemplate.Funciones = funcion;
             if (resul["nombre_funcion"].Count > 1)
             {
                 MessageBox.Show("Se detecto que tiene mas de una funcion asignada. Por favor, elija a la que desea ingresar");
@@ -77,6 +84,7 @@ namespace PalcoNet
             {
                 enrutar(0);
             }
+            flag = true;
         }
 
         private void cbbSeleccion_SelectedIndexChanged(object sender, EventArgs e)

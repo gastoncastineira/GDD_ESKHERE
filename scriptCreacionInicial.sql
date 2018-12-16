@@ -44,7 +44,7 @@ CREATE TABLE ESKHERE.[Publicacion_Grado](
 	[Descripcion] [nvarchar](255) NULL,
 	[Comision] int
 	);
-
+	update ESKHERE.[Usuario] set cant_accesos_fallidos = 0, habilitado = 1 where ID= 1
 CREATE TABLE ESKHERE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
@@ -261,7 +261,7 @@ INSERT INTO [ESKHERE].[Publicacion_Grado]([Descripcion],[Comision])
 VALUES ('ALTA', 0.10), ('MEDIA', 0.05), ('BAJA', 0.01)
 
 
-INSERT INTO [ESKHERE].[Rol] ([Nombre],[Habilitado])
+INSERT INTO [ESKHERE].[Rol] ([Nombre])
 VALUES ('Empresa'),('Administrativo'),('Cliente')
 
 INSERT INTO [ESKHERE].Funcion
@@ -269,14 +269,13 @@ VALUES (1, 'ABM Cliente'),(2,'ABM Empresa Espectaculo'),
 (3,'ABM Grado'),(4, 'Canje de Puntos'), (5, 'Comprar')
 , (6, 'Editar Publicacion'), (7, 'Generar Publicacion')
 , (8, 'Generar Rendicion de Comisiones'), (9, 'Historial de Compras de Cliente')
-, (10, 'Listado Estadistico')
-
+, (10, 'Listado Estadistico'), (11, 'ABM Rol')
 
 INSERT INTO [ESKHERE].[Rol_X_Funcion]   ([ID_ROL],ID_Funcion)
-VALUES (2,3),(2,2),(2,1),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(3,5),(3,9),(3,4),(1,6),(1,7)
+VALUES (2,3),(2,2),(2,1),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(3,5),(3,9),(3,4),(1,6),(1,7)
 
 INSERT INTO [ESKHERE].[Rol_X_Usuario] ([ID_ROL],[ID_Usuario])
-VALUES (1,1),(2,1),(3,1),(3,4),(3,5),(3,6),(3,7),(3,8),(3,9),(3,10)
+VALUES (2,1)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO [ESKHERE].[Publicacion_Fechas] --Revisar, en realIDad deberia insertarse SOLO 1 vez una fila con esos valores, despues no debería repetirse
@@ -567,11 +566,12 @@ JOIN ESKHERE.Ubicacion Ubi ON ( Com.ID_Ubicacion = Ubi.ID)
 JOIN ESKHERE.Publicacion Pub ON ( Ubi.ID_Publicacion = Pub.id)
 GO
 
-CREATE VIEW [ESKHERE].funciones_usuarios AS
-SELECT u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion, f.ID as funcion_id FROM ESKHERE.Usuario u 
-join ESKHERE.Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
-join ESKHERE.Rol r on r.ID = ru.ID_ROL 
-join ESKHERE.Rol_X_Funcion rf on rf.ID_Rol = r.ID 
-join ESKHERE.Funcion f on f.ID = rf.ID_Funcion 
+CREATE VIEW [ESKHERE].funciones_usuarios
+AS
+SELECT u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion, f.ID as funcion_id FROM [ESKHERE].Usuario u 
+join [ESKHERE].Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
+join [ESKHERE].Rol r on r.ID = ru.ID_ROL 
+join [ESKHERE].Rol_X_Funcion rf on rf.ID_Rol = r.ID 
+join [ESKHERE].Funcion f on f.ID = rf.ID_Funcion 
 WHERE r.Habilitado = 1
 GO

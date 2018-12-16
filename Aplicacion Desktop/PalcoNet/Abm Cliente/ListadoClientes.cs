@@ -12,7 +12,7 @@ namespace PalcoNet.Abm_Cliente
 {
     public partial class ListadoClientes : Form
     {
-        public ListadoClientes()
+        public ListadoClientes() : base()
         {
             InitializeComponent();
         }
@@ -70,6 +70,12 @@ namespace PalcoNet.Abm_Cliente
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             MostrarResultado(new AltaCliente().ShowDialog());
+        }
+
+        private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+            Program.FormInicial.Show();
         }
     }
 }

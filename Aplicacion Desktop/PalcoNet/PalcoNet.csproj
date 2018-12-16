@@ -99,12 +99,6 @@
     <Compile Include="Abm Grado\ModificarGrado.Designer.cs">
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Rol\ABMRol.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Rol\ABMRol.Designer.cs">
-      <DependentUpon>ABMRol.cs</DependentUpon>
-    </Compile>
     <Compile Include="Abm Rol\CrearRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,6 +166,12 @@
     </Compile>
     <Compile Include="EnrutarFuncion.Designer.cs">
       <DependentUpon>EnrutarFuncion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormTemplate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTemplate.Designer.cs">
+      <DependentUpon>FormTemplate.cs</DependentUpon>
     </Compile>
     <Compile Include="Funcion.cs" />
     <Compile Include="Generar Publicacion\GenerarPublicacion.cs">
@@ -252,9 +252,6 @@
     <EmbeddedResource Include="Abm Grado\ModificarGrado.resx">
       <DependentUpon>ModificarGrado.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Abm Rol\ABMRol.resx">
-      <DependentUpon>ABMRol.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Abm Rol\CrearRol.resx">
       <DependentUpon>CrearRol.cs</DependentUpon>
     </EmbeddedResource>
@@ -281,6 +278,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EnrutarFuncion.resx">
       <DependentUpon>EnrutarFuncion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTemplate.resx">
+      <DependentUpon>FormTemplate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Publicacion\GenerarPublicacion.resx">
       <DependentUpon>GenerarPublicacion.cs</DependentUpon>

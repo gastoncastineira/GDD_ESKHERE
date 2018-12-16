@@ -3,6 +3,7 @@
     ABM_CLIENTE = 1,
     ABM_EMPRESA = 2,
     ABM_GRADO = 3,
+    ABM_ROL= 11,
     CANJE_DE_PUNTOS = 4,
     COMPRAR = 5,
     EDITAR_PUBLICACION = 6,

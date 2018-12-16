@@ -15,9 +15,9 @@ namespace PalcoNet
         [STAThread]
         static void Main()
         {
-            FormInicial = new Login();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            FormInicial = new Login();
             Application.Run(FormInicial);
         }
     }
