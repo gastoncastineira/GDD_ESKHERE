@@ -310,8 +310,8 @@ WHERE [Espec_Empresa_Cuit]  IS NOT NULL
 
 INSERT INTO [ESKHERE].[Publicacion]
  --NO tiene sentido que este ID_Grado xq no esta en el script original para migrar
-           ([Codigo],[Descripcion],[Publicacion_Rubro],[ID_Empresa_publicante],[ID_Fecha],[ID_estado])
-SELECT DISTINCT [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Rubro_Descripcion],
+           ([Codigo],[Descripcion],[ID_Empresa_publicante],[ID_Fecha],[ID_estado])
+SELECT DISTINCT [Espectaculo_Cod],[Espectaculo_Descripcion],
 E.ID,
 (SELECT  ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = M.[Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =M.[Espectaculo_Fecha] AND PF.FVenc =M.[Espectaculo_Fecha_Venc] ),
 (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
@@ -573,5 +573,13 @@ join [ESKHERE].Rol_X_Usuario ru on ru.ID_Usuario = u.ID
 join [ESKHERE].Rol r on r.ID = ru.ID_ROL 
 join [ESKHERE].Rol_X_Funcion rf on rf.ID_Rol = r.ID 
 join [ESKHERE].Funcion f on f.ID = rf.ID_Funcion 
+WHERE r.Habilitado = 1
+GO
+
+CREATE VIEW [ESKHERE].Roles_usuario
+AS
+SELECT u.Usuario, r.Nombre as nombre_rol, r.ID as rol_id FROM [ESKHERE].Usuario u 
+join [ESKHERE].Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
+join [ESKHERE].Rol r on r.ID = ru.ID_ROL 
 WHERE r.Habilitado = 1
 GO

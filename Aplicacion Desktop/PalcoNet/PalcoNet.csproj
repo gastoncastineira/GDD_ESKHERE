@@ -167,6 +167,12 @@
     <Compile Include="EnrutarFuncion.Designer.cs">
       <DependentUpon>EnrutarFuncion.cs</DependentUpon>
     </Compile>
+    <Compile Include="EntutarRoles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EntutarRoles.Designer.cs">
+      <DependentUpon>EntutarRoles.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTemplate.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -278,6 +284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EnrutarFuncion.resx">
       <DependentUpon>EnrutarFuncion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EntutarRoles.resx">
+      <DependentUpon>EntutarRoles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTemplate.resx">
       <DependentUpon>FormTemplate.cs</DependentUpon>

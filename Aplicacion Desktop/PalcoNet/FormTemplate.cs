@@ -146,5 +146,10 @@ namespace PalcoNet
             Close();
             new Listado_Estadistico.ListadoEstadistico().Show();
         }
+
+        private void FormTemplate_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Program.FormInicial.Show();
+        }
     }
 }

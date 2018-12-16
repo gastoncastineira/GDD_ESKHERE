@@ -21,8 +21,20 @@ namespace PalcoNet
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            bool cambioContraseña = false;
+            if(string.IsNullOrEmpty(txtContraseña.Text.Trim()) || string.IsNullOrEmpty(txtusuario.Text.Trim()))
+            {
+                MessageBox.Show("Se detecto un campo vacio. Revise");
+                return;
+            }
             Dictionary<string, string> filtros = new Dictionary<string, string>();
+            filtros["usuario"] = Conexion.Filtro.Exacto(txtusuario.Text.Trim());
+            if (!Conexion.getInstance().existeRegistro(Conexion.Tabla.Usuario, new List<string>(new string[] { "usuario" }), filtros))
+            {
+                MessageBox.Show("No existe dicho usuario en el sistema");
+                return;
+            }
+            bool cambioContraseña = false;
+            filtros = new Dictionary<string, string>();
             filtros["usuario"] = Conexion.Filtro.Exacto(txtusuario.Text.Trim());
             Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "ID", "cant_accesos_fallidos", "habilitado" }), filtros);
             if (!Convert.ToBoolean(resul["habilitado"][0]))
@@ -42,7 +54,7 @@ namespace PalcoNet
                     }
                 }
                 Hide();
-                new EnrutarFuncion(Convert.ToInt32(resul["ID"][0]), txtusuario.Text.Trim()).Show();
+                new EntutarRoles(txtusuario.Text.Trim()).Show();
             }
             else
             {
@@ -57,6 +69,8 @@ namespace PalcoNet
                 datos["cant_accesos_fallidos"] = 0;
                 Conexion.getInstance().Modificar(Convert.ToInt32(resul["ID"][0]), Conexion.Tabla.Usuario, datos);
             }
+            txtContraseña.Text = string.Empty;
+            txtusuario.Text = string.Empty;
         }
 
         private void btnRegistrar_Click(object sender, EventArgs e)
