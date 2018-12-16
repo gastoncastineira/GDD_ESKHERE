@@ -119,7 +119,7 @@ CREATE TABLE ESKHERE.[Publicacion](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Codigo] [numeric](18, 0) NULL,
 	[Descripcion] [nvarchar](255) NULL, 
-	[Publicacion_Rubro] [nvarchar](255) NULL, 
+	[Publicacion_Rubro] [nvarchar](255) NULL DEFAULT "Otros", 
 	[Stock] [int] NULL ,
 	[ID_Empresa_publicante] INT NOT NULL,
 	[ID_Fecha] INT NOT NULL,
@@ -310,8 +310,8 @@ WHERE [Espec_Empresa_Cuit]  IS NOT NULL
 
 INSERT INTO [ESKHERE].[Publicacion]
  --NO tiene sentido que este ID_Grado xq no esta en el script original para migrar
-           ([Codigo],[Descripcion],[Publicacion_Rubro],[ID_Empresa_publicante],[ID_Fecha],[ID_estado])
-SELECT DISTINCT [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Rubro_Descripcion],
+           ([Codigo],[Descripcion],[ID_Empresa_publicante],[ID_Fecha],[ID_estado])
+SELECT DISTINCT [Espectaculo_Cod],[Espectaculo_Descripcion],
 E.ID,
 (SELECT  ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = M.[Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =M.[Espectaculo_Fecha] AND PF.FVenc =M.[Espectaculo_Fecha_Venc] ),
 (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
