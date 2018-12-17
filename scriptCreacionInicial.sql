@@ -329,7 +329,6 @@ P.ID
 FROM gd_esquema.Maestra M 
 JOIN ESKHERE.Publicacion P ON (					  P.Codigo = M.Espectaculo_Cod AND 
 												  P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
@@ -352,7 +351,6 @@ JOIN ESKHERE.Ubicacion Ubi ON (ubi.[ubicacion_Fila] =M.[ubicacion_Fila]	   AND
 									ubi.ID_Publicacion = (SELECT TOP 1 ID FROM ESKHERE.Publicacion P WHERE
 												 P.Codigo = M.Espectaculo_Cod AND 
 												 P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])	
@@ -411,7 +409,6 @@ JOIN ESKHERE.Compra C ON ( C.Compra_Cantidad= M.Compra_Cantidad AND
 									 ubi.ID_Publicacion = (SELECT TOP 1 ID FROM ESKHERE.Publicacion P WHERE
 												 P.Codigo = M.Espectaculo_Cod AND 
 												 P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])--Cierre de la busqueda ID_Ubicacion	
