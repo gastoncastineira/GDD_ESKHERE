@@ -82,7 +82,7 @@ CREATE TABLE ESKHERE.[Cliente](
 CREATE TABLE ESKHERE.[Puntos](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Cant INT,
-	Habilitados BIT,
+	Utilizados INT default 0,		      
 	FechaObtenIDos DATETIME,
 	[ID_cliente] [int] NOT NULL,
 	CONSTRAINT FK_ClientePuntos   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente(ID)
@@ -119,7 +119,7 @@ CREATE TABLE ESKHERE.[Publicacion](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Codigo] [numeric](18, 0) NULL,
 	[Descripcion] [nvarchar](255) NULL, 
-	[Publicacion_Rubro] [nvarchar](255) NULL, 
+	[Publicacion_Rubro] [nvarchar](255) NULL DEFAULT 'Otros', 
 	[Stock] [int] NULL ,
 	[ID_Empresa_publicante] INT NOT NULL,
 	[ID_Fecha] INT NOT NULL,
@@ -310,8 +310,8 @@ WHERE [Espec_Empresa_Cuit]  IS NOT NULL
 
 INSERT INTO [ESKHERE].[Publicacion]
  --NO tiene sentido que este ID_Grado xq no esta en el script original para migrar
-           ([Codigo],[Descripcion],[Publicacion_Rubro],[ID_Empresa_publicante],[ID_Fecha],[ID_estado])
-SELECT DISTINCT [Espectaculo_Cod],[Espectaculo_Descripcion],[Espectaculo_Rubro_Descripcion],
+           ([Codigo],[Descripcion],[ID_Empresa_publicante],[ID_Fecha],[ID_estado])
+SELECT DISTINCT [Espectaculo_Cod],[Espectaculo_Descripcion],
 E.ID,
 (SELECT  ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = M.[Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =M.[Espectaculo_Fecha] AND PF.FVenc =M.[Espectaculo_Fecha_Venc] ),
 (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
@@ -329,7 +329,6 @@ P.ID
 FROM gd_esquema.Maestra M 
 JOIN ESKHERE.Publicacion P ON (					  P.Codigo = M.Espectaculo_Cod AND 
 												  P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
@@ -352,7 +351,6 @@ JOIN ESKHERE.Ubicacion Ubi ON (ubi.[ubicacion_Fila] =M.[ubicacion_Fila]	   AND
 									ubi.ID_Publicacion = (SELECT TOP 1 ID FROM ESKHERE.Publicacion P WHERE
 												 P.Codigo = M.Espectaculo_Cod AND 
 												 P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])	
@@ -411,7 +409,6 @@ JOIN ESKHERE.Compra C ON ( C.Compra_Cantidad= M.Compra_Cantidad AND
 									 ubi.ID_Publicacion = (SELECT TOP 1 ID FROM ESKHERE.Publicacion P WHERE
 												 P.Codigo = M.Espectaculo_Cod AND 
 												 P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])--Cierre de la busqueda ID_Ubicacion	
@@ -586,3 +583,29 @@ join [ESKHERE].Rol_X_Usuario ru on ru.ID_Usuario = u.ID
 join [ESKHERE].Rol r on r.ID = ru.ID_ROL 
 WHERE r.Habilitado = 1
 GO
+
+CREATE VIEW [ESKHERE].rubros
+AS
+select distinct Publicacion_Rubro from ESKHERE.Publicacion
+GO
+
+CREATE VIEW [ESKHERE].Publicaciones_disponibles_para_listar
+AS
+SELECT TOP 24000 p.ID, p.Descripcion , Publicacion_Rubro, FFuncion, FVenc 
+FROM [ESKHERE].Publicacion p join [ESKHERE].Publicacion_Fechas f on (p.ID_Fecha = f.ID) 
+	JOIN [ESKHERE].Publicacion_Grado g on (p.ID_grado = g.ID)
+	JOIN [ESKHERE].Publicacion_Estado e on (p.ID_estado = e.ID)
+	JOIN [ESKHERE].Ubicaciones_por_publi_disponibles UP ON (UP.Publicacion = P.ID) 
+WHERE e.Descripcion != 'Borrador' and e.Descripcion != 'Finalizada' 
+GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID 
+HAVING count(UP.Ubicacion) >0
+ORDER BY  g.ID asc
+go
+
+CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
+as
+Select p.id Publicacion, u.ID ubicacion, ubicacion_Fila, ubicacion_Asiento, tipo, precio
+	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
+	where u.ID not in 
+			(select ID_Ubicacion from [ESKHERE].compra)
+go
