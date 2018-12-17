@@ -230,7 +230,7 @@ CREATE TRIGGER Actualizar_Puntos_Cliente ON ESKHERE.Compra
 
 		WHILE @@FETCH_STATUS =0
 			BEGIN
-				INSERT INTO PUNTOS(Cant,FechaObtenIDos,[ID_cliente]) VALUES (@Puntos, @Fecha, @ID_Cliente)
+				INSERT INTO PUNTOS(Cant,[Habilitados],FechaObtenIDos,[ID_cliente]) VALUES (@Puntos,1, @Fecha, @ID_Cliente)
 				
 				FETCH NEXT FROM Obtener_Puntos_Cliente INTO @Puntos, @Fecha, @ID_Cliente
 
