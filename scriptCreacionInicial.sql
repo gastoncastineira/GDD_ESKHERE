@@ -597,6 +597,7 @@ WHERE e.Descripcion != 'Borrador' and e.Descripcion != 'Finalizada'
 GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID 
 HAVING count(UP.Ubicacion) >0
 ORDER BY  g.ID asc
+go
 
 CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
 as
