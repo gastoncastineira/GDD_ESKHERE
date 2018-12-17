@@ -62,6 +62,7 @@ namespace PalcoNet.Abm_Cliente
             }
             textos.Remove(txtDepto);
             textos.Remove(txtPiso);
+            dtpNac.MaxDate = ConfigurationHelper.fechaActual;
         }
 
         private bool cuilEsValido()

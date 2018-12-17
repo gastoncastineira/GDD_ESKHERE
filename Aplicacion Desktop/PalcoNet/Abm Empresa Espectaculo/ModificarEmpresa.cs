@@ -62,6 +62,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 chbPiso.Enabled = true;
             if (string.IsNullOrEmpty(txtDepto.Text))
                 chbDepto.Enabled = true;
+            dtp_FechaCreacion.MaxDate = ConfigurationHelper.fechaActual;
         }
 
         private void chbPiso_CheckedChanged(object sender, EventArgs e)

@@ -28,6 +28,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             }
             textos.Remove(txtPiso);
             textos.Remove(txtDepto);
+            dtp_FechaCreacion.MaxDate = ConfigurationHelper.fechaActual;
         }
 
         public AltaEmpresa(int idUser)

@@ -28,6 +28,7 @@ namespace PalcoNet.Abm_Cliente
             }
             textos.Remove(txtPiso);
             textos.Remove(txtDepto);
+            dtpNac.MaxDate = ConfigurationHelper.fechaActual;
         }
 
         public AltaCliente(int id)
