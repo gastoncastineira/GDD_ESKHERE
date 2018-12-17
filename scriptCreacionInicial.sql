@@ -82,7 +82,7 @@ CREATE TABLE ESKHERE.[Cliente](
 CREATE TABLE ESKHERE.[Puntos](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Cant INT,
-	Habilitados BIT,
+	Utilizados INT default 0,		      
 	FechaObtenIDos DATETIME,
 	[ID_cliente] [int] NOT NULL,
 	CONSTRAINT FK_ClientePuntos   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente(ID)
@@ -230,7 +230,7 @@ CREATE TRIGGER Actualizar_Puntos_Cliente ON ESKHERE.Compra
 
 		WHILE @@FETCH_STATUS =0
 			BEGIN
-				INSERT INTO PUNTOS(Cant,[Habilitados],FechaObtenIDos,[ID_cliente]) VALUES (@Puntos,1, @Fecha, @ID_Cliente)
+				INSERT INTO PUNTOS(Cant,FechaObtenIDos,[ID_cliente]) VALUES (@Puntos, @Fecha, @ID_Cliente)
 				
 				FETCH NEXT FROM Obtener_Puntos_Cliente INTO @Puntos, @Fecha, @ID_Cliente
 
