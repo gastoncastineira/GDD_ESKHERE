@@ -49,7 +49,8 @@ namespace PalcoNet
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
             public static string Rol { get { return "ESKHERE.[Rol]"; } }
             public static string Funcion { get { return "ESKHERE.[funcion]"; } }
-            public static string RolFuncion { get { return "ESKHERE.[Rol_X_Funcion]"; } }
+            public static string RolXFuncion { get { return "ESKHERE.[Rol_X_Funcion]"; } }
+            public static string UsuarioXRol { get { return "ESKHERE.[rol_x_usuario]"; } }
             public static string Usuario { get { return "ESKHERE.[Usuario]"; } }
             public static string Factura { get { return "ESKHERE.[Factura]"; } }
             public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario";  } }
@@ -243,7 +244,7 @@ namespace PalcoNet
             return true;
         }
 
-        public int InsertarUsuario(string usuario, string contraseña)
+        public int InsertarUsuario(string usuario, string contraseña, string rol)
         {
             using (SqlConnection connection = new SqlConnection(conectionString))
             {
@@ -262,17 +263,21 @@ namespace PalcoNet
                         SqlParameter parameter2 = new SqlParameter("@contrasenia", SqlDbType.NVarChar);
                         parameter2.Direction = ParameterDirection.Input;
                         parameter2.Value = contraseña;
+                        SqlParameter parameter3 = new SqlParameter("@nombreTipo", SqlDbType.NVarChar);
+                        parameter3.Direction = ParameterDirection.Input;
+                        parameter3.Value = rol;
                         SqlParameter retorno = new SqlParameter("@ReturnVal", SqlDbType.Int);
                         retorno.Direction = ParameterDirection.ReturnValue;
 
                         command.Parameters.Add(parameter1);
                         command.Parameters.Add(parameter2);
+                        command.Parameters.Add(parameter3);
                         command.Parameters.Add(retorno);
 
                         command.ExecuteNonQuery();
                         return Convert.ToInt32(retorno.Value);
                     }
-                    catch(SqlException)
+                    catch(SqlException e)
                     {
                         return -1;
                     }

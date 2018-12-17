@@ -25,9 +25,9 @@ CREATE TABLE ESKHERE.[Funcion](
 );
 
 CREATE TABLE ESKHERE.[Rol_X_Funcion](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[ID_Rol] [int],
 	[ID_Funcion] [int],
+	PRIMARY KEY(ID_ROL, ID_Funcion),
 	CONSTRAINT FK_Rol FOREIGN KEY (ID_Rol) REFERENCES ESKHERE.[Rol](ID),
 	CONSTRAINT FK_Funcion FOREIGN KEY (ID_Funcion) REFERENCES ESKHERE.[Funcion](ID)
 );
@@ -44,7 +44,7 @@ CREATE TABLE ESKHERE.[Publicacion_Grado](
 	[Descripcion] [nvarchar](255) NULL,
 	[Comision] int
 	);
-	update ESKHERE.[Usuario] set cant_accesos_fallidos = 0, habilitado = 1 where ID= 1
+
 CREATE TABLE ESKHERE.[Usuario](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Usuario] [nvarchar](50) NOT NULL UNIQUE,
@@ -186,9 +186,9 @@ CREATE TABLE [ESKHERE].[Item_Factura](
 
 
 CREATE TABLE ESKHERE.[Rol_X_Usuario](
-	ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-  	ID_ROL int NOT NULL,
-  	ID_Usuario int NOT NULL,
+  	ID_ROL int,
+  	ID_Usuario int,
+	PRIMARY KEY(ID_ROL, ID_USUARIO),
   	CONSTRAINT FK_Rol_X_Usuario FOREIGN KEY (ID_Rol) REFERENCES ESKHERE. Rol(ID),
 	CONSTRAINT FK_Usuario_X_Rol FOREIGN KEY(ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
@@ -452,12 +452,15 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE [ESKHERE].insertar_usuario @usuario nvarchar(50), @contrasenia nvarchar(max)
+CREATE PROCEDURE [ESKHERE].insertar_usuario @usuario nvarchar(50), @contrasenia nvarchar(max), @nombreTipo nvarchar(50)
 AS
-BEGIN
+BEGIN TRANSACTION
 	insert into ESKHERE.Usuario (Usuario, Contrasenia) values (@usuario, HASHBYTES('SHA2_256', @contrasenia))
-	return SCOPE_IDENTITY()
-END
+	declare @id int = (select top 1 SCOPE_IDENTITY() from ESKHERE.Usuario)
+	insert into ESKHERE.Rol_X_Usuario(ID_ROL, ID_Usuario) values ((select r.ID from ESKHERE.Rol r where r.Nombre = @nombreTipo), @id)
+	COMMIT
+	return @id
+
 
 GO
 CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @nombre nvarchar(20), @apellido nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output

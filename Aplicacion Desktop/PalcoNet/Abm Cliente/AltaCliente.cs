@@ -16,6 +16,7 @@ namespace PalcoNet.Abm_Cliente
         private List<TextBox> textos = new List<TextBox>();
         private Dictionary<string, object> datos = new Dictionary<string, object>();
         int idUser = -1;
+        private bool flag = true;
 
         public AltaCliente()
         {
@@ -31,6 +32,7 @@ namespace PalcoNet.Abm_Cliente
 
         public AltaCliente(int id)
         {
+            flag = false;
             id = -1;
             InitializeComponent();
             foreach (Control c in Controls)
@@ -88,6 +90,7 @@ namespace PalcoNet.Abm_Cliente
                         DialogResult = DialogResult.Abort;
                 }
             }
+            flag = true;
         }
 
         private void chbPiso_CheckedChanged(object sender, EventArgs e)
@@ -187,11 +190,37 @@ namespace PalcoNet.Abm_Cliente
 
         private void AltaCliente_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(idUser != -1)
+            if(!flag)
             {
                 MessageBox.Show("No se pudo cancelar");
                 e.Cancel = true;
             }
+        }
+
+        private void SoloNumerico(ref KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar) || char.IsPunctuation(e.KeyChar) || char.IsWhiteSpace(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void txtDoc_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
+        }
+
+        private void txtCUIL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
+        }
+
+        private void txtCodPostal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
+        }
+
+        private void txtDepto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
         }
     }
 }

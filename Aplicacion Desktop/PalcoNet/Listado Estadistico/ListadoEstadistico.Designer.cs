@@ -90,6 +90,7 @@
             // 
             // cmbAño
             // 
+            this.cmbAño.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbAño.FormattingEnabled = true;
             this.cmbAño.Location = new System.Drawing.Point(44, 38);
             this.cmbAño.Name = "cmbAño";
@@ -98,12 +99,12 @@
             // 
             // cmbTrimestre
             // 
+            this.cmbTrimestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTrimestre.FormattingEnabled = true;
             this.cmbTrimestre.Location = new System.Drawing.Point(264, 38);
             this.cmbTrimestre.Name = "cmbTrimestre";
             this.cmbTrimestre.Size = new System.Drawing.Size(121, 21);
             this.cmbTrimestre.TabIndex = 8;
-            this.cmbTrimestre.Text = "1";
             // 
             // dgv
             // 
