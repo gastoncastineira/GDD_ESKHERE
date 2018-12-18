@@ -299,9 +299,9 @@ where [Cli_Dni]  IS NOT NULL
 
 INSERT INTO [ESKHERE].[Empresa] 
 ([Espec_Empresa_Razon_Social],[Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],[ID_Usuario],[Calle],[Numero],[Piso],[Depto],[Cod_Postal])
-SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],1,[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
+SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],((INSERT INTO ESKHERE.Usuario(Usuario, Contrasenia, contrasena_autogenerada) values ([Espec_Empresa_Cuit], HASHBYTES('SHA2_256', N'contrasena'), 1)); SELECT SCOPE_IDENTITY();),[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
       ,[Espec_Empresa_Piso],[Espec_Empresa_Depto],[Espec_Empresa_Cod_Postal]
-FROM gd_esquema.Maestra
+FROM gd_esquema.Maestra m
 WHERE [Espec_Empresa_Cuit]  IS NOT NULL 
 
 
