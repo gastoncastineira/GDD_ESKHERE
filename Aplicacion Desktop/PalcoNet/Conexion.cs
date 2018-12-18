@@ -39,6 +39,10 @@ namespace PalcoNet
             {
                 return "BETWEEN " + menor + " AND " + mayor;
             }
+            public static string MenorIgual(string valor)
+            {
+                return "<= " + valor;
+            }
         }
 
         //Nombres de tablas basicas de la BD
@@ -61,6 +65,10 @@ namespace PalcoNet
             public static string HistorialCompras { get { return "[ESKHERE].Historial_Compras"; } }
             public static string FuncionesUsuario { get { return "[ESKHERE].funciones_usuarios"; } }
             public static string RolesUsuario { get { return "[ESKHERE].Roles_usuario"; } }
+            public static string Rubros { get { return "[ESKHERE].rubros"; } }
+            public static string PublicacionesParaListar { get { return "[ESKHERE].Publicaciones_disponibles_para_listar"; } }
+            public static string UbicacionesParaListar { get { return "[ESKHERE].Ubicaciones_por_publi_disponibles"; } }
+
         }
 
         private string PonerFiltros(string comando, Dictionary<string, string> filtros)
