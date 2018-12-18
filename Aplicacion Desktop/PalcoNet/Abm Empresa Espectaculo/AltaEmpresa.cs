@@ -73,7 +73,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                         AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtRazon.Text, txtCUIT.Text, ref usuario, ref contraseña));
                     else
                         AgregarParaInsert("id_usuario", idUser);
-                    if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos))
+                    if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos)!=-1)
                         DialogResult = DialogResult.OK;
                     else
                         DialogResult = DialogResult.Abort;

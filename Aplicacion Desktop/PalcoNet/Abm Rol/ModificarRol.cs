@@ -58,7 +58,7 @@ namespace PalcoNet.Abm_Rol
             foreach(int v in aInsertar)
             {
                 datos["id_funcion"] = v;
-                if (!Conexion.getInstance().Insertar(Conexion.Tabla.RolFuncion, datos))
+                if (Conexion.getInstance().Insertar(Conexion.Tabla.RolFuncion, datos)==-1)
                 {
                     DialogResult = DialogResult.Abort;
                     return;

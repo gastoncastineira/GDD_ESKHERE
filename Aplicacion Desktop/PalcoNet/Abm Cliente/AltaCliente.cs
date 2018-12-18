@@ -79,7 +79,7 @@ namespace PalcoNet.Abm_Cliente
                     else
                         AgregarParaInsert("id_usuario", idUser);
                     MessageBox.Show("Se generado un usuario aleatorio\nUsuario:" + usuario+"\nContraseña: "+contraseña);
-                    if (Conexion.getInstance().Insertar(Conexion.Tabla.Cliente, datos))
+                    if (Conexion.getInstance().Insertar(Conexion.Tabla.Cliente, datos)!=-1)
                     
                         DialogResult = DialogResult.OK;
                         

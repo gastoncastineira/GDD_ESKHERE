@@ -46,12 +46,16 @@ namespace PalcoNet
         {
             public static string Cliente { get { return "ESKHERE.[Cliente]"; } }
             public static string Grado { get { return "ESKHERE.[Publicacion_Grado]"; } }
+            public static string Estado { get { return "ESKHERE.[Publicacion_Estado]"; } }
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
             public static string Rol { get { return "ESKHERE.[Rol]"; } }
             public static string Funcion { get { return "ESKHERE.[funcion]"; } }
             public static string RolFuncion { get { return "ESKHERE.[Rol_X_Funcion]"; } }
             public static string Usuario { get { return "ESKHERE.[Usuario]"; } }
             public static string Factura { get { return "ESKHERE.[Factura]"; } }
+            public static string Publicacion { get { return "ESKHERE.[Publicacion]"; } }
+            public static string PublicacionFechas { get { return "ESKHERE.[Publicacion_Fechas]"; } }
+            public static string Ubicacion { get { return "ESKHERE.[Ubicacion]"; } }
             public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario";  } }
             public static string AniosQueSePublicaron { get { return "[ESKHERE].anios_que_se_publicaron_espectaculos"; } }
             public static string CliMayorCantCompras { get { return "[ESKHERE].clientes_con_mayor_cantidad_de_compras"; } }
@@ -61,6 +65,7 @@ namespace PalcoNet
             public static string HistorialCompras { get { return "[ESKHERE].Historial_Compras"; } }
             public static string FuncionesUsuario { get { return "[ESKHERE].funciones_usuarios"; } }
             public static string RolesUsuario { get { return "[ESKHERE].Roles_usuario"; } }
+            public static string TipoUbicacion { get { return "[ESKHERE].Tipo_Ubicacion"; } }
         }
 
         private string PonerFiltros(string comando, Dictionary<string, string> filtros)
@@ -79,7 +84,7 @@ namespace PalcoNet
         //Recibe el nombre de la tabla sacada de Conexion.Tabla, y un diccionario con el par 
         //("nombre de columna en BD", dato a insertar)
         //retorna true si se pudo realizar, false si fallo
-        public bool Insertar(string tabla, Dictionary<string, object> data)
+        public int Insertar(string tabla, Dictionary<string, object> data)
         {
             try
             {
@@ -87,7 +92,7 @@ namespace PalcoNet
                 data.Keys.ToList().ForEach(k => comandoString += k + ", ");
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + ") VALUES (";
                 data.Keys.ToList().ForEach(k => comandoString += "@"+k+", ");
-                comandoString = comandoString.Substring(0, comandoString.Length - 2) + ")";
+                comandoString = comandoString.Substring(0, comandoString.Length - 2) + "); SELECT SCOPE_IDENTITY();";
                 using (SqlConnection sqlConnection = new SqlConnection(conectionString))
                 {
                     sqlConnection.Open();
@@ -100,15 +105,16 @@ namespace PalcoNet
                         {
                             command.Parameters.AddWithValue("@"+entry.Key, entry.Value);
                         }
-                        command.ExecuteNonQuery();
+                        return Convert.ToInt32(command.ExecuteScalar());
+                        
                     }
                 }
             }
             catch (Exception e)
             {
-                return false;
+                return -1;
             }
-            return true;
+            
         }
 
         //Recibe el id de la fila, nombre de la tabla sacada de Conexion.Tabla, y 
@@ -425,7 +431,57 @@ namespace PalcoNet
             }
         return retorno;
         }
+
+        public bool InsertarPublicaciones(List<Generar_Publicacion.UbicacionIndividual> ubicaciones)
+        {
+            string comandoString = string.Copy(comandoInsert) + "ESKHERE.[Ubicacion] " +
+                "(ubicacion_fila, ubicacion_asiento, tipo, precio, ubicacion_sin_numerar, ubicacion_tipo_descripcion, id_publicacion) " +
+                "values (@ubicacion_fila, @ubicacion_asiento, @tipo, @precio, @ubicacion_sin_numerar, @ubicacion_tipo_descripcion, @id_publicacion)";
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                SqlTransaction tr = connection.BeginTransaction();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    try
+                    {
+                        command.CommandType = CommandType.Text;
+                        command.Connection = connection;
+                        command.Transaction = tr;
+
+                        command.Parameters.AddWithValue("@ubicacion_fila", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@ubicacion_asiento", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@tipo", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@precio", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@ubicacion_sin_numerar", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@ubicacion_tipo_descripcion", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@id_publicacion", SqlDbType.NVarChar);
+                        foreach (Generar_Publicacion.UbicacionIndividual u in ubicaciones)
+                        {
+                            command.Parameters["@ubicacion_fila"].Value = u.fila;
+                            command.Parameters["@ubicacion_asiento"].Value = u.asiento;
+                            command.Parameters["@tipo"].Value = u.tipo;
+                            command.Parameters["@precio"].Value = u.precio;
+                            command.Parameters["@ubicacion_sin_numerar"].Value = u.ubicacionSinNumerar;
+                            command.Parameters["@ubicacion_tipo_descripcion"].Value = u.tipoDescripcion;
+                            command.Parameters["@id_publicacion"].Value = u.idPublicacion;
+
+                            command.ExecuteNonQuery();
+                        }
+                        tr.Commit();
+                        return true;
+                    }
+                    catch (SqlException)
+                    {
+                        tr.Rollback();
+                        return false;
+                    }
+
+                }
+            }
+        }
     }
+
 }
 
    /* public class Conexion<T> : Conexion

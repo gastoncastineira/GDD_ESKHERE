@@ -25,7 +25,7 @@ namespace PalcoNet.Abm_Grado
                 MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
             {
-                if (Conexion.getInstance().Insertar(Conexion.Tabla.Grado, datos))
+                if (Conexion.getInstance().Insertar(Conexion.Tabla.Grado, datos)!=-1)
                 {
                     DialogResult = DialogResult.OK;
                 }

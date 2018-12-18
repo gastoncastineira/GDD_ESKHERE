@@ -32,114 +32,237 @@
             this.direccion = new System.Windows.Forms.TextBox();
             this.estado = new System.Windows.Forms.ComboBox();
             this.rubro = new System.Windows.Forms.TextBox();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnGenerar = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.Precio = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Asientos = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Filas = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Tipo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ubicacionPrecio = new System.Windows.Forms.TextBox();
-            this.ubicacionAsientos = new System.Windows.Forms.TextBox();
-            this.ubicacionFilas = new System.Windows.Forms.TextBox();
-            this.ubicacionTipo = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.listView2 = new System.Windows.Forms.ListView();
             this.descripcion = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.Fecha = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Hora = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label5 = new System.Windows.Forms.Label();
+            this.btnLimpiarFunciones = new System.Windows.Forms.Button();
+            this.btnFuncion = new System.Windows.Forms.Button();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ubicacionPrecio = new System.Windows.Forms.TextBox();
+            this.ubicacionAsientos = new System.Windows.Forms.TextBox();
+            this.ubicacionFilas = new System.Windows.Forms.TextBox();
+            this.btnLimpiarUbicaciones = new System.Windows.Forms.Button();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.Tipo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Filas = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Asientos = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Precio = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnUbicacion = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.label5 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ubicacionTipo = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // grado
             // 
-            this.grado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.grado.FormattingEnabled = true;
-            this.grado.Location = new System.Drawing.Point(167, 129);
+            this.grado.Location = new System.Drawing.Point(174, 133);
             this.grado.Name = "grado";
             this.grado.Size = new System.Drawing.Size(176, 21);
-            this.grado.TabIndex = 27;
+            this.grado.TabIndex = 41;
             // 
             // direccion
             // 
-            this.direccion.Location = new System.Drawing.Point(167, 101);
+            this.direccion.Location = new System.Drawing.Point(174, 105);
             this.direccion.Name = "direccion";
             this.direccion.Size = new System.Drawing.Size(176, 20);
-            this.direccion.TabIndex = 25;
+            this.direccion.TabIndex = 39;
             // 
             // estado
             // 
-            this.estado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.estado.FormattingEnabled = true;
-            this.estado.Location = new System.Drawing.Point(167, 73);
+            this.estado.Location = new System.Drawing.Point(174, 77);
             this.estado.Name = "estado";
             this.estado.Size = new System.Drawing.Size(176, 21);
-            this.estado.TabIndex = 24;
+            this.estado.TabIndex = 38;
             // 
             // rubro
             // 
-            this.rubro.Location = new System.Drawing.Point(167, 45);
+            this.rubro.Location = new System.Drawing.Point(174, 49);
             this.rubro.Name = "rubro";
             this.rubro.Size = new System.Drawing.Size(176, 20);
-            this.rubro.TabIndex = 23;
+            this.rubro.TabIndex = 37;
             // 
-            // button6
+            // btnGenerar
             // 
-            this.button6.Location = new System.Drawing.Point(277, 465);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(130, 23);
-            this.button6.TabIndex = 21;
-            this.button6.Text = "Generar publicación";
-            this.button6.UseVisualStyleBackColor = true;
+            this.btnGenerar.Location = new System.Drawing.Point(284, 469);
+            this.btnGenerar.Name = "btnGenerar";
+            this.btnGenerar.Size = new System.Drawing.Size(130, 23);
+            this.btnGenerar.TabIndex = 35;
+            this.btnGenerar.Text = "Generar publicación";
+            this.btnGenerar.UseVisualStyleBackColor = true;
+            this.btnGenerar.Click += new System.EventHandler(this.btnGenerar_Click);
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(107, 465);
+            this.button5.Location = new System.Drawing.Point(114, 469);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 20;
+            this.button5.TabIndex = 34;
             this.button5.Text = "Regresar";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 20);
+            this.label1.Location = new System.Drawing.Point(33, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
-            this.label1.TabIndex = 14;
+            this.label1.TabIndex = 28;
             this.label1.Text = "Descripción";
             // 
-            // Precio
+            // descripcion
             // 
-            this.Precio.Text = "Precio";
+            this.descripcion.Location = new System.Drawing.Point(174, 21);
+            this.descripcion.Name = "descripcion";
+            this.descripcion.Size = new System.Drawing.Size(176, 20);
+            this.descripcion.TabIndex = 36;
             // 
-            // Asientos
+            // label4
             // 
-            this.Asientos.Text = "Asientos";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(33, 108);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(52, 13);
+            this.label4.TabIndex = 31;
+            this.label4.Text = "Direccion";
             // 
-            // Filas
+            // label3
             // 
-            this.Filas.Text = "Filas";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(33, 80);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 30;
+            this.label3.Text = "Estado";
             // 
-            // Tipo
+            // label2
             // 
-            this.Tipo.Text = "Tipo";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(33, 52);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 13);
+            this.label2.TabIndex = 29;
+            this.label2.Text = "Rubro";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.listView1);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.btnLimpiarFunciones);
+            this.groupBox1.Controls.Add(this.btnFuncion);
+            this.groupBox1.Controls.Add(this.dateTimePicker1);
+            this.groupBox1.Location = new System.Drawing.Point(15, 166);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(519, 124);
+            this.groupBox1.TabIndex = 32;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Funciones";
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.Fecha,
+            this.Hora});
+            this.listView1.Location = new System.Drawing.Point(258, 19);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(255, 69);
+            this.listView1.TabIndex = 5;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // Fecha
+            // 
+            this.Fecha.Text = "Fecha";
+            this.Fecha.Width = 124;
+            // 
+            // Hora
+            // 
+            this.Hora.Text = "Hora";
+            this.Hora.Width = 122;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 19);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(128, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Seleccionar fecha y hora:";
+            // 
+            // btnLimpiarFunciones
+            // 
+            this.btnLimpiarFunciones.Location = new System.Drawing.Point(438, 94);
+            this.btnLimpiarFunciones.Name = "btnLimpiarFunciones";
+            this.btnLimpiarFunciones.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiarFunciones.TabIndex = 3;
+            this.btnLimpiarFunciones.Text = "Limpiar";
+            this.btnLimpiarFunciones.UseVisualStyleBackColor = true;
+            this.btnLimpiarFunciones.Click += new System.EventHandler(this.btnLimpiarFunciones_Click);
+            // 
+            // btnFuncion
+            // 
+            this.btnFuncion.Location = new System.Drawing.Point(99, 85);
+            this.btnFuncion.Name = "btnFuncion";
+            this.btnFuncion.Size = new System.Drawing.Size(107, 23);
+            this.btnFuncion.TabIndex = 1;
+            this.btnFuncion.Text = "Agregar función";
+            this.btnFuncion.UseVisualStyleBackColor = true;
+            this.btnFuncion.Click += new System.EventHandler(this.btnFuncion_Click);
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.CustomFormat = "dddd, dd/MM/yyyy HH:mm tt";
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker1.Location = new System.Drawing.Point(6, 48);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 0;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(36, 136);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(36, 13);
+            this.label10.TabIndex = 40;
+            this.label10.Text = "Grado";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.ubicacionTipo);
+            this.groupBox2.Controls.Add(this.ubicacionPrecio);
+            this.groupBox2.Controls.Add(this.ubicacionAsientos);
+            this.groupBox2.Controls.Add(this.ubicacionFilas);
+            this.groupBox2.Controls.Add(this.btnLimpiarUbicaciones);
+            this.groupBox2.Controls.Add(this.listView2);
+            this.groupBox2.Controls.Add(this.btnUbicacion);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Location = new System.Drawing.Point(15, 296);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(519, 165);
+            this.groupBox2.TabIndex = 33;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Ubicaciones";
             // 
             // ubicacionPrecio
             // 
@@ -162,21 +285,15 @@
             this.ubicacionFilas.Size = new System.Drawing.Size(100, 20);
             this.ubicacionFilas.TabIndex = 8;
             // 
-            // ubicacionTipo
+            // btnLimpiarUbicaciones
             // 
-            this.ubicacionTipo.Location = new System.Drawing.Point(120, 20);
-            this.ubicacionTipo.Name = "ubicacionTipo";
-            this.ubicacionTipo.Size = new System.Drawing.Size(100, 20);
-            this.ubicacionTipo.TabIndex = 7;
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(369, 136);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "Limpiar";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnLimpiarUbicaciones.Location = new System.Drawing.Point(438, 136);
+            this.btnLimpiarUbicaciones.Name = "btnLimpiarUbicaciones";
+            this.btnLimpiarUbicaciones.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiarUbicaciones.TabIndex = 6;
+            this.btnLimpiarUbicaciones.Text = "Limpiar";
+            this.btnLimpiarUbicaciones.UseVisualStyleBackColor = true;
+            this.btnLimpiarUbicaciones.Click += new System.EventHandler(this.btnLimpiarUbicaciones_Click);
             // 
             // listView2
             // 
@@ -187,61 +304,49 @@
             this.Precio});
             this.listView2.Location = new System.Drawing.Point(258, 14);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(186, 116);
+            this.listView2.Size = new System.Drawing.Size(255, 116);
             this.listView2.TabIndex = 5;
             this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.Details;
             // 
-            // descripcion
+            // Tipo
             // 
-            this.descripcion.Location = new System.Drawing.Point(167, 17);
-            this.descripcion.Name = "descripcion";
-            this.descripcion.Size = new System.Drawing.Size(176, 20);
-            this.descripcion.TabIndex = 22;
+            this.Tipo.Text = "Tipo";
+            this.Tipo.Width = 66;
             // 
-            // label4
+            // Filas
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 104);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 13);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Direccion";
+            this.Filas.Text = "Filas";
+            this.Filas.Width = 49;
             // 
-            // label3
+            // Asientos
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(26, 76);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 13);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Estado";
+            this.Asientos.Text = "Asientos";
+            this.Asientos.Width = 58;
             // 
-            // label2
+            // Precio
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(26, 48);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 13);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "Rubro";
+            this.Precio.Text = "Precio (en $)";
+            this.Precio.Width = 72;
             // 
-            // button3
+            // btnUbicacion
             // 
-            this.button3.Location = new System.Drawing.Point(99, 136);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(121, 23);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Agregar ubicación";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnUbicacion.Location = new System.Drawing.Point(99, 136);
+            this.btnUbicacion.Name = "btnUbicacion";
+            this.btnUbicacion.Size = new System.Drawing.Size(121, 23);
+            this.btnUbicacion.TabIndex = 4;
+            this.btnUbicacion.Text = "Agregar ubicación";
+            this.btnUbicacion.UseVisualStyleBackColor = true;
+            this.btnUbicacion.Click += new System.EventHandler(this.btnUbicacion_Click);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(18, 105);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(37, 13);
+            this.label9.Size = new System.Drawing.Size(67, 13);
             this.label9.TabIndex = 3;
-            this.label9.Text = "Precio";
+            this.label9.Text = "Precio (en $)";
             // 
             // label8
             // 
@@ -261,62 +366,6 @@
             this.label7.TabIndex = 1;
             this.label7.Text = "Cantidad de filas";
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.listView1);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.dateTimePicker1);
-            this.groupBox1.Location = new System.Drawing.Point(8, 162);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(456, 124);
-            this.groupBox1.TabIndex = 18;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Funciones";
-            // 
-            // listView1
-            // 
-            this.listView1.Location = new System.Drawing.Point(258, 19);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(192, 69);
-            this.listView1.TabIndex = 5;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 19);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(128, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Seleccionar fecha y hora:";
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(375, 94);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Limpiar";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(99, 85);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(107, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Agregar función";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(6, 48);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 0;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -326,45 +375,24 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Tipo";
             // 
-            // label10
+            // ubicacionTipo
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(29, 132);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(36, 13);
-            this.label10.TabIndex = 26;
-            this.label10.Text = "Grado";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.ubicacionPrecio);
-            this.groupBox2.Controls.Add(this.ubicacionAsientos);
-            this.groupBox2.Controls.Add(this.ubicacionFilas);
-            this.groupBox2.Controls.Add(this.ubicacionTipo);
-            this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Controls.Add(this.listView2);
-            this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(8, 292);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(450, 165);
-            this.groupBox2.TabIndex = 19;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Ubicaciones";
+            this.ubicacionTipo.FormattingEnabled = true;
+            this.ubicacionTipo.Location = new System.Drawing.Point(120, 20);
+            this.ubicacionTipo.Name = "ubicacionTipo";
+            this.ubicacionTipo.Size = new System.Drawing.Size(100, 21);
+            this.ubicacionTipo.TabIndex = 11;
             // 
             // GenerarPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(469, 512);
+            this.ClientSize = new System.Drawing.Size(548, 512);
             this.Controls.Add(this.grado);
             this.Controls.Add(this.direccion);
             this.Controls.Add(this.estado);
             this.Controls.Add(this.rubro);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.btnGenerar);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.descripcion);
@@ -392,35 +420,38 @@
         private System.Windows.Forms.TextBox direccion;
         private System.Windows.Forms.ComboBox estado;
         private System.Windows.Forms.TextBox rubro;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnGenerar;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ColumnHeader Precio;
-        private System.Windows.Forms.ColumnHeader Asientos;
-        private System.Windows.Forms.ColumnHeader Filas;
-        private System.Windows.Forms.ColumnHeader Tipo;
-        private System.Windows.Forms.TextBox ubicacionPrecio;
-        private System.Windows.Forms.TextBox ubicacionAsientos;
-        private System.Windows.Forms.TextBox ubicacionFilas;
-        private System.Windows.Forms.TextBox ubicacionTipo;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.TextBox descripcion;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader Fecha;
+        private System.Windows.Forms.ColumnHeader Hora;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnLimpiarFunciones;
+        private System.Windows.Forms.Button btnFuncion;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox ubicacionPrecio;
+        private System.Windows.Forms.TextBox ubicacionAsientos;
+        private System.Windows.Forms.TextBox ubicacionFilas;
+        private System.Windows.Forms.Button btnLimpiarUbicaciones;
+        private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.ColumnHeader Tipo;
+        private System.Windows.Forms.ColumnHeader Filas;
+        private System.Windows.Forms.ColumnHeader Asientos;
+        private System.Windows.Forms.ColumnHeader Precio;
+        private System.Windows.Forms.Button btnUbicacion;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox ubicacionTipo;
+
     }
 }

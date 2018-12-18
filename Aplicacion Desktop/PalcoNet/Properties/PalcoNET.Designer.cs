@@ -12,7 +12,7 @@ namespace PalcoNet.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
     internal sealed partial class PalcoNET : global::System.Configuration.ApplicationSettingsBase {
         
         private static PalcoNET defaultInstance = ((PalcoNET)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new PalcoNET())));
@@ -36,7 +36,7 @@ namespace PalcoNet.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Server=localhost\\SQLSERVER2012;Database=GD2C2018;User Id=gdEspectaculos2018;\nPass" +
-            "word=gdEspectaculos2018;")]
+            "word=gd2018;")]
         public string ConnectionString {
             get {
                 return ((string)(this["ConnectionString"]));
