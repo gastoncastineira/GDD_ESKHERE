@@ -117,7 +117,7 @@ namespace PalcoNet.Generar_Publicacion
                 DataTable codigoTabla = Conexion.getInstance().conseguirTabla(Conexion.Tabla.CodigoPublicacion, null);
                 DataRow row = codigoTabla.Rows[0];
                 Int32 codigo = Convert.ToInt32(row["codigo"]);
-                for (int i = 1; i < funciones.Count();i++ )
+                for (int i = 1; i < funciones.Count;i++ )
                 {
                     Publicacion publicacion = new Publicacion();
                     publicacion.descripcion = descripcion.Text;

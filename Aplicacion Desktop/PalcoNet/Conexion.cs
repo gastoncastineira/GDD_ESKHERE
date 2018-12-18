@@ -491,8 +491,8 @@ namespace PalcoNet
                             int id = Convert.ToInt32(command.ExecuteScalar());
 
                             command.CommandText = comandoStringPublicacion;
-                            command.Parameters["@id_fecha"].Value = Convert.ToInt32(command.ExecuteScalar());
-                            command.Parameters["@codigo"].Value = publicacion[i];
+                            command.Parameters["@id_fecha"].Value = id;
+                            command.Parameters["@codigo"].Value = publicacion[i].codigo;
                             command.Parameters["@descripcion"].Value = publicacion[i].descripcion;
                             command.Parameters["@publicacion_rubro"].Value = publicacion[i].rubro;
                             command.Parameters["@id_empresa_publicante"].Value = id_empresa;
