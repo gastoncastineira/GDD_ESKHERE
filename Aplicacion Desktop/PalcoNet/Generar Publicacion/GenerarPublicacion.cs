@@ -14,6 +14,7 @@ namespace PalcoNet.Generar_Publicacion
     {
         List<DateTime> funciones;
         List<Ubicacion> ubicaciones;
+        List<Publicacion> publicaciones;
         //int idEmpresa;
         public GenerarPublicacion()
         {
@@ -21,6 +22,7 @@ namespace PalcoNet.Generar_Publicacion
             //this.idEmpresa = idEmpresa;
             funciones = new List<DateTime>();
             ubicaciones = new List<Ubicacion>();
+            publicaciones = new List<Publicacion>();
 
         }
 
@@ -112,56 +114,30 @@ namespace PalcoNet.Generar_Publicacion
             }
             else
             {
-                foreach (DateTime funcion in funciones)
+                DataTable codigoTabla = Conexion.getInstance().conseguirTabla(Conexion.Tabla.CodigoPublicacion, null);
+                DataRow row = codigoTabla.Rows[0];
+                Int32 codigo = Convert.ToInt32(row["codigo"]);
+                for (int i = 1; i < funciones.Count();i++ )
                 {
-                    //inserto en tabla Publicacion_Fechas
-                    Dictionary<string, object> datosFuncion = new Dictionary<string, object>();
-                    datosFuncion["fpublicacion"] = ConfigurationHelper.fechaActual;
-                    datosFuncion["ffuncion"] = funcion;
-                    datosFuncion["fvenc"] = funcion;
-                    if (Conexion.getInstance().Insertar(Conexion.Tabla.PublicacionFechas, datosFuncion)!=-1)
-                    {
-                        MessageBox.Show("Fecha insertada");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error fecha");
-                    }
-                    
-                    //inserto en tabla PUblicacion
-                    Dictionary<string, object> datosPublicacion = new Dictionary<string, object>();
-                    datosPublicacion["ID_Fecha"] = Conexion.getInstance().Insertar(Conexion.Tabla.PublicacionFechas, datosFuncion);
-                    //datosPublicacion["Codigo"] = Convert.ToInt32(Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Publicacion, new List<string>(new string[] { "SCOPE_IDENTITY() AS Codigo" }), null)["Codigo"][0]) +1;
-                    datosPublicacion["Descripcion"] = descripcion.Text ;
-                    datosPublicacion["Publicacion_Rubro"] = rubro.Text ;
-                    datosPublicacion["ID_Empresa_Publicante"] = 10;
-                    datosPublicacion["ID_grado"] =  grado.SelectedIndex +1;
-                    datosPublicacion["ID_estado"] = estado.SelectedIndex +1;
-                    if(Conexion.getInstance().Insertar(Conexion.Tabla.Publicacion, datosPublicacion)!=-1)
-                    {
-                        MessageBox.Show("publi insertada");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error publi");
-                    }
-/*
-                    object idPublicacion = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Publicacion, new List<string>(new string[] { "SCOPE_IDENTITY() AS id" }), null)["id"][0];
-                    List<UbicacionIndividual> ubicacionesIndividuales = generarUbicacionesIndividuales();
-                    //inserto en tabla ubicacion
-                    foreach (UbicacionIndividual ubicacion in ubicacionesIndividuales)
-                    {
-                        Dictionary<string, object> datosUbicacion = new Dictionary<string, object>();
-                        datosUbicacion["ubicacion_Fila"] = ubicacion.fila;
-                        datosUbicacion["ubicacion_Asiento"] = ubicacion.asiento;
-                        datosUbicacion["Ubicacion_Tipo_Descripcion"] = ubicacion.tipo;
-                        Dictionary<string,string> filtroTipo = new Dictionary<string,string>();
-                        filtroTipo.Add("Ubicacion_Tipo_Descripcion", ubicacion.tipo);
-                        datosUbicacion["tipo"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.TipoUbicacion, new List<string>(new string[] { "tipo" }), filtroTipo) ;
-                        datosUbicacion["precio"] = ubicacion.precio;
-                        datosUbicacion["ID_Publicacion"] = idPublicacion;
-                    }*/
+                    Publicacion publicacion = new Publicacion();
+                    publicacion.descripcion = descripcion.Text;
+                    publicacion.rubro = rubro.Text;
+                    publicacion.grado = Convert.ToInt32(grado.SelectedValue);
+                    publicacion.estado = Convert.ToInt32(estado.SelectedValue);
+                    publicacion.codigo = codigo++;
+                    publicaciones.Add(publicacion);
                 }
+                List<UbicacionIndividual> ubicacionesIndividuales = generarUbicacionesIndividuales();
+                if (Conexion.getInstance().InsertarPublicaciones(10, publicaciones, funciones, ubicacionesIndividuales))
+                {
+                    MessageBox.Show("Insert ok");
+                }
+                else
+                {
+                    MessageBox.Show("NO");
+                }
+
+
             }
         }
 
@@ -219,7 +195,7 @@ namespace PalcoNet.Generar_Publicacion
                     for (int k = unaUbicacion.asientosPorFila; k > 0; k--)
                     {
                         UbicacionIndividual ubicacion = new UbicacionIndividual();
-                        ubicacion.tipo = unaUbicacion.tipo;
+                        ubicacion.tipoDescripcion = unaUbicacion.tipo;
                         ubicacion.precio = unaUbicacion.precio;
                         ubicacion.fila = obtenerLetra(j);
                         ubicacion.asiento = k;

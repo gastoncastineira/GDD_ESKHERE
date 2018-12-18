@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
+using PalcoNet.Generar_Publicacion;
 
 namespace PalcoNet
 {
@@ -67,6 +68,8 @@ namespace PalcoNet
             public static string FuncionesUsuario { get { return "[ESKHERE].funciones_usuarios"; } }
             public static string RolesUsuario { get { return "[ESKHERE].Roles_usuario"; } }
             public static string TipoUbicacion { get { return "[ESKHERE].Tipo_Ubicacion"; } }
+            public static string CodigoPublicacion { get { return "[ESKHERE].Codigo_Publicacion"; } }
+            
         }
 
         private string PonerFiltros(string comando, Dictionary<string, string> filtros)
@@ -442,7 +445,7 @@ namespace PalcoNet
             string comandoStringFecha = string.Copy(comandoInsert)
                 + "ESKHERE.[Publicacion_Fechas] (fpublicacion, ffuncion) values (@fpublicacion, @ffuncion); SELECT SCOPE_IDENTITY()";
 
-            string comandoStringPublicacion = string.Copy(comandoInsert) + Tabla.Ubicacion
+            string comandoStringPublicacion = string.Copy(comandoInsert) + Tabla.Publicacion
                 + " (codigo, descripcion, publicacion_rubro, id_empresa_publicante, id_fecha, id_grado, id_estado) " +
                 "VALUES (@codigo, @descripcion, @publicacion_rubro, @id_empresa_publicante, @id_fecha, @id_grado, @id_estado); SELECT SCOPE_IDENTITY()";
 
@@ -515,8 +518,9 @@ namespace PalcoNet
                         tr.Commit();
                         return true;
                     }
-                    catch (SqlException)
+                    catch (SqlException e)
                     {
+                        string a = e.StackTrace;
                         tr.Rollback();
                         return false;
                     }

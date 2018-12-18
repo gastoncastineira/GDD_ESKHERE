@@ -112,7 +112,7 @@ CREATE TABLE ESKHERE.Publicacion_Fechas(
 [ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 FPublicacion DATETIME NOT NULL,
 FFuncion DATETIME NOT NULL,
-FVenc DATETIME NOT NULL,
+FVenc DATETIME NULL,
 );
 
 CREATE TABLE ESKHERE.[Publicacion](
@@ -609,3 +609,13 @@ Select p.id Publicacion, u.ID ubicacion, ubicacion_Fila, ubicacion_Asiento, tipo
 	where u.ID not in 
 			(select ID_Ubicacion from [ESKHERE].compra)
 go
+
+CREATE VIEW [ESKHERE].Tipo_Ubicacion
+AS
+SELECT DISTINCT tipo, ubicacion_tipo_descripcion FROM ESKHERE.Ubicacion
+GO
+
+CREATE VIEW [ESKHERE].Codigo_Publicacion
+AS
+SELECT MAX(codigo) codigo FROM ESKHERE.Publicacion
+GO

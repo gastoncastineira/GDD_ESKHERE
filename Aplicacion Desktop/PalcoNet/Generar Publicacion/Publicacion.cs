@@ -10,12 +10,11 @@ namespace PalcoNet.Generar_Publicacion
     {
         public String descripcion { get; set; }
         public String rubro { get; set; }
-        public String estado { get; set; }
+        public Int32 estado { get; set; }
         public String direccion { get; set; }
-        public String grado { get; set; }
-        public List<DateTime> funciones { get; set; }
-        public List<Ubicacion> ubicaciones {get; set;}
-
+        public Int32 grado { get; set; }
+        public Int32 codigo { get; set; }
+        
         public Publicacion(){}
     }
 }
