@@ -286,22 +286,28 @@ FROM gd_esquema.Maestra
 
 --MIGRACION DE CLIENTES
 
+INSERT INTO ESKHERE.Usuario(Usuario, Contrasenia, contrasena_autogenerada) (select distinct CAST([Cli_Dni] as nvarchar(50)), HASHBYTES('SHA2_256', N'contrasena'), 1 FROM gd_esquema.Maestra m WHERE [Cli_Dni]  IS NOT NULL)
+INSERT INTO ESKHERE.Rol_X_Usuario(ID_Usuario, ID_ROL) (select distinct (select ID from ESKHERE.Usuario where CAST([Cli_Dni] as nvarchar(50)) = Usuario), 3 FROM gd_esquema.Maestra m WHERE [Cli_Dni]  IS NOT NULL)
+
  INSERT INTO [ESKHERE].[Cliente]
           ([Cli_Dni],[Cuil], [Cli_ApellIDo],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
            ,[Piso],[Depto],[Cod_Postal], [ID_Usuario])
 select  distinct([Cli_Dni]),[Cli_Dni]+1,[Cli_ApeliIDo],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_Dom_Calle],[Cli_Nro_Calle]
-      ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal], 1
+      ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal], (select ID from ESKHERE.Usuario where CAST([Cli_Dni] as nvarchar(50)) = Usuario)
 from gd_esquema.Maestra
 where [Cli_Dni]  IS NOT NULL
 
 
 --MIGRACION DE EMPRESAS
 
+INSERT INTO ESKHERE.Usuario(Usuario, Contrasenia, contrasena_autogenerada) (select distinct [Espec_Empresa_Cuit], HASHBYTES('SHA2_256', N'contrasena'), 1 FROM gd_esquema.Maestra m WHERE [Espec_Empresa_Cuit]  IS NOT NULL)
+INSERT INTO ESKHERE.Rol_X_Usuario(ID_Usuario, ID_ROL) (select distinct (select ID from ESKHERE.Usuario where [Espec_Empresa_Cuit] = Usuario), 1 FROM gd_esquema.Maestra m WHERE [Espec_Empresa_Cuit]  IS NOT NULL)
+
 INSERT INTO [ESKHERE].[Empresa] 
 ([Espec_Empresa_Razon_Social],[Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],[ID_Usuario],[Calle],[Numero],[Piso],[Depto],[Cod_Postal])
-SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],1,[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
+SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],(select ID from ESKHERE.Usuario where [Espec_Empresa_Cuit] = Usuario),[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
       ,[Espec_Empresa_Piso],[Espec_Empresa_Depto],[Espec_Empresa_Cod_Postal]
-FROM gd_esquema.Maestra
+FROM gd_esquema.Maestra m
 WHERE [Espec_Empresa_Cuit]  IS NOT NULL 
 
 
