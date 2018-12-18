@@ -76,6 +76,7 @@ CREATE TABLE ESKHERE.[Cliente](
 	[fecha_creacion] [datetime] NULL,
 	ID_Usuario INT	NOT NULL,
 	telefono varchar(15) NULL,
+	numero_tarjeta_credito INT NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
 
@@ -581,28 +582,29 @@ join [ESKHERE].Rol r on r.ID = ru.ID_ROL
 WHERE r.Habilitado = 1
 GO
 
+--------------------------------------VIEWS PARA PANTALLA DE COMPRAS-------------------------------------------
 CREATE VIEW [ESKHERE].rubros
 AS
 select distinct Publicacion_Rubro from ESKHERE.Publicacion
 GO
 
+CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
+as
+Select p.id Publicacion, u.ID Codigo_de_Ubicacion, ubicacion_Fila Fila, ubicacion_Asiento Asiento, tipo, precio
+	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
+	where u.ID not in 
+			(select ID_Ubicacion from [ESKHERE].compra)
+go
+
 CREATE VIEW [ESKHERE].Publicaciones_disponibles_para_listar
 AS
-SELECT TOP 24000 p.ID, p.Descripcion , Publicacion_Rubro, FFuncion, FVenc 
+SELECT  p.ID, p.Descripcion , Publicacion_Rubro, FFuncion, FVenc, g.ID grado
 FROM [ESKHERE].Publicacion p join [ESKHERE].Publicacion_Fechas f on (p.ID_Fecha = f.ID) 
 	JOIN [ESKHERE].Publicacion_Grado g on (p.ID_grado = g.ID)
 	JOIN [ESKHERE].Publicacion_Estado e on (p.ID_estado = e.ID)
 	JOIN [ESKHERE].Ubicaciones_por_publi_disponibles UP ON (UP.Publicacion = P.ID) 
 WHERE e.Descripcion != 'Borrador' and e.Descripcion != 'Finalizada' 
 GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID 
-HAVING count(UP.Ubicacion) >0
-ORDER BY  g.ID asc
+HAVING count(UP.Codigo_de_Ubicacion) >0
 go
 
-CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
-as
-Select p.id Publicacion, u.ID ubicacion, ubicacion_Fila, ubicacion_Asiento, tipo, precio
-	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
-	where u.ID not in 
-			(select ID_Ubicacion from [ESKHERE].compra)
-go
