@@ -9,10 +9,10 @@
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
   &lt;ConnectionString&gt;Server=localhost\SQLSERVER2012;Database=GD2C2018;User Id=gdEspectaculos2018;
-Password=gdEspectaculos2018;&lt;/ConnectionString&gt;
+Password=gd2018;&lt;/ConnectionString&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Server=localhost\SQLSERVER2012;Database=GD2C2018;User Id=gdEspectaculos2018;
-Password=gdEspectaculos2018;</Value>
+Password=gd2018;</Value>
     </Setting>
   </Settings>
 </SettingsFile>
