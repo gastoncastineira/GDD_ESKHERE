@@ -31,3 +31,7 @@ DROP VIEW [ESKHERE].anios_que_se_publicaron_espectaculos
 DROP VIEW [ESKHERE].anios_minimo_de_publicacion
 DROP VIEW [ESKHERE].Historial_Compras
 DROP VIEW [ESKHERE].funciones_usuarios
+DROP VIEW [ESKHERE].Roles_usuario
+DROP VIEW [ESKHERE].rubros
+DROP VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
+DROP VIEW [ESKHERE].Publicaciones_disponibles_para_listar	
