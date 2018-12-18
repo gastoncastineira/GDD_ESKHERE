@@ -30,7 +30,7 @@ namespace PalcoNet.Abm_Rol
             { 
                 filtros["id_rol"] = Conexion.Filtro.Exacto(idRol.ToString());
                 filtros["id_funcion"] = Conexion.Filtro.Exacto(i.ToString());
-                checkedListBoxFuncion.Items.Add(resul["nombre"][i-1], (Conexion.getInstance().existeRegistro(Conexion.Tabla.RolFuncion, new List<string>(new string[] { "id_rol", "id_funcion" }), filtros)));
+                checkedListBoxFuncion.Items.Add(resul["nombre"][i-1], (Conexion.getInstance().existeRegistro(Conexion.Tabla.RolXFuncion, new List<string>(new string[] { "id_rol", "id_funcion" }), filtros)));
             }
 
             for (int i = 1; i <= checkedListBoxFuncion.Items.Count; i++)
@@ -58,7 +58,7 @@ namespace PalcoNet.Abm_Rol
             foreach(int v in aInsertar)
             {
                 datos["id_funcion"] = v;
-                if (Conexion.getInstance().Insertar(Conexion.Tabla.RolFuncion, datos)==-1)
+                if (Conexion.getInstance().Insertar(Conexion.Tabla.RolXFuncion, datos)==-1)
                 {
                     DialogResult = DialogResult.Abort;
                     return;
@@ -68,7 +68,7 @@ namespace PalcoNet.Abm_Rol
             foreach (int v in aBorrar)
             {
                 datos["id_funcion"] = v;
-                if (!Conexion.getInstance().eliminarTablaIntermedia(Conexion.Tabla.RolFuncion, "id_rol", "id_funcion", idRol, v))
+                if (!Conexion.getInstance().eliminarTablaIntermedia(Conexion.Tabla.RolXFuncion, "id_rol", "id_funcion", idRol, v))
                 {
                     DialogResult = DialogResult.Abort;
                     return;

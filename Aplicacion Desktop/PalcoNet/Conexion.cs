@@ -29,11 +29,11 @@ namespace PalcoNet
         {
             public static string Libre(string var)
             {
-                return "LIKE '%"+var+"%'";
+                return "LIKE '%" + var + "%'";
             }
             public static string Exacto(string var)
             {
-                return " = '" + var +"'";
+                return " = '" + var + "'";
             }
             public static string Between(string menor, string mayor)
             {
@@ -57,12 +57,12 @@ namespace PalcoNet
             public static string Publicacion { get { return "ESKHERE.[Publicacion]"; } }
             public static string PublicacionFechas { get { return "ESKHERE.[Publicacion_Fechas]"; } }
             public static string Ubicacion { get { return "ESKHERE.[Ubicacion]"; } }
-            public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario";  } }
+            public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario"; } }
             public static string AniosQueSePublicaron { get { return "[ESKHERE].anios_que_se_publicaron_espectaculos"; } }
             public static string CliMayorCantCompras { get { return "[ESKHERE].clientes_con_mayor_cantidad_de_compras"; } }
             public static string CliMayorPtosVencidos { get { return "[ESKHERE].clientes_con_mayores_ptos_vencidos"; } }
             public static string EmpMayorCantUbiSinVender { get { return "[ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender"; } }
-            public static string AnioMinimo{ get { return "[ESKHERE].anios_minimo_de_publicacion"; } }
+            public static string AnioMinimo { get { return "[ESKHERE].anios_minimo_de_publicacion"; } }
             public static string HistorialCompras { get { return "[ESKHERE].Historial_Compras"; } }
             public static string FuncionesUsuario { get { return "[ESKHERE].funciones_usuarios"; } }
             public static string RolesUsuario { get { return "[ESKHERE].Roles_usuario"; } }
@@ -74,7 +74,7 @@ namespace PalcoNet
             comando += " WHERE ";
             foreach (KeyValuePair<string, string> entry in filtros)
             {
-                comando += entry.Key+ " " + entry.Value + " AND ";
+                comando += entry.Key + " " + entry.Value + " AND ";
 
             }
             comando = comando.Substring(0, comando.Length - 4);
@@ -89,10 +89,10 @@ namespace PalcoNet
         {
             try
             {
-                string comandoString = string.Copy(comandoInsert) + tabla +" (";
+                string comandoString = string.Copy(comandoInsert) + tabla + " (";
                 data.Keys.ToList().ForEach(k => comandoString += k + ", ");
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + ") VALUES (";
-                data.Keys.ToList().ForEach(k => comandoString += "@"+k+", ");
+                data.Keys.ToList().ForEach(k => comandoString += "@" + k + ", ");
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + "); SELECT SCOPE_IDENTITY();";
                 using (SqlConnection sqlConnection = new SqlConnection(conectionString))
                 {
@@ -104,18 +104,18 @@ namespace PalcoNet
                         command.CommandText = comandoString;
                         foreach (KeyValuePair<string, object> entry in data)
                         {
-                            command.Parameters.AddWithValue("@"+entry.Key, entry.Value);
+                            command.Parameters.AddWithValue("@" + entry.Key, entry.Value);
                         }
                         return Convert.ToInt32(command.ExecuteScalar());
-                        
+
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return -1;
             }
-            
+
         }
 
         //Recibe el id de la fila, nombre de la tabla sacada de Conexion.Tabla, y 
@@ -128,7 +128,7 @@ namespace PalcoNet
                 string comandoString = string.Copy(comandoUpdate) + tabla + " SET ";
                 foreach (KeyValuePair<string, object> entry in data)
                 {
-                    comandoString += entry.Key+" = @" + entry.Key + ", ";
+                    comandoString += entry.Key + " = @" + entry.Key + ", ";
                 }
                 comandoString = comandoString.Substring(0, comandoString.Length - 2) + " WHERE id = @id";
                 using (SqlConnection sqlConnection = new SqlConnection(conectionString))
@@ -142,7 +142,7 @@ namespace PalcoNet
                         command.Parameters.AddWithValue("@id", pk);
                         foreach (KeyValuePair<string, object> entry in data)
                         {
-                            command.Parameters.AddWithValue("@"+entry.Key, entry.Value);
+                            command.Parameters.AddWithValue("@" + entry.Key, entry.Value);
                         }
                         command.ExecuteNonQuery();
                     }
@@ -216,7 +216,7 @@ namespace PalcoNet
                     command.ExecuteNonQuery();
 
                     bool resultado = Convert.ToBoolean(command.Parameters["@resultado"].Value);
-                    if(resultado)
+                    if (resultado)
                         contraseñaAutogenerada = Convert.ToBoolean(command.Parameters["@autogenerada"].Value);
                     return resultado;
                 }
@@ -283,7 +283,7 @@ namespace PalcoNet
                         command.ExecuteNonQuery();
                         return Convert.ToInt32(retorno.Value);
                     }
-                    catch(SqlException e)
+                    catch (SqlException)
                     {
                         return -1;
                     }
@@ -308,7 +308,7 @@ namespace PalcoNet
                     parameter1.Size = 20;
                     SqlParameter parameter2 = new SqlParameter("@Contrasenia", SqlDbType.NVarChar);
                     parameter2.Direction = ParameterDirection.Output;
-                    parameter2.Size = 5; 
+                    parameter2.Size = 5;
                     SqlParameter parameter3 = new SqlParameter("@id", SqlDbType.Int);
                     parameter3.Direction = ParameterDirection.Output;
                     SqlParameter parameter4 = new SqlParameter("@nombre", SqlDbType.NVarChar);
@@ -335,7 +335,7 @@ namespace PalcoNet
 
         public bool ActualizarContraseña(string contraseña, string usuario)
         {
-            string comando = string.Copy(comandoUpdate) + Tabla.Usuario +" SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
+            string comando = string.Copy(comandoUpdate) + Tabla.Usuario + " SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
             try
             {
                 using (SqlConnection connection = new SqlConnection(conectionString))
@@ -354,7 +354,7 @@ namespace PalcoNet
                     }
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -430,29 +430,47 @@ namespace PalcoNet
 
                     SqlDataReader reader = command.ExecuteReader();
 
-                    while(reader.Read())
+                    while (reader.Read())
                         columnas.ForEach(c => retorno[c.Split(' ').Last()].Add(reader[c.Split(' ').Last()]));
                 }
             }
-        return retorno;
+            return retorno;
         }
 
-        public bool InsertarPublicaciones(List<Generar_Publicacion.UbicacionIndividual> ubicaciones)
+        public bool InsertarPublicaciones(int id_empresa, List<Generar_Publicacion.Publicacion> publicacion, List<DateTime> fechas, List<Generar_Publicacion.UbicacionIndividual> ubicaciones)
         {
-            string comandoString = string.Copy(comandoInsert) + "ESKHERE.[Ubicacion] " +
+            string comandoStringFecha = string.Copy(comandoInsert)
+                + "ESKHERE.[Publicacion_Fechas] (fpublicacion, ffuncion) values (@fpublicacion, @ffuncion); SELECT SCOPE_IDENTITY()";
+
+            string comandoStringPublicacion = string.Copy(comandoInsert) + Tabla.Ubicacion
+                + " (codigo, descripcion, publicacion_rubro, id_empresa_publicante, id_fecha, id_grado, id_estado) " +
+                "VALUES (@codigo, @descripcion, @publicacion_rubro, @id_empresa_publicante, @id_fecha, @id_grado, @id_estado); SELECT SCOPE_IDENTITY()";
+
+            string comandoStringUbicacion = string.Copy(comandoInsert) + "ESKHERE.[Ubicacion] " +
                 "(ubicacion_fila, ubicacion_asiento, tipo, precio, ubicacion_sin_numerar, ubicacion_tipo_descripcion, id_publicacion) " +
                 "values (@ubicacion_fila, @ubicacion_asiento, @tipo, @precio, @ubicacion_sin_numerar, @ubicacion_tipo_descripcion, @id_publicacion)";
+
             using (SqlConnection connection = new SqlConnection(conectionString))
             {
                 connection.Open();
                 SqlTransaction tr = connection.BeginTransaction();
                 using (SqlCommand command = new SqlCommand())
                 {
+                    command.CommandType = CommandType.Text;
+                    command.Connection = connection;
+                    command.Transaction = tr;
                     try
                     {
-                        command.CommandType = CommandType.Text;
-                        command.Connection = connection;
-                        command.Transaction = tr;
+                        command.Parameters.AddWithValue("@fpublicacion", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@ffuncion", SqlDbType.NVarChar);
+
+                        command.Parameters.AddWithValue("@codigo", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@descripcion", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@publicacion_rubro", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@id_empresa_publicante", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@id_fecha", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@id_grado", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@id_estado", SqlDbType.NVarChar);
 
                         command.Parameters.AddWithValue("@ubicacion_fila", SqlDbType.NVarChar);
                         command.Parameters.AddWithValue("@ubicacion_asiento", SqlDbType.NVarChar);
@@ -461,17 +479,38 @@ namespace PalcoNet
                         command.Parameters.AddWithValue("@ubicacion_sin_numerar", SqlDbType.NVarChar);
                         command.Parameters.AddWithValue("@ubicacion_tipo_descripcion", SqlDbType.NVarChar);
                         command.Parameters.AddWithValue("@id_publicacion", SqlDbType.NVarChar);
-                        foreach (Generar_Publicacion.UbicacionIndividual u in ubicaciones)
-                        {
-                            command.Parameters["@ubicacion_fila"].Value = u.fila;
-                            command.Parameters["@ubicacion_asiento"].Value = u.asiento;
-                            command.Parameters["@tipo"].Value = u.tipo;
-                            command.Parameters["@precio"].Value = u.precio;
-                            command.Parameters["@ubicacion_sin_numerar"].Value = u.ubicacionSinNumerar;
-                            command.Parameters["@ubicacion_tipo_descripcion"].Value = u.tipoDescripcion;
-                            command.Parameters["@id_publicacion"].Value = u.idPublicacion;
 
-                            command.ExecuteNonQuery();
+                        for (int i = 0; i < publicacion.Count; i++)
+                        {
+                            command.CommandText = comandoStringFecha;
+                            command.Parameters["@fpublicacion"].Value = fechas[i];
+                            command.Parameters["@ffuncion"].Value = ConfigurationHelper.fechaActual;
+                            int id = Convert.ToInt32(command.ExecuteScalar());
+
+                            command.CommandText = comandoStringPublicacion;
+                            command.Parameters["@id_fecha"].Value = Convert.ToInt32(command.ExecuteScalar());
+                            command.Parameters["@codigo"].Value = publicacion[i];
+                            command.Parameters["@descripcion"].Value = publicacion[i].descripcion;
+                            command.Parameters["@publicacion_rubro"].Value = publicacion[i].rubro;
+                            command.Parameters["@id_empresa_publicante"].Value = id_empresa;
+                            command.Parameters["@id_fecha"].Value = id;
+                            command.Parameters["@id_grado"].Value = publicacion[i].grado;
+                            command.Parameters["@id_estado"].Value = publicacion[i].estado;
+                            id = Convert.ToInt32(command.ExecuteScalar());
+
+                            command.CommandText = comandoStringUbicacion;
+                            foreach (Generar_Publicacion.UbicacionIndividual u in ubicaciones)
+                            {
+                                command.Parameters["@ubicacion_fila"].Value = u.fila;
+                                command.Parameters["@ubicacion_asiento"].Value = u.asiento;
+                                command.Parameters["@tipo"].Value = u.tipo;
+                                command.Parameters["@precio"].Value = u.precio;
+                                command.Parameters["@ubicacion_sin_numerar"].Value = u.ubicacionSinNumerar;
+                                command.Parameters["@ubicacion_tipo_descripcion"].Value = u.tipoDescripcion;
+                                command.Parameters["@id_publicacion"].Value = id;
+
+                                command.ExecuteNonQuery();
+                            }
                         }
                         tr.Commit();
                         return true;
@@ -486,7 +525,6 @@ namespace PalcoNet
             }
         }
     }
-
 }
 
    /* public class Conexion<T> : Conexion
