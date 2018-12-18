@@ -625,3 +625,9 @@ CREATE VIEW [ESKHERE].Codigo_Publicacion
 AS
 SELECT MAX(codigo) codigo FROM ESKHERE.Publicacion
 GO
+		
+CREATE VIEW [ESKHERE].obtener_Puntos_cliente AS 
+SELECT SUM(cant-Utilizados) AS total_Puntos, ID_cliente
+FROM [ESKHERE].Puntos
+GROUP BY ID_cliente		
+GO
