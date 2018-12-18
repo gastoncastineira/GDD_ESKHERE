@@ -62,6 +62,7 @@ namespace PalcoNet.Abm_Cliente
             }
             textos.Remove(txtDepto);
             textos.Remove(txtPiso);
+            dtpNac.MaxDate = ConfigurationHelper.fechaActual;
         }
 
         private bool cuilEsValido()
@@ -194,6 +195,37 @@ namespace PalcoNet.Abm_Cliente
         private void dtpNac_Leave(object sender, EventArgs e)
         {
             AgregarParaUpdate("cli_fecha_nac", dtpNac.Value);
+        }
+
+        private void SoloNumerico(ref KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar) || char.IsPunctuation(e.KeyChar) || char.IsWhiteSpace(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void txtDoc_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
+        }
+
+        private void txtCUIL_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
+        }
+
+        private void txtCodPostal_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
+        }
+
+        private void txtDepto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
+        }
+
+        private void txtTel_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
         }
     }
 }

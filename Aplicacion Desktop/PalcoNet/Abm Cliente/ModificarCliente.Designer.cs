@@ -118,6 +118,7 @@
             this.txtCodPostal.Name = "txtCodPostal";
             this.txtCodPostal.Size = new System.Drawing.Size(100, 20);
             this.txtCodPostal.TabIndex = 55;
+            this.txtCodPostal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodPostal_KeyPress);
             this.txtCodPostal.Leave += new System.EventHandler(this.txtCodPostal_Leave);
             // 
             // lblTipo
@@ -252,6 +253,7 @@
             this.txtDepto.Name = "txtDepto";
             this.txtDepto.Size = new System.Drawing.Size(100, 20);
             this.txtDepto.TabIndex = 40;
+            this.txtDepto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDepto_KeyPress);
             this.txtDepto.Leave += new System.EventHandler(this.txtDepto_Leave);
             // 
             // txtDir
@@ -268,6 +270,7 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(100, 20);
             this.txtTel.TabIndex = 38;
+            this.txtTel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTel_KeyPress);
             this.txtTel.Leave += new System.EventHandler(this.txtTel_Leave);
             // 
             // txtMail
@@ -284,6 +287,7 @@
             this.txtCUIL.Name = "txtCUIL";
             this.txtCUIL.Size = new System.Drawing.Size(100, 20);
             this.txtCUIL.TabIndex = 36;
+            this.txtCUIL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCUIL_KeyPress);
             this.txtCUIL.Leave += new System.EventHandler(this.txtCUIL_Leave);
             // 
             // txtApel
@@ -300,6 +304,7 @@
             this.txtDoc.Name = "txtDoc";
             this.txtDoc.Size = new System.Drawing.Size(100, 20);
             this.txtDoc.TabIndex = 34;
+            this.txtDoc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDoc_KeyPress);
             this.txtDoc.Leave += new System.EventHandler(this.txtDoc_Leave);
             // 
             // txtNombre

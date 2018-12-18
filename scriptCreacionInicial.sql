@@ -25,9 +25,9 @@ CREATE TABLE ESKHERE.[Funcion](
 );
 
 CREATE TABLE ESKHERE.[Rol_X_Funcion](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[ID_Rol] [int],
 	[ID_Funcion] [int],
+	PRIMARY KEY(ID_ROL, ID_Funcion),
 	CONSTRAINT FK_Rol FOREIGN KEY (ID_Rol) REFERENCES ESKHERE.[Rol](ID),
 	CONSTRAINT FK_Funcion FOREIGN KEY (ID_Funcion) REFERENCES ESKHERE.[Funcion](ID)
 );
@@ -82,7 +82,7 @@ CREATE TABLE ESKHERE.[Cliente](
 CREATE TABLE ESKHERE.[Puntos](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Cant INT,
-	Habilitados BIT,
+	Utilizados INT default 0,		      
 	FechaObtenIDos DATETIME,
 	[ID_cliente] [int] NOT NULL,
 	CONSTRAINT FK_ClientePuntos   FOREIGN KEY(ID_Cliente) REFERENCES ESKHERE. Cliente(ID)
@@ -186,9 +186,9 @@ CREATE TABLE [ESKHERE].[Item_Factura](
 
 
 CREATE TABLE ESKHERE.[Rol_X_Usuario](
-	ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-  	ID_ROL int NOT NULL,
-  	ID_Usuario int NOT NULL,
+  	ID_ROL int,
+  	ID_Usuario int,
+	PRIMARY KEY(ID_ROL, ID_USUARIO),
   	CONSTRAINT FK_Rol_X_Usuario FOREIGN KEY (ID_Rol) REFERENCES ESKHERE. Rol(ID),
 	CONSTRAINT FK_Usuario_X_Rol FOREIGN KEY(ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
@@ -329,7 +329,6 @@ P.ID
 FROM gd_esquema.Maestra M 
 JOIN ESKHERE.Publicacion P ON (					  P.Codigo = M.Espectaculo_Cod AND 
 												  P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])
@@ -352,7 +351,6 @@ JOIN ESKHERE.Ubicacion Ubi ON (ubi.[ubicacion_Fila] =M.[ubicacion_Fila]	   AND
 									ubi.ID_Publicacion = (SELECT TOP 1 ID FROM ESKHERE.Publicacion P WHERE
 												 P.Codigo = M.Espectaculo_Cod AND 
 												 P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])	
@@ -411,7 +409,6 @@ JOIN ESKHERE.Compra C ON ( C.Compra_Cantidad= M.Compra_Cantidad AND
 									 ubi.ID_Publicacion = (SELECT TOP 1 ID FROM ESKHERE.Publicacion P WHERE
 												 P.Codigo = M.Espectaculo_Cod AND 
 												 P.Descripcion = M.Espectaculo_Descripcion AND
-												  P.Publicacion_Rubro = M.Espectaculo_Rubro_Descripcion AND
 												  P.[ID_Empresa_publicante] = (SELECT TOP 1 ID FROM [ESKHERE].Empresa Emp WHERE emp.Espec_Empresa_Razon_Social = [Espec_Empresa_Razon_Social] AND emp.Espec_Empresa_Cuit = [Espec_Empresa_Cuit]) AND
 												  P.[ID_Fecha] = (SELECT TOP 1 ID FROM [ESKHERE].Publicacion_Fechas  PF WHERE PF.FPublicacion = [Espec_Empresa_Fecha_Creacion] AND PF.FFuncion =[Espectaculo_Fecha] AND PF.FVenc =[Espectaculo_Fecha_Venc] ) AND
 												  p.[ID_estado] = (SELECT ID FROM [ESKHERE].[Publicacion_Estado]WHERE [Descripcion]=[Espectaculo_Estado])--Cierre de la busqueda ID_Ubicacion	
@@ -452,12 +449,15 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE [ESKHERE].insertar_usuario @usuario nvarchar(50), @contrasenia nvarchar(max)
+CREATE PROCEDURE [ESKHERE].insertar_usuario @usuario nvarchar(50), @contrasenia nvarchar(max), @nombreTipo nvarchar(50)
 AS
-BEGIN
+BEGIN TRANSACTION
 	insert into ESKHERE.Usuario (Usuario, Contrasenia) values (@usuario, HASHBYTES('SHA2_256', @contrasenia))
-	return SCOPE_IDENTITY()
-END
+	declare @id int = (select top 1 SCOPE_IDENTITY() from ESKHERE.Usuario)
+	insert into ESKHERE.Rol_X_Usuario(ID_ROL, ID_Usuario) values ((select r.ID from ESKHERE.Rol r where r.Nombre = @nombreTipo), @id)
+	COMMIT
+	return @id
+
 
 GO
 CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @nombre nvarchar(20), @apellido nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
@@ -583,3 +583,29 @@ join [ESKHERE].Rol_X_Usuario ru on ru.ID_Usuario = u.ID
 join [ESKHERE].Rol r on r.ID = ru.ID_ROL 
 WHERE r.Habilitado = 1
 GO
+
+CREATE VIEW [ESKHERE].rubros
+AS
+select distinct Publicacion_Rubro from ESKHERE.Publicacion
+GO
+
+CREATE VIEW [ESKHERE].Publicaciones_disponibles_para_listar
+AS
+SELECT TOP 24000 p.ID, p.Descripcion , Publicacion_Rubro, FFuncion, FVenc 
+FROM [ESKHERE].Publicacion p join [ESKHERE].Publicacion_Fechas f on (p.ID_Fecha = f.ID) 
+	JOIN [ESKHERE].Publicacion_Grado g on (p.ID_grado = g.ID)
+	JOIN [ESKHERE].Publicacion_Estado e on (p.ID_estado = e.ID)
+	JOIN [ESKHERE].Ubicaciones_por_publi_disponibles UP ON (UP.Publicacion = P.ID) 
+WHERE e.Descripcion != 'Borrador' and e.Descripcion != 'Finalizada' 
+GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID 
+HAVING count(UP.Ubicacion) >0
+ORDER BY  g.ID asc
+go
+
+CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
+as
+Select p.id Publicacion, u.ID ubicacion, ubicacion_Fila, ubicacion_Asiento, tipo, precio
+	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
+	where u.ID not in 
+			(select ID_Ubicacion from [ESKHERE].compra)
+go
