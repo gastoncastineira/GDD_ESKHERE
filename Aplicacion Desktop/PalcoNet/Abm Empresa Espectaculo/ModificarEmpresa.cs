@@ -62,6 +62,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 chbPiso.Enabled = true;
             if (string.IsNullOrEmpty(txtDepto.Text))
                 chbDepto.Enabled = true;
+            dtp_FechaCreacion.MaxDate = ConfigurationHelper.fechaActual;
         }
 
         private void chbPiso_CheckedChanged(object sender, EventArgs e)
@@ -193,6 +194,12 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         private void dtp_FechaCreacion_Leave(object sender, EventArgs e)
         {
             AgregarParaUpdate("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value);
+        }
+
+        private void soloNumerico(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar) || char.IsWhiteSpace(e.KeyChar) || char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
         }
     }
 }

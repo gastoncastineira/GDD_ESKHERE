@@ -25,9 +25,9 @@ CREATE TABLE ESKHERE.[Funcion](
 );
 
 CREATE TABLE ESKHERE.[Rol_X_Funcion](
-	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[ID_Rol] [int],
 	[ID_Funcion] [int],
+	PRIMARY KEY(ID_ROL, ID_Funcion),
 	CONSTRAINT FK_Rol FOREIGN KEY (ID_Rol) REFERENCES ESKHERE.[Rol](ID),
 	CONSTRAINT FK_Funcion FOREIGN KEY (ID_Funcion) REFERENCES ESKHERE.[Funcion](ID)
 );
@@ -113,7 +113,7 @@ CREATE TABLE ESKHERE.Publicacion_Fechas(
 [ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 FPublicacion DATETIME NOT NULL,
 FFuncion DATETIME NOT NULL,
-FVenc DATETIME NOT NULL,
+FVenc DATETIME NULL,
 );
 
 CREATE TABLE ESKHERE.[Publicacion](
@@ -187,9 +187,9 @@ CREATE TABLE [ESKHERE].[Item_Factura](
 
 
 CREATE TABLE ESKHERE.[Rol_X_Usuario](
-	ID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-  	ID_ROL int NOT NULL,
-  	ID_Usuario int NOT NULL,
+  	ID_ROL int,
+  	ID_Usuario int,
+	PRIMARY KEY(ID_ROL, ID_USUARIO),
   	CONSTRAINT FK_Rol_X_Usuario FOREIGN KEY (ID_Rol) REFERENCES ESKHERE. Rol(ID),
 	CONSTRAINT FK_Usuario_X_Rol FOREIGN KEY(ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
@@ -287,22 +287,28 @@ FROM gd_esquema.Maestra
 
 --MIGRACION DE CLIENTES
 
+INSERT INTO ESKHERE.Usuario(Usuario, Contrasenia, contrasena_autogenerada) (select distinct CAST([Cli_Dni] as nvarchar(50)), HASHBYTES('SHA2_256', N'contrasena'), 1 FROM gd_esquema.Maestra m WHERE [Cli_Dni]  IS NOT NULL)
+INSERT INTO ESKHERE.Rol_X_Usuario(ID_Usuario, ID_ROL) (select distinct (select ID from ESKHERE.Usuario where CAST([Cli_Dni] as nvarchar(50)) = Usuario), 3 FROM gd_esquema.Maestra m WHERE [Cli_Dni]  IS NOT NULL)
+
  INSERT INTO [ESKHERE].[Cliente]
           ([Cli_Dni],[Cuil], [Cli_ApellIDo],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Calle],[Numero]
            ,[Piso],[Depto],[Cod_Postal], [ID_Usuario])
 select  distinct([Cli_Dni]),[Cli_Dni]+1,[Cli_ApeliIDo],[Cli_Nombre],[Cli_Fecha_Nac],[Cli_Mail],[Cli_Dom_Calle],[Cli_Nro_Calle]
-      ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal], 1
+      ,[Cli_Piso],[Cli_Depto],[Cli_Cod_Postal], (select ID from ESKHERE.Usuario where CAST([Cli_Dni] as nvarchar(50)) = Usuario)
 from gd_esquema.Maestra
 where [Cli_Dni]  IS NOT NULL
 
 
 --MIGRACION DE EMPRESAS
 
+INSERT INTO ESKHERE.Usuario(Usuario, Contrasenia, contrasena_autogenerada) (select distinct [Espec_Empresa_Cuit], HASHBYTES('SHA2_256', N'contrasena'), 1 FROM gd_esquema.Maestra m WHERE [Espec_Empresa_Cuit]  IS NOT NULL)
+INSERT INTO ESKHERE.Rol_X_Usuario(ID_Usuario, ID_ROL) (select distinct (select ID from ESKHERE.Usuario where [Espec_Empresa_Cuit] = Usuario), 1 FROM gd_esquema.Maestra m WHERE [Espec_Empresa_Cuit]  IS NOT NULL)
+
 INSERT INTO [ESKHERE].[Empresa] 
 ([Espec_Empresa_Razon_Social],[Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],[ID_Usuario],[Calle],[Numero],[Piso],[Depto],[Cod_Postal])
-SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],1,[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
+SELECT DISTINCT([Espec_Empresa_Razon_Social]), [Espec_Empresa_Cuit],[Espec_Empresa_Fecha_Creacion],[Espec_Empresa_Mail],(select ID from ESKHERE.Usuario where [Espec_Empresa_Cuit] = Usuario),[Espec_Empresa_Dom_Calle],[Espec_Empresa_Nro_Calle]
       ,[Espec_Empresa_Piso],[Espec_Empresa_Depto],[Espec_Empresa_Cod_Postal]
-FROM gd_esquema.Maestra
+FROM gd_esquema.Maestra m
 WHERE [Espec_Empresa_Cuit]  IS NOT NULL 
 
 
@@ -450,12 +456,15 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE [ESKHERE].insertar_usuario @usuario nvarchar(50), @contrasenia nvarchar(max)
+CREATE PROCEDURE [ESKHERE].insertar_usuario @usuario nvarchar(50), @contrasenia nvarchar(max), @nombreTipo nvarchar(50)
 AS
-BEGIN
+BEGIN TRANSACTION
 	insert into ESKHERE.Usuario (Usuario, Contrasenia) values (@usuario, HASHBYTES('SHA2_256', @contrasenia))
-	return SCOPE_IDENTITY()
-END
+	declare @id int = (select top 1 SCOPE_IDENTITY() from ESKHERE.Usuario)
+	insert into ESKHERE.Rol_X_Usuario(ID_ROL, ID_Usuario) values ((select r.ID from ESKHERE.Rol r where r.Nombre = @nombreTipo), @id)
+	COMMIT
+	return @id
+
 
 GO
 CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @nombre nvarchar(20), @apellido nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
@@ -608,3 +617,14 @@ GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID
 HAVING count(UP.Codigo_de_Ubicacion) >0
 go
 
+
+------------------------VIEWS PUBLICACIONES------------------------------------------------
+CREATE VIEW [ESKHERE].Tipo_Ubicacion
+AS
+SELECT DISTINCT tipo, ubicacion_tipo_descripcion FROM ESKHERE.Ubicacion
+GO
+
+CREATE VIEW [ESKHERE].Codigo_Publicacion
+AS
+SELECT MAX(codigo) codigo FROM ESKHERE.Publicacion
+GO

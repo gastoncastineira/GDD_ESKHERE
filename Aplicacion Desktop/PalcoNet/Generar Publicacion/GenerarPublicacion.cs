@@ -14,35 +14,136 @@ namespace PalcoNet.Generar_Publicacion
     {
         List<DateTime> funciones;
         List<Ubicacion> ubicaciones;
+        List<Publicacion> publicaciones;
+        //int idEmpresa;
         public GenerarPublicacion()
         {
             InitializeComponent();
+            //this.idEmpresa = idEmpresa;
             funciones = new List<DateTime>();
             ubicaciones = new List<Ubicacion>();
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
+            publicaciones = new List<Publicacion>();
 
         }
 
         private void GenerarPublicacion_Load(object sender, EventArgs e)
         {
-
+            DataTable estados = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Estado, null);
+            estado.DataSource = estados;
+            estado.ValueMember = "ID";
+            estado.DisplayMember = "Descripcion";
+            DataTable grados = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Grado, null);
+            grado.DataSource = grados;
+            grado.ValueMember = "ID";
+            grado.DisplayMember = "Descripcion";
+            DataTable tipos = Conexion.getInstance().conseguirTabla(Conexion.Tabla.TipoUbicacion, null);
+            ubicacionTipo.DataSource = tipos;
+            ubicacionTipo.ValueMember = "tipo";
+            ubicacionTipo.DisplayMember = "ubicacion_tipo_descripcion";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnFuncion_Click(object sender, EventArgs e)
         {
-
             //Cheque que la fecha ingresada sea mayor que las anteriores
-            if (esFechaMayor(dateTimePicker1.Value))
+            if (esFechaMayor(dateTimePicker1.Value) && dateTimePicker1.Value.CompareTo(ConfigurationHelper.fechaActual) > 0)
             {
                 //agrego fecha de funcion
-                String fecha = dateTimePicker1.ToString();
+                funciones.Add(dateTimePicker1.Value);
 
+                ListViewItem fecha = new ListViewItem(dateTimePicker1.Value.Date.ToString());
+                fecha.SubItems.Add(dateTimePicker1.Value.TimeOfDay.ToString());
                 listView1.Items.Add(fecha);
             }
+            else
+            {
+                if (dateTimePicker1.Value.CompareTo(ConfigurationHelper.fechaActual) < 0)
+                {
+                    MessageBox.Show("El dia que desea ingresar ya paso");
+                }
+                else
+                {
+                    MessageBox.Show("Debe ingresar una fecha y hora posteriores a las ya ingresadas");
+                }
+
+            }
+        }
+
+        private void btnLimpiarFunciones_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            funciones.Clear();
+        }
+
+        private void btnUbicacion_Click(object sender, EventArgs e)
+        {
+
+            if (Controls.OfType<TextBox>().Any(t => string.IsNullOrEmpty(t.Text)))
+            {
+                MessageBox.Show("Se deben completar todos los campos");
+            }
+            else
+            {
+                //Agrego la ubicacion a la vista
+                ListViewItem ubicacion = new ListViewItem(ubicacionTipo.Text);
+                ubicacion.SubItems.Add(ubicacionFilas.Text);
+                ubicacion.SubItems.Add(ubicacionAsientos.Text);
+                ubicacion.SubItems.Add(ubicacionPrecio.Text);
+                listView2.Items.Add(ubicacion);
+
+                //agrego ubicacion a la lista
+                Ubicacion ubicacionLista = new Ubicacion();
+                ubicacionLista.tipo = ubicacionTipo.Text;
+                ubicacionLista.filas = Convert.ToInt32(ubicacionFilas.Text);
+                ubicacionLista.asientosPorFila = Convert.ToInt32(ubicacionAsientos.Text);
+                ubicacionLista.precio = Convert.ToDecimal(ubicacionPrecio.Text);
+                ubicaciones.Add(ubicacionLista);
+            }
+        }
+
+        private void btnLimpiarUbicaciones_Click(object sender, EventArgs e)
+        {
+            listView2.Items.Clear();
+            ubicaciones.Clear();
+        }
+
+        private void btnGenerar_Click(object sender, EventArgs e)
+        {
+            if (Controls.OfType<TextBox>().Any(t => string.IsNullOrEmpty(t.Text)) || !funciones.Any() || !ubicaciones.Any())
+            {
+                MessageBox.Show("Se deben completar todos los campos");
+            }
+            else
+            {
+                DataTable codigoTabla = Conexion.getInstance().conseguirTabla(Conexion.Tabla.CodigoPublicacion, null);
+                DataRow row = codigoTabla.Rows[0];
+                Int32 codigo = Convert.ToInt32(row["codigo"]);
+                for (int i = 1; i < funciones.Count;i++ )
+                {
+                    Publicacion publicacion = new Publicacion();
+                    publicacion.descripcion = descripcion.Text;
+                    publicacion.rubro = rubro.Text;
+                    publicacion.grado = Convert.ToInt32(grado.SelectedValue);
+                    publicacion.estado = Convert.ToInt32(estado.SelectedValue);
+                    publicacion.codigo = codigo++;
+                    publicaciones.Add(publicacion);
+                }
+                List<UbicacionIndividual> ubicacionesIndividuales = generarUbicacionesIndividuales();
+                if (Conexion.getInstance().InsertarPublicaciones(10, publicaciones, funciones, ubicacionesIndividuales))
+                {
+                    MessageBox.Show("Insert ok");
+                }
+                else
+                {
+                    MessageBox.Show("NO");
+                }
+
+
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.Hide();
         }
 
         private List<DateTime> obtenerFunciones()
@@ -59,58 +160,52 @@ namespace PalcoNet.Generar_Publicacion
 
         private Boolean esFechaMayor(DateTime fecha)
         {
-            List<DateTime> fechas = obtenerFunciones();
-            return fechas.All(f => f < fecha);
+            return funciones.All(f => f < fecha);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private char obtenerLetra(int fila)
         {
-            this.Hide();
+            Dictionary<int, char> filas = diccionarioFilas();
+            return filas[fila];
         }
-
-        private void button2_Click(object sender, EventArgs e)
+        private Dictionary<int, char> diccionarioFilas()
         {
-            listView1.Items.Clear();
+            Dictionary<int, char> filas = new Dictionary<int,char>();
+            char letra ='A';
+            for (int i = 1; i <= 27; i++)
+            {
+                filas.Add(i, letra);
+                letra++;
+            }
+            return filas;
+
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        //desglose del conjunto de ubicaciones, y asignacion de letra a cada fila
+        private List<UbicacionIndividual> generarUbicacionesIndividuales()
         {
-            listView2.Items.Clear();
-            ubicaciones.Clear();
+            List<UbicacionIndividual> ubicacionesIndividuales = new List<UbicacionIndividual>();
+            //recorro ubicaciones por tipo
+            foreach (Ubicacion unaUbicacion in ubicaciones)
+            {
+                //recorro ubicaciones por fila
+                for (int j = unaUbicacion.filas; j > 0; j--)
+                {
+                    //recorro ubicaciones por asiento
+                    for (int k = unaUbicacion.asientosPorFila; k > 0; k--)
+                    {
+                        UbicacionIndividual ubicacion = new UbicacionIndividual();
+                        ubicacion.tipoDescripcion = unaUbicacion.tipo;
+                        ubicacion.precio = unaUbicacion.precio;
+                        ubicacion.fila = obtenerLetra(j);
+                        ubicacion.asiento = k;
+                        ubicacionesIndividuales.Add(ubicacion);
+                    }
+                }
+            }
+
+            return ubicacionesIndividuales;
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-            //Agrego la ubicacion a la vista
-            ListViewItem ubicacion = new ListViewItem(ubicacionTipo.Text);
-            ubicacion.SubItems.Add(ubicacionFilas.Text);
-            ubicacion.SubItems.Add(ubicacionAsientos.Text);
-            ubicacion.SubItems.Add(ubicacionPrecio.Text);
-            listView2.Items.Add(ubicacion);
-
-            //agrego ubicacion a la lista
-            Ubicacion ubicacionLista = new Ubicacion();
-            ubicacionLista.tipo = ubicacionTipo.Text;
-            ubicacionLista.filas = Convert.ToInt32(ubicacionFilas.Text);
-            ubicacionLista.asientosPorFila = Convert.ToInt32(ubicacionAsientos.Text);
-            ubicacionLista.precio = Convert.ToDecimal(ubicacionPrecio.Text);
-            ubicaciones.Add(ubicacionLista);
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            Publicacion publicacion = new Publicacion();
-            List<DateTime> funcionesNuevas = new List<DateTime>();
-            List<Ubicacion> ubicacionesNuevas = new List<Ubicacion>();
-
-            publicacion.descripcion = descripcion.Text;
-            publicacion.rubro = rubro.Text;
-            publicacion.estado = estado.Text;
-            publicacion.direccion = direccion.Text;
-            publicacion.grado = grado.Text;
-            publicacion.funciones = obtenerFunciones();
-            publicacion.ubicaciones = ubicaciones;
-        }
     }
 }

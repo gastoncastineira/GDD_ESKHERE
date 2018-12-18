@@ -25,7 +25,7 @@ namespace PalcoNet.Abm_Grado
                 MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
             {
-                if (Conexion.getInstance().Insertar(Conexion.Tabla.Grado, datos))
+                if (Conexion.getInstance().Insertar(Conexion.Tabla.Grado, datos)!=-1)
                 {
                     DialogResult = DialogResult.OK;
                 }
@@ -52,7 +52,15 @@ namespace PalcoNet.Abm_Grado
 
         private void txtComision_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("comision", Convert.ToInt32(txtComision.Text));
+            AgregarParaInsert("comision", Convert.ToDouble(txtComision.Text));
+        }
+
+        private void soloNumerico(object sender, KeyPressEventArgs e)
+        {
+            if (txtComision.Text == string.Empty || txtComision.Text == "0")
+                txtComision.Text = "0.";
+            if (char.IsLetter(e.KeyChar) || char.IsWhiteSpace(e.KeyChar) || char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
         }
     }
 }

@@ -57,5 +57,14 @@ namespace PalcoNet.Abm_Grado
         {
             AgregarParaInsert("comision", Convert.ToInt32(txtComision.Text));
         }
+
+
+        private void soloNumerico(object sender, KeyPressEventArgs e)
+        {
+            if (txtComision.Text == string.Empty || txtComision.Text == "0")
+                txtComision.Text = "0.";
+            if (char.IsLetter(e.KeyChar) || char.IsWhiteSpace(e.KeyChar) || char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
+        }
     }
 }

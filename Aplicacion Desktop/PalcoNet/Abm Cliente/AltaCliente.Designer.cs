@@ -72,6 +72,7 @@
             this.txtDoc.Name = "txtDoc";
             this.txtDoc.Size = new System.Drawing.Size(100, 20);
             this.txtDoc.TabIndex = 1;
+            this.txtDoc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDoc_KeyPress);
             this.txtDoc.Leave += new System.EventHandler(this.txtDoc_Leave);
             // 
             // txtApel
@@ -88,6 +89,7 @@
             this.txtCUIL.Name = "txtCUIL";
             this.txtCUIL.Size = new System.Drawing.Size(100, 20);
             this.txtCUIL.TabIndex = 3;
+            this.txtCUIL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCUIL_KeyPress);
             this.txtCUIL.Leave += new System.EventHandler(this.txtCUIL_Leave);
             // 
             // txtMail
@@ -117,16 +119,17 @@
             // txtDepto
             // 
             this.txtDepto.Enabled = false;
-            this.txtDepto.Location = new System.Drawing.Point(378, 125);
+            this.txtDepto.Location = new System.Drawing.Point(377, 173);
             this.txtDepto.Name = "txtDepto";
             this.txtDepto.Size = new System.Drawing.Size(100, 20);
             this.txtDepto.TabIndex = 7;
+            this.txtDepto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDepto_KeyPress);
             this.txtDepto.Leave += new System.EventHandler(this.txtPiso_Leave);
             // 
             // txtPiso
             // 
             this.txtPiso.Enabled = false;
-            this.txtPiso.Location = new System.Drawing.Point(378, 175);
+            this.txtPiso.Location = new System.Drawing.Point(377, 125);
             this.txtPiso.Name = "txtPiso";
             this.txtPiso.Size = new System.Drawing.Size(100, 20);
             this.txtPiso.TabIndex = 8;
@@ -254,6 +257,7 @@
             this.txtCodPostal.Name = "txtCodPostal";
             this.txtCodPostal.Size = new System.Drawing.Size(100, 20);
             this.txtCodPostal.TabIndex = 27;
+            this.txtCodPostal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodPostal_KeyPress);
             this.txtCodPostal.Leave += new System.EventHandler(this.txtCodPostal_Leave);
             // 
             // cbbTipo

@@ -16,6 +16,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         private List<TextBox> textos = new List<TextBox>();
         private Dictionary<string, object> datos = new Dictionary<string, object>();
         private int idUser = -1;
+        private bool flag = true;
 
         public AltaEmpresa()
         {
@@ -27,10 +28,12 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             }
             textos.Remove(txtPiso);
             textos.Remove(txtDepto);
+            dtp_FechaCreacion.MaxDate = ConfigurationHelper.fechaActual;
         }
 
         public AltaEmpresa(int idUser)
         {
+            flag = false;
             this.idUser = idUser;
             InitializeComponent();
             foreach (Control c in Controls)
@@ -73,12 +76,13 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                         AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtRazon.Text, txtCUIT.Text, ref usuario, ref contraseña));
                     else
                         AgregarParaInsert("id_usuario", idUser);
-                    if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos))
+                    if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos)!=-1)
                         DialogResult = DialogResult.OK;
                     else
                         DialogResult = DialogResult.Abort;
                 }
             }
+            flag = true;
         }
 
         private void AgregarParaInsert(string nombreCol, object data)
@@ -179,11 +183,17 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void AltaEmpresa_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(idUser != -1)
+            if(!flag)
             {
                 MessageBox.Show("No se puede cancelar");
                 e.Cancel = true;
             }
+        }
+
+        private void soloNumerico(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar) || char.IsWhiteSpace(e.KeyChar) || char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
         }
     }
 }

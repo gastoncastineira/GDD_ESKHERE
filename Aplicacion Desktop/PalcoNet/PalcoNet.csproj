@@ -188,6 +188,7 @@
     </Compile>
     <Compile Include="Generar Publicacion\Publicacion.cs" />
     <Compile Include="Generar Publicacion\Ubicacion.cs" />
+    <Compile Include="Generar Publicacion\UbicacionIndividual.cs" />
     <Compile Include="Listado Estadistico\ListadoEstadistico.cs">
       <SubType>Form</SubType>
     </Compile>

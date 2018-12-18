@@ -44,7 +44,7 @@ namespace PalcoNet.Abm_Rol
                 return;
             }
             Dictionary<string, object> datos = new Dictionary<string, object>();
-            datos["nombre"] = txtNombre.Text.Trim();
+            datos["nombre"] = txtNombre.Text;
             Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
             datos = new Dictionary<string, object>();
             datos["id_rol"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Rol, new List<string>(new string[] { "SCOPE_IDENTITY() AS id" }), null)["id"][0];
