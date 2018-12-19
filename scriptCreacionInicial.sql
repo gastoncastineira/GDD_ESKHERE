@@ -645,3 +645,9 @@ SELECT SUM(cant-Utilizados) AS total_Puntos, ID_cliente
 FROM [ESKHERE].Puntos
 GROUP BY ID_cliente		
 GO
+		
+---------------- VIEW PREMIOS POR CLIENTE----------------------		
+CREATE VIEW [ESKHERE].PremiosPorCliente AS
+SELECT  P.ID, P.Puntos, P.Descripcion, CP.ID_Cliente FROM eskhere.Premios P
+JOIN ESKHERE.Cliente_Premio CP ON ( P.ID = CP.ID_Premio)
+GO
