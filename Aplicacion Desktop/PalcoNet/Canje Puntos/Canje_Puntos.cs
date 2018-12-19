@@ -12,11 +12,14 @@ namespace PalcoNet.Canje_Puntos
 {
     public partial class Canje_Puntos : Form
     {
-        public Canje_Puntos()
+        public Canje_Puntos(int id_clienteP)
         {
             InitializeComponent();
+            id_cliente = id_clienteP;
+
         }
 
+        int id_cliente;
         private List<TextBox> textos = new List<TextBox>();
         private Dictionary<string, object> datos = new Dictionary<string, object>();
         private Dictionary<string, object> datosPuntos = new Dictionary<string, object>();
@@ -44,7 +47,7 @@ namespace PalcoNet.Canje_Puntos
         {
 
             Dictionary<string, string> filtroIDCliente = new Dictionary<string, string>();
-            filtroIDCliente.Add("ID_Cliente", Conexion.Filtro.Exacto("370"));
+            filtroIDCliente.Add("ID_Cliente", Conexion.Filtro.Exacto(id_cliente.ToString()));
             List<string> columnas = new List<string>();
             columnas.Add("Total_puntos");
             List<object> resultadoConsultaPtosCliente = ((Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Vobtener_Puntos_cliente, columnas, filtroIDCliente))["Total_puntos"]);
@@ -53,13 +56,13 @@ namespace PalcoNet.Canje_Puntos
         private void cargar_dgv_premios_cliente()
         {
             Dictionary<string, string> filtrosPremiosCliente = new Dictionary<string, string>();
-            filtrosPremiosCliente.Add("ID_Cliente", Conexion.Filtro.Exacto("370"));
+            filtrosPremiosCliente.Add("ID_Cliente", Conexion.Filtro.Exacto(id_cliente.ToString()));
             Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.PremiosPorCliente, ref dgv_PremiosPorCliente, filtrosPremiosCliente);
         }
         private void cargar_dgv_ptos_cliente()
         {
             Dictionary<string, string> filtrosPtossCliente = new Dictionary<string, string>();
-            filtrosPtossCliente.Add("ID_Cliente", Conexion.Filtro.Exacto("370"));
+            filtrosPtossCliente.Add("ID_Cliente", Conexion.Filtro.Exacto(id_cliente.ToString()));
             filtrosPtossCliente.Add("year(FechaObtenIDos)", Conexion.Filtro.Exacto(ConfigurationHelper.fechaActual.Year.ToString()));//Tienen que ser de este año
             filtrosPtossCliente.Add("Utilizados", Conexion.Filtro.Between("0", "cant-1"));//Tienen que estar habilitados
             Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Puntos, ref dgv_Ptos_Cliente, filtrosPtossCliente);
@@ -86,7 +89,7 @@ namespace PalcoNet.Canje_Puntos
              
                 //Aca filtro x id cliente la cantidad de ptos que tiene el cliente
                 Dictionary<string, string> filtrosPtosCliente = new Dictionary<string, string>();
-                filtrosPtosCliente.Add("ID_Cliente", Conexion.Filtro.Exacto("370"));
+                filtrosPtosCliente.Add("ID_Cliente", Conexion.Filtro.Exacto(id_cliente.ToString()));
                 List<string> columnasCliente = new List<string>();
                 columnasCliente.Add("Total_puntos");
                 List<object> resultadoConsultaPtosCliente = ((Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Vobtener_Puntos_cliente, columnasCliente, filtrosPtosCliente))["Total_puntos"]);
@@ -124,7 +127,7 @@ namespace PalcoNet.Canje_Puntos
                                 AgregarParaUpdate("Utilizados", ptos_utilizados.ToString());
                                 Conexion.getInstance().Modificar(id_fila_ptos, Conexion.Tabla.Puntos, datosPuntos);
 
-                                AgregarParaInsert("ID_cliente", 370);
+                                AgregarParaInsert("ID_cliente", id_cliente);
                                 Conexion.getInstance().Insertar(Conexion.Tabla.Cliente_Premio, datos);//Finalmente aca le adjudico el premio
                                 this.ptos_disp_cliente();//Obtengo la CANT MAX (actual) de ptos disponibles del cliente
                                 break;
