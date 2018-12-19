@@ -54,7 +54,7 @@
             // 
             this.label1.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(168, 12);
+            this.label1.Location = new System.Drawing.Point(168, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 0;
@@ -64,7 +64,7 @@
             // 
             this.chkLBCat.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.chkLBCat.FormattingEnabled = true;
-            this.chkLBCat.Location = new System.Drawing.Point(243, 12);
+            this.chkLBCat.Location = new System.Drawing.Point(243, 29);
             this.chkLBCat.Name = "chkLBCat";
             this.chkLBCat.Size = new System.Drawing.Size(200, 64);
             this.chkLBCat.TabIndex = 1;
@@ -73,7 +73,7 @@
             // 
             this.label2.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(168, 96);
+            this.label2.Location = new System.Drawing.Point(168, 113);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 2;
@@ -82,7 +82,7 @@
             // descripcion
             // 
             this.descripcion.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
-            this.descripcion.Location = new System.Drawing.Point(243, 93);
+            this.descripcion.Location = new System.Drawing.Point(243, 110);
             this.descripcion.Name = "descripcion";
             this.descripcion.Size = new System.Drawing.Size(200, 20);
             this.descripcion.TabIndex = 3;
@@ -120,7 +120,7 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.fechaDesde);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Location = new System.Drawing.Point(160, 127);
+            this.groupBox1.Location = new System.Drawing.Point(160, 144);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(306, 93);
             this.groupBox1.TabIndex = 9;
@@ -137,7 +137,7 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(204, 226);
+            this.btnLimpiar.Location = new System.Drawing.Point(204, 243);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpiar.TabIndex = 10;
@@ -147,7 +147,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(312, 226);
+            this.btnBuscar.Location = new System.Drawing.Point(312, 243);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(117, 23);
             this.btnBuscar.TabIndex = 11;
