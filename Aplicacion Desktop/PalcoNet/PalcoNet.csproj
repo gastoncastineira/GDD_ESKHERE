@@ -123,6 +123,7 @@
     <Compile Include="Abm Rubro\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="CalculoCUITCUIL.cs" />
     <Compile Include="Canje Puntos\Canje_Puntos.cs">
       <SubType>Form</SubType>
     </Compile>

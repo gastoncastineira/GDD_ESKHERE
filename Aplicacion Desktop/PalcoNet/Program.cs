@@ -17,8 +17,8 @@ namespace PalcoNet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            FormInicial = new Comprar.Comprar("10125617");
+            //FormInicial = new Abm_Cliente.AltaCliente();
+            FormInicial = new Abm_Empresa_Espectaculo.AltaEmpresa();
             Application.Run(FormInicial);
         }
     }
