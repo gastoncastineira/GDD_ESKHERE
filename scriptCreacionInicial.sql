@@ -617,6 +617,13 @@ GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID
 HAVING count(UP.Codigo_de_Ubicacion) >0
 go
 
+CREATE VIEW [ESKHERE].idClientexNombreUsuario_y_numTarjeta_para_compra
+AS
+SELECT c.ID idCliente , u.Usuario nombreUsr, c.numero_tarjeta_credito 
+	FROM [ESKHERE].Usuario u join [ESKHERE].Cliente c 
+		on(u.ID = c.ID_Usuario)
+GO
+
 
 ------------------------VIEWS PUBLICACIONES------------------------------------------------
 CREATE VIEW [ESKHERE].Tipo_Ubicacion
