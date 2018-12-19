@@ -77,26 +77,35 @@ namespace PalcoNet.Generar_Publicacion
         private void btnUbicacion_Click(object sender, EventArgs e)
         {
 
-            if (Controls.OfType<TextBox>().Any(t => string.IsNullOrEmpty(t.Text)))
+            if (Controls.OfType<TextBox>().Any(t => string.IsNullOrEmpty(t.Text)) || groupBox2.Controls.OfType<TextBox>().Any(t => string.IsNullOrEmpty(t.Text)))
             {
                 MessageBox.Show("Se deben completar todos los campos");
             }
             else
             {
-                //Agrego la ubicacion a la vista
-                ListViewItem ubicacion = new ListViewItem(ubicacionTipo.Text);
-                ubicacion.SubItems.Add(ubicacionFilas.Text);
-                ubicacion.SubItems.Add(ubicacionAsientos.Text);
-                ubicacion.SubItems.Add(ubicacionPrecio.Text);
-                listView2.Items.Add(ubicacion);
+                if (ubicaciones.Any(ubicacion => ubicacion.tipo == ubicacionTipo.Text))
+                {
+                    MessageBox.Show("Ya cargo un conjunto de ubicaciones de ese tipo");
+                }
+                else
+                {
+                    //Agrego la ubicacion a la vista
+                    ListViewItem ubicacion = new ListViewItem(ubicacionTipo.Text);
+                    ubicacion.SubItems.Add(ubicacionFilas.Text);
+                    ubicacion.SubItems.Add(ubicacionAsientos.Text);
+                    ubicacion.SubItems.Add(ubicacionPrecio.Text);
+                    listView2.Items.Add(ubicacion);
 
-                //agrego ubicacion a la lista
-                Ubicacion ubicacionLista = new Ubicacion();
-                ubicacionLista.tipo = ubicacionTipo.Text;
-                ubicacionLista.filas = Convert.ToInt32(ubicacionFilas.Text);
-                ubicacionLista.asientosPorFila = Convert.ToInt32(ubicacionAsientos.Text);
-                ubicacionLista.precio = Convert.ToDecimal(ubicacionPrecio.Text);
-                ubicaciones.Add(ubicacionLista);
+                    //agrego ubicacion a la lista
+                    Ubicacion ubicacionLista = new Ubicacion();
+                    ubicacionLista.tipo = ubicacionTipo.Text;
+                    ubicacionLista.tipoId = Convert.ToInt32(ubicacionTipo.SelectedValue);
+                    ubicacionLista.filas = Convert.ToInt32(ubicacionFilas.Text);
+                    ubicacionLista.asientosPorFila = Convert.ToInt32(ubicacionAsientos.Text);
+                    ubicacionLista.precio = Convert.ToDecimal(ubicacionPrecio.Text);
+                    ubicaciones.Add(ubicacionLista);
+                }
+
             }
         }
 
@@ -116,15 +125,15 @@ namespace PalcoNet.Generar_Publicacion
             {
                 DataTable codigoTabla = Conexion.getInstance().conseguirTabla(Conexion.Tabla.CodigoPublicacion, null);
                 DataRow row = codigoTabla.Rows[0];
-                Int32 codigo = Convert.ToInt32(row["codigo"]);
-                for (int i = 1; i < funciones.Count;i++ )
+                Int32 codigo = Convert.ToInt32(row["codigo"])+1;
+                for (int i = 0; i < funciones.Count;i++ )
                 {
                     Publicacion publicacion = new Publicacion();
                     publicacion.descripcion = descripcion.Text;
                     publicacion.rubro = rubro.Text;
                     publicacion.grado = Convert.ToInt32(grado.SelectedValue);
                     publicacion.estado = Convert.ToInt32(estado.SelectedValue);
-                    publicacion.codigo = codigo++;
+                    publicacion.codigo = codigo+i;
                     publicaciones.Add(publicacion);
                 }
                 List<UbicacionIndividual> ubicacionesIndividuales = generarUbicacionesIndividuales();
@@ -139,6 +148,12 @@ namespace PalcoNet.Generar_Publicacion
 
 
             }
+            //limpiar listas
+            listView1.Items.Clear();
+            funciones.Clear();
+            listView2.Items.Clear();
+            ubicaciones.Clear();
+            publicaciones.Clear();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -196,6 +211,7 @@ namespace PalcoNet.Generar_Publicacion
                     {
                         UbicacionIndividual ubicacion = new UbicacionIndividual();
                         ubicacion.tipoDescripcion = unaUbicacion.tipo;
+                        ubicacion.tipo = unaUbicacion.tipoId;
                         ubicacion.precio = unaUbicacion.precio;
                         ubicacion.fila = obtenerLetra(j);
                         ubicacion.asiento = k;
@@ -205,6 +221,19 @@ namespace PalcoNet.Generar_Publicacion
             }
 
             return ubicacionesIndividuales;
+        }
+
+
+        private void ubicacionFilas_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsNumber(e.KeyChar) && e.KeyChar != (char)8)
+                e.Handled = true;
+        }
+
+        private void ubicacionPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsNumber(e.KeyChar) && e.KeyChar != (char)8)
+                e.Handled = true;
         }
 
     }
