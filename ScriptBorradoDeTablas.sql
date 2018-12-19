@@ -38,4 +38,5 @@ DROP VIEW [ESKHERE].Publicaciones_disponibles_para_listar
 DROP VIEW [ESKHERE].Roles_usuario
 DROP VIEW [ESKHERE].rubros
 DROP VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
-
+DROP VIEW [ESKHERE].idClientexNombreUsuario_y_numTarjeta_para_compra
+DROP VIEW [ESKHERE].Tipo_Ubicacion
