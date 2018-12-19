@@ -50,6 +50,7 @@ namespace PalcoNet
         public static class Tabla
         {
             public static string Cliente { get { return "ESKHERE.[Cliente]"; } }
+            public static string Compra { get { return "[ESKHERE].[Compra]"; } }
             public static string Grado { get { return "ESKHERE.[Publicacion_Grado]"; } }
             public static string Estado { get { return "ESKHERE.[Publicacion_Estado]"; } }
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
@@ -74,7 +75,7 @@ namespace PalcoNet
             public static string Rubros { get { return "[ESKHERE].rubros"; } }
             public static string PublicacionesParaListar { get { return "[ESKHERE].Publicaciones_disponibles_para_listar"; } }
             public static string UbicacionesParaListar { get { return "[ESKHERE].Ubicaciones_por_publi_disponibles"; } }
-
+            public static string idDelCliente { get { return "[ESKHERE].idClientexNombreUsuario_y_numTarjeta_para_compra"; } }
             public static string TipoUbicacion { get { return "[ESKHERE].Tipo_Ubicacion"; } }
             public static string CodigoPublicacion { get { return "[ESKHERE].Codigo_Publicacion"; } }
         }
@@ -490,6 +491,7 @@ namespace PalcoNet
                         command.Parameters.AddWithValue("@ubicacion_tipo_descripcion", SqlDbType.NVarChar);
                         command.Parameters.AddWithValue("@id_publicacion", SqlDbType.NVarChar);
 
+
                         for (int i = 0; i < publicacion.Count; i++)
                         {
                             command.CommandText = comandoStringFecha;
@@ -535,9 +537,60 @@ namespace PalcoNet
                 }
             }
         }
+
+        public bool InsertarCompras(string id_Cliente, string cantidad, string formaPago, List<string> ubicaciones)
+        {
+
+            string comandoStringCompras = string.Copy(comandoInsert) + Tabla.Compra
+                + " ([Fecha] ,[Compra_Cantidad],[Forma_Pago_Desc],[ID_Cliente],[ID_Ubicacion]) " +
+                "VALUES (@fecha, @cantidad, @formaPagoDesc, @idCliente, @idUbicacion); SELECT SCOPE_IDENTITY()";
+
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                SqlTransaction tr = connection.BeginTransaction();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.Connection = connection;
+                    command.Transaction = tr;
+                    try
+                    {
+                        command.Parameters.AddWithValue("@fecha", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@cantidad", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@formaPagoDesc", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@idCliente", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@idUbicacion", SqlDbType.NVarChar);
+
+                        for (int i = 0; i < ubicaciones.Count; i++)
+                        {
+                            command.CommandText = comandoStringCompras;
+
+                            command.Parameters["@fecha"].Value = ConfigurationHelper.fechaActual;
+                            command.Parameters["@cantidad"].Value = cantidad;
+                            command.Parameters["@formaPagoDesc"].Value = formaPago;
+                            command.Parameters["@idCliente"].Value = id_Cliente;
+                            command.Parameters["@idUbicacion"].Value = ubicaciones[i];
+
+                            command.ExecuteNonQuery();
+                        
+                        }
+                        tr.Commit();
+                    return true;
+                }
+                    catch (SqlException e)
+                {
+                    string a = e.StackTrace;
+                    tr.Rollback();
+                    return false;
+                }
+
+            }
+        }
     }
 }
-
+}
+    
    /* public class Conexion<T> : Conexion
     {
         private static Conexion<T> instance = null;
