@@ -109,7 +109,8 @@ namespace PalcoNet
         private void CanjePuntos_Click(object sender, EventArgs e)
         {
             Close();
-            //new Canje_Puntos.Form1().Show();
+            //new Canje_Puntos.Canje_Puntos().Show();
+
         }
 
         private void Comprar_Click(object sender, EventArgs e)
