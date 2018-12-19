@@ -177,5 +177,6 @@ namespace PalcoNet.Comprar
         {
             datos[nombreCol] = data;
         }
+
     }
 }

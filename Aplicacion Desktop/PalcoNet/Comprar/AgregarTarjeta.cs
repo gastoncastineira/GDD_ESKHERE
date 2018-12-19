@@ -18,6 +18,7 @@ namespace PalcoNet.Comprar
         {
             InitializeComponent();
             id = Convert.ToInt32(idCliente);
+            this.ControlBox = false;
         }
 
         private void btnAgregarTarj_Click(object sender, EventArgs e)
