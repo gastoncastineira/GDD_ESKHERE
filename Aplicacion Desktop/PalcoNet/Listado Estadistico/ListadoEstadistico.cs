@@ -27,6 +27,7 @@ namespace PalcoNet.Listado_Estadistico
                 cmbAño.Items.Add(año);
             }
             cmbAño.Text = añoactual.ToString();
+            cmbTrimestre.Text = "1";
             cmbTrimestre.Items.Add("1");
             cmbTrimestre.Items.Add("2");
             cmbTrimestre.Items.Add("3");
