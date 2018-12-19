@@ -651,3 +651,8 @@ CREATE VIEW [ESKHERE].PremiosPorCliente AS
 SELECT  P.ID, P.Puntos, P.Descripcion, CP.ID_Cliente FROM eskhere.Premios P
 JOIN ESKHERE.Cliente_Premio CP ON ( P.ID = CP.ID_Premio)
 GO
+
+--------------- VIEW COSTO PREMIO------------		
+CREATE VIEW ESKHERE.CostoPremio AS
+SELECT Puntos, ID FROM ESKHERE.Premios
+GO
