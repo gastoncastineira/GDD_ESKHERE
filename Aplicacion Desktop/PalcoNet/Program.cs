@@ -17,7 +17,7 @@ namespace PalcoNet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            FormInicial = new Comprar.Comprar("admin");
+            FormInicial = new Comprar.Comprar("10125617");
             Application.Run(FormInicial);
         }
     }
