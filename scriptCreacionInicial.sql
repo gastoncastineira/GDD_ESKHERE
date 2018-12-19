@@ -519,7 +519,7 @@ join Rol_X_Funcion rf on rf.ID_Rol = r.ID
 join Funcion f on f.ID = rf.ID_Funcion
 GO
 
---------------------------------  VIEWS Y PROCEDURES PARA LISTADO ESTADISTICO ------------------------------------------------------------------------------------------------
+--------------------------------  VIEWS PARA LISTADO ESTADISTICO ------------------------------------------------------------------------------------------------
 GO
 CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
 AS
@@ -565,6 +565,7 @@ SELECT MIN(YEAR(FPublicacion)) anio
 FROM ESKHERE.Publicacion_Fechas
 GO
 
+--------------------------------------VIEWS HISTORIAL COMPRAS--------------------------------------------------
 CREATE VIEW [ESKHERE].Historial_Compras AS
 SELECT Cli.ID as id_cliente, Cli.Cli_Nombre, Pub.Codigo, Ubi.tipo, Ubi.Ubicacion_Tipo_Descripcion, Com.Compra_Cantidad, ubi.precio, ubi.precio 'Precio Total', com.Fecha, com.Forma_Pago_Desc
 FROM ESKHERE.Cliente Cli 
@@ -573,6 +574,7 @@ JOIN ESKHERE.Ubicacion Ubi ON ( Com.ID_Ubicacion = Ubi.ID)
 JOIN ESKHERE.Publicacion Pub ON ( Ubi.ID_Publicacion = Pub.id)
 GO
 
+--------------------------------------VIEWS FUNCIONES Y ROLES-----------------------------------------------------
 CREATE VIEW [ESKHERE].funciones_usuarios
 AS
 SELECT u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion, f.ID as funcion_id FROM [ESKHERE].Usuario u 
@@ -635,7 +637,9 @@ CREATE VIEW [ESKHERE].Codigo_Publicacion
 AS
 SELECT MAX(codigo) codigo FROM ESKHERE.Publicacion
 GO
-		
+
+
+-----------------------VIEW PUNTOS CLIENTE-----------------------------------------------		
 CREATE VIEW [ESKHERE].obtener_Puntos_cliente AS 
 SELECT SUM(cant-Utilizados) AS total_Puntos, ID_cliente
 FROM [ESKHERE].Puntos
