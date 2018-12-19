@@ -17,7 +17,7 @@ namespace PalcoNet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            FormInicial = new Generar_Publicacion.GenerarPublicacion();
+            FormInicial = new Canje_Puntos.Canje_Puntos();
             Application.Run(FormInicial);
         }
     }

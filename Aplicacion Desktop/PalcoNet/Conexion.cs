@@ -55,6 +55,12 @@ namespace PalcoNet
             public static string UsuarioXRol { get { return "ESKHERE.[rol_x_usuario]"; } }
             public static string Usuario { get { return "ESKHERE.[Usuario]"; } }
             public static string Factura { get { return "ESKHERE.[Factura]"; } }
+            public static string Premios { get { return "ESKHERE.[Premios]"; } }
+            public static string Vobtener_Puntos_cliente { get { return "[ESKHERE].obtener_Puntos_cliente"; } }
+            public static string Puntos { get { return "ESKHERE.[Puntos]"; } }
+            public static string PremiosPorCliente { get { return "[ESKHERE].PremiosPorCliente"; } }
+            public static string CostoPremio { get { return "[ESKHERE].CostoPremio"; } }
+            public static string Cliente_Premio { get { return "[ESKHERE].[cliente_premio]"; } }
             public static string Publicacion { get { return "ESKHERE.[Publicacion]"; } }
             public static string PublicacionFechas { get { return "ESKHERE.[Publicacion_Fechas]"; } }
             public static string Ubicacion { get { return "ESKHERE.[Ubicacion]"; } }
