@@ -55,6 +55,7 @@ namespace PalcoNet.Canje_Puntos
 
             Dictionary<string, string> filtroIDCliente = new Dictionary<string, string>();
             filtroIDCliente.Add("ID_Cliente", Conexion.Filtro.Exacto(id_cliente.ToString()));
+            filtroIDCliente.Add("YearObtenido", Conexion.Filtro.Exacto(ConfigurationHelper.fechaActual.Year.ToString()));
             List<string> columnas = new List<string>();
             columnas.Add("Total_puntos");
             List<object> resultadoConsultaPtosCliente = ((Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Vobtener_Puntos_cliente, columnas, filtroIDCliente))["Total_puntos"]);
