@@ -38,6 +38,7 @@ namespace PalcoNet.Listado_Estadistico
         private void btnClientesPtsVnc_Click(object sender, EventArgs e)
         {
             Dictionary<string, string> filtros = this.ArmaFiltroDeAñoYTrimestre(cmbTrimestre.Text, cmbAño.Text, "FechaObtenIDos");
+            filtros.Add("year(FechaObtenIDos)", Conexion.Filtro.Exacto(ConfigurationHelper.fechaActual.Year.ToString()));
             Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.CliMayorPtosVencidos, ref dgv, filtros);
             lblPiola.Text = "Clientes con mayores puntos vencidos";
         }
