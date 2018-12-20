@@ -17,8 +17,9 @@ namespace PalcoNet
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //FormInicial = new Abm_Cliente.AltaCliente();
-            FormInicial = new Abm_Empresa_Espectaculo.AltaEmpresa();
+            FormInicial = new Abm_Cliente.AltaCliente();
+            //FormInicial = new Abm_Cliente.ListadoClientes();
+            //FormInicial = new Abm_Empresa_Espectaculo.AltaEmpresa();
             Application.Run(FormInicial);
         }
     }
