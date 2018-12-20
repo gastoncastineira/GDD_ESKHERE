@@ -180,7 +180,7 @@ CREATE TABLE [ESKHERE].[Item_Factura](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Item_Factura_Monto] [numeric](18, 2) NULL,
 	[Item_Factura_Cantidad] [numeric](18, 0) NULL,
-	[Item_Factura_Descripcion] [nvarchar](60) NULL,
+	[Item_Factura_Descripcion] [nvarchar](60) NULL DEFAULT 'Comision por compra',
 	ID_Factura [numeric](18, 0) NOT NULL,
 	ID_Compra INT NOT NULL,
 	CONSTRAINT FK_Factura  FOREIGN KEY(ID_Factura) REFERENCES ESKHERE.[Factura]([Factura_Nro]),
