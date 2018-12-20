@@ -21,6 +21,12 @@ namespace PalcoNet.Abm_Grado
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            double val = Convert.ToDouble(txtComision.Text);
+            if (val > 1.0 || val < 0)
+            {
+                MessageBox.Show("La comision debe ser un valor entre 0 y 1");
+                return;
+            }
             if (Controls.OfType<TextBox>().Any(t => string.IsNullOrEmpty(t.Text)))
                 MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
@@ -58,7 +64,12 @@ namespace PalcoNet.Abm_Grado
         private void soloNumerico(object sender, KeyPressEventArgs e)
         {
             if (txtComision.Text == string.Empty || txtComision.Text == "0")
-                txtComision.Text = "0.";
+            {
+                txtComision.Text = "0," + e.KeyChar;
+                e.Handled = true;
+                txtComision.SelectionStart = txtComision.Text.Length;
+                txtComision.SelectionLength = 0;
+            }
             if (char.IsLetter(e.KeyChar) || char.IsWhiteSpace(e.KeyChar) || char.IsPunctuation(e.KeyChar))
                 e.Handled = true;
         }

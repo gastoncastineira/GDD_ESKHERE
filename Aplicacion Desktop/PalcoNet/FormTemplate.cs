@@ -7,6 +7,7 @@ namespace PalcoNet
 {
     public partial class FormTemplate : Form
     {
+        private bool flag = false;
         public static List<Funcion> Funciones { get; set; }
         public static string usuario { get; set; }
         public static int idCliente { get; set; }
@@ -81,79 +82,93 @@ namespace PalcoNet
 
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             Program.FormInicial.Show();
         }
 
         private void ABM_Cliente_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Abm_Cliente.ListadoClientes().Show();
         }
 
         private void ABM_Empresa_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Abm_Empresa_Espectaculo.ListadoEmpresas().Show();
         }
 
         private void ABM_Rol_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Abm_Rol.ListadoRoles().Show();
         }
 
         private void ABM_Grado_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Abm_Grado.ListaGrado().Show();
         }
 
         private void CanjePuntos_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Canje_Puntos.Canje_Puntos(idCliente).Show();
         }
 
         private void Comprar_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();          
             new Comprar.Comprar(usuario).Show();
         }
 
         private void Editar_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Editar_Publicacion.SeleccionarPublicacion(idCliente).Show();
         }
 
         private void GenerarPublicacion_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Generar_Publicacion.GenerarPublicacion().Show();
         }
 
         private void Rendicion_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Generar_Rendicion_Comisiones.Rendicion().Show();
         }
 
         private void Historial_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Historial_Cliente.ListadoDeCompras(idCliente).Show();
         }
 
         private void ListadoEstadistico_Click(object sender, EventArgs e)
         {
+            flag = true;
             Close();
             new Listado_Estadistico.ListadoEstadistico().Show();
         }
 
         private void FormTemplate_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Program.FormInicial.Show();
+            if(!flag)
+                Program.FormInicial.Show();
+            flag = false;
         }
     }
 }

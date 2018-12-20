@@ -44,14 +44,14 @@
             // dgbPublicaciones
             // 
             this.dgbPublicaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgbPublicaciones.Location = new System.Drawing.Point(24, 152);
+            this.dgbPublicaciones.Location = new System.Drawing.Point(28, 187);
             this.dgbPublicaciones.Name = "dgbPublicaciones";
             this.dgbPublicaciones.Size = new System.Drawing.Size(450, 118);
             this.dgbPublicaciones.TabIndex = 18;
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(290, 116);
+            this.btnLimpiar.Location = new System.Drawing.Point(294, 151);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpiar.TabIndex = 17;
@@ -61,7 +61,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(149, 116);
+            this.btnBuscar.Location = new System.Drawing.Point(153, 151);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 16;
@@ -71,14 +71,14 @@
             // 
             // rubro
             // 
-            this.rubro.Location = new System.Drawing.Point(249, 40);
+            this.rubro.Location = new System.Drawing.Point(253, 75);
             this.rubro.Name = "rubro";
             this.rubro.Size = new System.Drawing.Size(116, 20);
             this.rubro.TabIndex = 14;
             // 
             // descripcion
             // 
-            this.descripcion.Location = new System.Drawing.Point(249, 12);
+            this.descripcion.Location = new System.Drawing.Point(253, 47);
             this.descripcion.Name = "descripcion";
             this.descripcion.Size = new System.Drawing.Size(116, 20);
             this.descripcion.TabIndex = 13;
@@ -86,7 +86,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(146, 71);
+            this.label3.Location = new System.Drawing.Point(150, 106);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 12;
@@ -95,7 +95,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(146, 43);
+            this.label2.Location = new System.Drawing.Point(150, 78);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 11;
@@ -104,7 +104,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(146, 15);
+            this.label1.Location = new System.Drawing.Point(150, 50);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 10;
@@ -112,7 +112,7 @@
             // 
             // btnSeleccionar
             // 
-            this.btnSeleccionar.Location = new System.Drawing.Point(399, 276);
+            this.btnSeleccionar.Location = new System.Drawing.Point(403, 311);
             this.btnSeleccionar.Name = "btnSeleccionar";
             this.btnSeleccionar.Size = new System.Drawing.Size(75, 23);
             this.btnSeleccionar.TabIndex = 19;
@@ -124,7 +124,7 @@
             // 
             this.grado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.grado.FormattingEnabled = true;
-            this.grado.Location = new System.Drawing.Point(249, 68);
+            this.grado.Location = new System.Drawing.Point(253, 103);
             this.grado.Name = "grado";
             this.grado.Size = new System.Drawing.Size(116, 21);
             this.grado.TabIndex = 42;
@@ -133,7 +133,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 306);
+            this.ClientSize = new System.Drawing.Size(490, 341);
             this.Controls.Add(this.grado);
             this.Controls.Add(this.btnSeleccionar);
             this.Controls.Add(this.dgbPublicaciones);

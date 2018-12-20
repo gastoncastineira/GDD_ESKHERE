@@ -72,14 +72,14 @@
             // 
             this.grado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.grado.FormattingEnabled = true;
-            this.grado.Location = new System.Drawing.Point(174, 133);
+            this.grado.Location = new System.Drawing.Point(177, 170);
             this.grado.Name = "grado";
             this.grado.Size = new System.Drawing.Size(176, 21);
             this.grado.TabIndex = 41;
             // 
             // direccion
             // 
-            this.direccion.Location = new System.Drawing.Point(174, 105);
+            this.direccion.Location = new System.Drawing.Point(177, 142);
             this.direccion.Name = "direccion";
             this.direccion.Size = new System.Drawing.Size(176, 20);
             this.direccion.TabIndex = 39;
@@ -88,21 +88,21 @@
             // 
             this.estado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.estado.FormattingEnabled = true;
-            this.estado.Location = new System.Drawing.Point(174, 77);
+            this.estado.Location = new System.Drawing.Point(177, 114);
             this.estado.Name = "estado";
             this.estado.Size = new System.Drawing.Size(176, 21);
             this.estado.TabIndex = 38;
             // 
             // rubro
             // 
-            this.rubro.Location = new System.Drawing.Point(174, 49);
+            this.rubro.Location = new System.Drawing.Point(177, 86);
             this.rubro.Name = "rubro";
             this.rubro.Size = new System.Drawing.Size(176, 20);
             this.rubro.TabIndex = 37;
             // 
             // btnGenerar
             // 
-            this.btnGenerar.Location = new System.Drawing.Point(284, 469);
+            this.btnGenerar.Location = new System.Drawing.Point(287, 506);
             this.btnGenerar.Name = "btnGenerar";
             this.btnGenerar.Size = new System.Drawing.Size(130, 23);
             this.btnGenerar.TabIndex = 35;
@@ -112,7 +112,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(114, 469);
+            this.button5.Location = new System.Drawing.Point(117, 506);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 34;
@@ -123,7 +123,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 24);
+            this.label1.Location = new System.Drawing.Point(36, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 28;
@@ -131,7 +131,7 @@
             // 
             // descripcion
             // 
-            this.descripcion.Location = new System.Drawing.Point(174, 21);
+            this.descripcion.Location = new System.Drawing.Point(177, 58);
             this.descripcion.Name = "descripcion";
             this.descripcion.Size = new System.Drawing.Size(176, 20);
             this.descripcion.TabIndex = 36;
@@ -139,7 +139,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(33, 108);
+            this.label4.Location = new System.Drawing.Point(36, 145);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(52, 13);
             this.label4.TabIndex = 31;
@@ -148,7 +148,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(33, 80);
+            this.label3.Location = new System.Drawing.Point(36, 117);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 30;
@@ -157,7 +157,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(33, 52);
+            this.label2.Location = new System.Drawing.Point(36, 89);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 29;
@@ -166,7 +166,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(36, 136);
+            this.label10.Location = new System.Drawing.Point(39, 173);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(36, 13);
             this.label10.TabIndex = 40;
@@ -300,7 +300,7 @@
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(15, 296);
+            this.groupBox2.Location = new System.Drawing.Point(18, 333);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(519, 165);
             this.groupBox2.TabIndex = 33;
@@ -374,7 +374,7 @@
             this.groupBox1.Controls.Add(this.btnLimpiarFunciones);
             this.groupBox1.Controls.Add(this.btnFuncion);
             this.groupBox1.Controls.Add(this.dateTimePicker1);
-            this.groupBox1.Location = new System.Drawing.Point(15, 166);
+            this.groupBox1.Location = new System.Drawing.Point(18, 203);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(519, 124);
             this.groupBox1.TabIndex = 32;
@@ -393,7 +393,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(548, 512);
+            this.ClientSize = new System.Drawing.Size(548, 550);
             this.Controls.Add(this.grado);
             this.Controls.Add(this.direccion);
             this.Controls.Add(this.estado);

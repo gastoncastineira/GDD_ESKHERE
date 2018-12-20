@@ -45,13 +45,13 @@ namespace PalcoNet.Abm_Rol
 
         private void btnDeshabilitar_Click(object sender, EventArgs e)
         {
-            Conexion.getInstance().deshabilitar(Conexion.Tabla.Rol, Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id"].Value));
+            Conexion.getInstance().deshabilitar(Conexion.Tabla.Rol, Convert.ToInt32(dataGridView1.SelectedCells[0].OwningRow.Cells["id"].Value));
             Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Rol, ref dataGridView1, null);
         }
 
         private void btnHabilitar_Click(object sender, EventArgs e)
         {
-            Conexion.getInstance().habilitar(Conexion.Tabla.Rol, Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id"].Value));
+            Conexion.getInstance().habilitar(Conexion.Tabla.Rol, Convert.ToInt32(dataGridView1.SelectedCells[0].OwningRow.Cells["id"].Value));
             Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Rol, ref dataGridView1, null);
         }
     }

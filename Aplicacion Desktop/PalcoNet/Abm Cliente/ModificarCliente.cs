@@ -17,12 +17,16 @@ namespace PalcoNet.Abm_Cliente
         private Dictionary<string, object> datos = new Dictionary<string, object>();
         List<string> textosSinModificar = new List<string>();
         private int id;
+        string dniOG;
+        string cuilOG ;
 
         public ModificarCliente(DataGridViewCellCollection data)
         {
             InitializeComponent();
 
             id = Convert.ToInt32(data["id"].Value);
+            dniOG = data["Cli_Dni"].Value.ToString();
+            cuilOG = data["Cuil"].Value.ToString();
 
             txtApel.Text = data["Cli_Apellido"].Value.ToString();
             textosSinModificar.Add(txtApel.Text);
@@ -144,12 +148,36 @@ namespace PalcoNet.Abm_Cliente
 
         private void txtDoc_Leave(object sender, EventArgs e)
         {
-            AgregarParaUpdate("cli_dni", txtDoc.Text);
+            
+            List<string> columnas = new List<string>();
+            columnas.Add("cli_dni");
+            Dictionary<string, string> filtros = new Dictionary<string, string>();
+            filtros.Add("cli_dni", Conexion.Filtro.Exacto(txtDoc.Text));
+            filtros.Add("cli_dni ", Conexion.Filtro.Distinto(dniOG));
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Cliente, columnas, filtros))
+            {
+                MessageBox.Show("Ese DNI ya está en uso. Elija otro o siga usando el mismo.");
+                txtDoc.Text = dniOG;
+            }
+            else { AgregarParaUpdate("cli_dni", txtDoc.Text);}
         }
 
         private void txtCUIL_Leave(object sender, EventArgs e)
         {
-            AgregarParaUpdate("cuil", txtCUIL.Text);
+            List<string> columnas = new List<string>();
+            columnas.Add("Cuil");
+            Dictionary<string, string> filtros = new Dictionary<string, string>();
+            filtros.Add("Cuil", Conexion.Filtro.Exacto(txtCUIL.Text));
+            filtros.Add("Cuil ", Conexion.Filtro.Distinto(cuilOG));
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Cliente, columnas, filtros))
+            {
+                MessageBox.Show("Ese cuil ya está en uso. Elija otro o siga usando el mismo.");
+                txtCUIL.Text = cuilOG;
+            }
+            else {AgregarParaUpdate("cuil", txtCUIL.Text); }
+            
         }
 
         private void txtMail_Leave(object sender, EventArgs e)
@@ -164,7 +192,7 @@ namespace PalcoNet.Abm_Cliente
 
         private void txtTel_Leave(object sender, EventArgs e)
         {
-            //AgregarParaUpdate("tenefono", txtTel.Text);
+            AgregarParaUpdate("telefono", txtTel.Text);
         }
 
         private void txtDir_Leave(object sender, EventArgs e)

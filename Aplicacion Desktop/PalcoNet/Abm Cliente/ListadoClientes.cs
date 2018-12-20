@@ -59,7 +59,16 @@ namespace PalcoNet.Abm_Cliente
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            MostrarResultado(new ModificarCliente(dgbClientes.SelectedCells[0].OwningRow.Cells).ShowDialog()); 
+            MostrarResultado(new ModificarCliente(dgbClientes.SelectedCells[0].OwningRow.Cells).ShowDialog());
+            DataTable data = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Cliente, filtros);
+            data.Columns.Add(new DataColumn("habilitado", typeof(bool)));
+            foreach (DataRow d in data.Rows)
+            {
+                Dictionary<string, string> filtro = new Dictionary<string, string>();
+                filtro["id"] = Conexion.Filtro.Exacto(d["ID_Usuario"].ToString());
+                d["habilitado"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "habilitado" }), filtro)["habilitado"][0];
+            }
+            dgbClientes.DataSource = data;
         }
 
         private void btnDeshabilitar_Click(object sender, EventArgs e)
@@ -89,12 +98,28 @@ namespace PalcoNet.Abm_Cliente
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             MostrarResultado(new AltaCliente().ShowDialog());
+            DataTable data = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Cliente, filtros);
+            data.Columns.Add(new DataColumn("habilitado", typeof(bool)));
+            foreach (DataRow d in data.Rows)
+            {
+                Dictionary<string, string> filtro = new Dictionary<string, string>();
+                filtro["id"] = Conexion.Filtro.Exacto(d["ID_Usuario"].ToString());
+                d["habilitado"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "habilitado" }), filtro)["habilitado"][0];
+            }
+            dgbClientes.DataSource = data;
         }
 
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
             Program.FormInicial.Show();
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            txtNombre.Text = string.Empty;
+            txtApellido.Text = txtDNI.Text = txtMail.Text = txtNombre.Text;
+            
         }
     }
 }

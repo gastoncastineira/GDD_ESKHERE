@@ -50,5 +50,11 @@ namespace PalcoNet.Comprar
         {
             datos[nombreCol] = data;
         }
+
+        private void soloNumerico(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsLetter(e.KeyChar) || char.IsWhiteSpace(e.KeyChar) || char.IsPunctuation(e.KeyChar))
+                e.Handled = true;
+        }
     }
 }
