@@ -35,11 +35,11 @@
             this.dgv_PremiosPorCliente = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.lbl_Canje = new System.Windows.Forms.Label();
-            this.txt_Canje = new System.Windows.Forms.TextBox();
             this.btn_Cancelar = new System.Windows.Forms.Button();
             this.btn_Aceptar = new System.Windows.Forms.Button();
             this.dgv_Ptos_Cliente = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
+            this.cmbIDsPremios = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Premios_Elegibles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_PremiosPorCliente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_Ptos_Cliente)).BeginInit();
@@ -48,7 +48,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(255, 22);
+            this.label1.Location = new System.Drawing.Point(255, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(174, 13);
             this.label1.TabIndex = 3;
@@ -74,7 +74,7 @@
             // lbl_Puntos_Cliente
             // 
             this.lbl_Puntos_Cliente.AutoSize = true;
-            this.lbl_Puntos_Cliente.Location = new System.Drawing.Point(551, 22);
+            this.lbl_Puntos_Cliente.Location = new System.Drawing.Point(551, 32);
             this.lbl_Puntos_Cliente.Name = "lbl_Puntos_Cliente";
             this.lbl_Puntos_Cliente.Size = new System.Drawing.Size(0, 13);
             this.lbl_Puntos_Cliente.TabIndex = 6;
@@ -104,14 +104,6 @@
             this.lbl_Canje.Size = new System.Drawing.Size(126, 13);
             this.lbl_Canje.TabIndex = 9;
             this.lbl_Canje.Text = "Ingresar premio a canjear";
-            // 
-            // txt_Canje
-            // 
-            this.txt_Canje.Location = new System.Drawing.Point(258, 354);
-            this.txt_Canje.Name = "txt_Canje";
-            this.txt_Canje.Size = new System.Drawing.Size(100, 20);
-            this.txt_Canje.TabIndex = 10;
-            this.txt_Canje.Leave += new System.EventHandler(this.CanjearPremio_Leave);
             // 
             // btn_Cancelar
             // 
@@ -149,16 +141,25 @@
             this.label3.TabIndex = 14;
             this.label3.Text = "Puntos actuales del cliente";
             // 
+            // cmbIDsPremios
+            // 
+            this.cmbIDsPremios.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbIDsPremios.FormattingEnabled = true;
+            this.cmbIDsPremios.Location = new System.Drawing.Point(187, 354);
+            this.cmbIDsPremios.Name = "cmbIDsPremios";
+            this.cmbIDsPremios.Size = new System.Drawing.Size(121, 21);
+            this.cmbIDsPremios.TabIndex = 15;
+            // 
             // Canje_Puntos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(947, 432);
+            this.Controls.Add(this.cmbIDsPremios);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dgv_Ptos_Cliente);
             this.Controls.Add(this.btn_Aceptar);
             this.Controls.Add(this.btn_Cancelar);
-            this.Controls.Add(this.txt_Canje);
             this.Controls.Add(this.lbl_Canje);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dgv_PremiosPorCliente);
@@ -186,11 +187,10 @@
         private System.Windows.Forms.DataGridView dgv_PremiosPorCliente;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbl_Canje;
-        private System.Windows.Forms.TextBox txt_Canje;
         private System.Windows.Forms.Button btn_Cancelar;
         private System.Windows.Forms.Button btn_Aceptar;
         private System.Windows.Forms.DataGridView dgv_Ptos_Cliente;
         private System.Windows.Forms.Label label3;
-
+        private System.Windows.Forms.ComboBox cmbIDsPremios;
     }
 }
