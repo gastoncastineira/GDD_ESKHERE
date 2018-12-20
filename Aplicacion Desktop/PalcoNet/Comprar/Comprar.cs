@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Comprar
 {
-    public partial class Comprar : Form
+    public partial class Comprar : FormTemplate
     {
         String nomUsr;
         private DataTable datos;
         private int numPag = 0;
 
-        public Comprar(string nombreUsuario)
+        public Comprar(string nombreUsuario) : base()
         {
             nomUsr = nombreUsuario;
             InitializeComponent();

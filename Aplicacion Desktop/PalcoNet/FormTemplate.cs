@@ -7,7 +7,8 @@ namespace PalcoNet
 {
     public partial class FormTemplate : Form
     {
-        public static List<Funcion> Funciones { get; set; } 
+        public static List<Funcion> Funciones { get; set; }
+        public static string usuario;
         public FormTemplate()
         {
             InitializeComponent();
@@ -115,7 +116,8 @@ namespace PalcoNet
         private void Comprar_Click(object sender, EventArgs e)
         {
             Close();
-            new Comprar.Comprar().Show();
+            
+            new Comprar.Comprar(usuario).Show();
         }
 
         private void Editar_Click(object sender, EventArgs e)
