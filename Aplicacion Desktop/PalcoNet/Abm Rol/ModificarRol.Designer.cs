@@ -34,6 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnRegresar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -51,6 +52,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(211, 20);
             this.txtNombre.TabIndex = 1;
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // checkedListBoxFuncion
             // 
@@ -90,11 +92,22 @@
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.button2_Click);
             // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(48, 139);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.TabIndex = 8;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
             // ModificarRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(421, 303);
+            this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.btnRegresar);
             this.Controls.Add(this.label2);
@@ -117,5 +130,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnRegresar;
         private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.Button btnLimpiar;
     }
 }

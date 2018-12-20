@@ -34,6 +34,7 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.checkedListBoxFuncion = new System.Windows.Forms.CheckedListBox();
+            this.btnLimpia = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -63,7 +64,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(94, 257);
+            this.btnCancelar.Location = new System.Drawing.Point(56, 257);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 4;
@@ -90,11 +91,22 @@
             this.checkedListBoxFuncion.TabIndex = 2;
             this.checkedListBoxFuncion.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxFuncion_ItemCheck);
             // 
+            // btnLimpia
+            // 
+            this.btnLimpia.Location = new System.Drawing.Point(56, 124);
+            this.btnLimpia.Name = "btnLimpia";
+            this.btnLimpia.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpia.TabIndex = 6;
+            this.btnLimpia.Text = "Limpiar";
+            this.btnLimpia.UseVisualStyleBackColor = true;
+            this.btnLimpia.Click += new System.EventHandler(this.btnLimpia_Click);
+            // 
             // CrearRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(429, 297);
+            this.Controls.Add(this.btnLimpia);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.label2);
@@ -117,5 +129,6 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckedListBox checkedListBoxFuncion;
+        private System.Windows.Forms.Button btnLimpia;
     }
 }

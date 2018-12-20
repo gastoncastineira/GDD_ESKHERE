@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-select id from ESKHERE.Cliente WHERE ID_Usuario=11217924
-
-
-
 USE [GD2C2018]
 GO
 
@@ -55,7 +42,7 @@ CREATE TABLE ESKHERE.[Publicacion_Estado](
 CREATE TABLE ESKHERE.[Publicacion_Grado](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Descripcion] [nvarchar](255) NULL,
-	[Comision] int
+	[Comision] numeric(18,2)
 	);
 
 CREATE TABLE ESKHERE.[Usuario](
