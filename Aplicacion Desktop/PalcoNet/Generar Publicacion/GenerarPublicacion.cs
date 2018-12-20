@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Generar_Publicacion
 {
-    public partial class GenerarPublicacion : Form//Template
+    public partial class GenerarPublicacion : FormTemplate
     {
         List<DateTime> funciones;
         List<Ubicacion> ubicaciones;
