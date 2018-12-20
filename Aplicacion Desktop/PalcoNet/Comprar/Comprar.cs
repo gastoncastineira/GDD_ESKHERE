@@ -22,6 +22,7 @@ namespace PalcoNet.Comprar
             InitializeComponent();
             List<string> columnas = new List<string>();
             columnas.Add("Publicacion_Rubro");
+            fechaDesde.MinDate = ConfigurationHelper.fechaActual;
             List<object> resultadoConsulta = ((Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Rubros, columnas, null))["Publicacion_Rubro"]);
             for (int i=0; i<resultadoConsulta.Count();i++)
             {
@@ -66,7 +67,7 @@ namespace PalcoNet.Comprar
             {
                 hasta = fechaHasta.Value;
             }
-            filtros = this.ArmaFiltro(categorias, descrip, desde.Date.ToShortDateString(), hasta.Date.ToShortDateString());
+            filtros = this.ArmaFiltro(categorias, descrip, desde.Date.ToString("yyyy-MM-dd"), hasta.Date.ToString("yyyy-MM-dd"));
             datos = Conexion.getInstance().conseguirTabla(Conexion.Tabla.PublicacionesParaListar, filtros);
             datos.Columns.Remove("FVenc");
             DataView dv = datos.DefaultView;
@@ -74,21 +75,9 @@ namespace PalcoNet.Comprar
             datos = dv.ToTable();
             datos.Columns.Remove("grado");
             pasarPagina();
-
+            
             //Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.PublicacionesParaListar, ref dgvPublicaciones, filtros);
             //dgvPublicaciones.Sort(this.dgvPublicaciones.Columns["grado"], ListSortDirection.Ascending);
-        }
-
-        private void fechaDesde_ValueChanged(object sender, EventArgs e)
-        {
-            fechaDesde.CustomFormat = " ";
-            fechaDesde.Format = DateTimePickerFormat.Custom;
-        }
-
-        private void fechaHasta_ValueChanged(object sender, EventArgs e)
-        {
-            fechaHasta.CustomFormat = " ";
-            fechaHasta.Format = DateTimePickerFormat.Custom;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -115,26 +104,14 @@ namespace PalcoNet.Comprar
             if (!string.IsNullOrWhiteSpace(descrip)) { 
              filtros.Add("Descripcion", Conexion.Filtro.Exacto(descrip));
             }
-            for (int i = 0; i < categorias.Count(); i++)
+            for (int i = 0; i < categorias.Count; i++)
             {
                 filtros.Add("Publicacion_Rubro", Conexion.Filtro.Exacto(categorias[i]));
             }
-            //filtros.Add("FFuncion", Conexion.Filtro.Between('\'' + desde + '\'', '\'' + hasta + '\''));
-            filtros.Add("FVenc",Conexion.Filtro.MayorIgual('\''+ConfigurationHelper.fechaActual.ToShortDateString() + '\''));
-            filtros.Add("FFuncion ", Conexion.Filtro.MayorIgual(ConfigurationHelper.fechaActual.ToShortDateString()));
+            filtros.Add("FFuncion", Conexion.Filtro.Between('\'' + desde + '\'', '\'' + hasta + '\''));
+            filtros.Add("FVenc",Conexion.Filtro.MayorIgual('\''+ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd") + '\''));
+            filtros.Add("FFuncion ", Conexion.Filtro.MayorIgual("'"+ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd") + "'"));
             return filtros;
-        }
-
-        private void dgvPublicaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void Comprar_Load(object sender, EventArgs e)
-        {
-            
-
-
         }
 
         private void dgvPublicaciones_RowEnter(object sender, DataGridViewCellEventArgs e)

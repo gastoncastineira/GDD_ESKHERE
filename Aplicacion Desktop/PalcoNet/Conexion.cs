@@ -611,8 +611,8 @@ namespace PalcoNet
                         for (int i = 0; i < publicacion.Count; i++)
                         {
                             command.CommandText = comandoStringFecha;
-                            command.Parameters["@fpublicacion"].Value = ConfigurationHelper.fechaActual;
-                            command.Parameters["@ffuncion"].Value = fechas[i];
+                            command.Parameters["@fpublicacion"].Value = ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd");
+                            command.Parameters["@ffuncion"].Value = fechas[i].ToString("yyyy-MM-dd");
                             int id = Convert.ToInt32(command.ExecuteScalar());
 
                             command.CommandText = comandoStringPublicacion;

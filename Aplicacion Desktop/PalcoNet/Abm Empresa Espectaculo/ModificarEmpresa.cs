@@ -192,7 +192,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void dtp_FechaCreacion_Leave(object sender, EventArgs e)
         {
-            AgregarParaUpdate("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value);
+            AgregarParaUpdate("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value.ToString("yyyy-MM-dd"));
         }
 
         private void soloNumerico(object sender, KeyPressEventArgs e)

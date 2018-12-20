@@ -102,7 +102,6 @@
             this.fechaDesde.Name = "fechaDesde";
             this.fechaDesde.Size = new System.Drawing.Size(200, 20);
             this.fechaDesde.TabIndex = 6;
-            this.fechaDesde.ValueChanged += new System.EventHandler(this.fechaDesde_ValueChanged);
             // 
             // label5
             // 
@@ -133,7 +132,6 @@
             this.fechaHasta.Name = "fechaHasta";
             this.fechaHasta.Size = new System.Drawing.Size(200, 20);
             this.fechaHasta.TabIndex = 8;
-            this.fechaHasta.ValueChanged += new System.EventHandler(this.fechaHasta_ValueChanged);
             // 
             // btnLimpiar
             // 
@@ -165,7 +163,6 @@
             this.dgvPublicaciones.ReadOnly = true;
             this.dgvPublicaciones.Size = new System.Drawing.Size(579, 270);
             this.dgvPublicaciones.TabIndex = 12;
-            this.dgvPublicaciones.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPublicaciones_CellContentClick);
             this.dgvPublicaciones.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPublicaciones_RowEnter);
             // 
             // btnElegir
@@ -252,7 +249,6 @@
             this.Controls.Add(this.label1);
             this.Name = "Comprar";
             this.Text = "Comprar";
-            this.Load += new System.EventHandler(this.Comprar_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPublicaciones)).EndInit();

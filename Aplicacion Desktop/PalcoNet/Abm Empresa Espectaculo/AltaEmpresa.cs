@@ -70,7 +70,6 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 }
                 else
                 {
-                    AgregarParaInsert("Espec_Empresa_Fecha_Creacion", ConfigurationHelper.fechaActual);
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
                     if (idUser == -1)
@@ -182,7 +181,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void dtp_FechaCreacion_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value);
+            AgregarParaInsert("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value.ToString("yyyy-MM-dd"));
         }
 
         private void AltaEmpresa_FormClosing(object sender, FormClosingEventArgs e)
