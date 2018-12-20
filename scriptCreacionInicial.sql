@@ -590,6 +590,7 @@ FROM [ESKHERE].Publicacion p join [ESKHERE].Publicacion_Fechas f on (p.ID_Fecha 
 	JOIN [ESKHERE].Publicacion_Estado e on (p.ID_estado = e.ID)
 	JOIN [ESKHERE].Ubicaciones_por_publi_disponibles UP ON (UP.Publicacion = P.ID) 
 WHERE e.Descripcion != 'Borrador' and e.Descripcion != 'Finalizada' 
+	and p.habilitado = 1
 GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID 
 HAVING count(UP.Codigo_de_Ubicacion) >0
 go
