@@ -1,6 +1,6 @@
 ﻿namespace PalcoNet
 {
-    partial class EntutarRoles
+    partial class EnrutarRoles
     {
         /// <summary>
         /// Required designer variable.

@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace PalcoNet
 {
-    public partial class EntutarRoles : Form
+    public partial class EnrutarRoles : Form
     {
         private string usuario;
         private bool flag = false;
 
-        public EntutarRoles(string usuario)
+        public EnrutarRoles(string usuario)
         {
             this.usuario = usuario;
             InitializeComponent();

@@ -39,7 +39,7 @@ namespace PalcoNet
             Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "ID", "cant_accesos_fallidos", "habilitado" }), filtros);
             if (!Convert.ToBoolean(resul["habilitado"][0]))
             {
-                MessageBox.Show("Este usuario se encuentra deshanilitado");
+                MessageBox.Show("Este usuario se encuentra deshabilitado");
                 return;
             }
             int cantAccesos = Convert.ToInt32(resul["cant_accesos_fallidos"][0]);
@@ -54,7 +54,7 @@ namespace PalcoNet
                     }
                 }
                 Hide();
-                new EntutarRoles(txtusuario.Text).Show();
+                new EnrutarRoles(txtusuario.Text).Show();
             }
             else
             {
@@ -79,5 +79,6 @@ namespace PalcoNet
             new Registro_de_Usuario.RegistroUsuario().ShowDialog();
             Show();
         }
+
     }
 }

@@ -10,16 +10,16 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Historial_Cliente
 {
-    public partial class ListadoDeCompras : Form
+    public partial class ListadoDeCompras : FormTemplate
     {
 
         private DataTable datos;
         private int numPag = 0;
-        private int idCliente;
+        private int idClientelocal;
 
-        public ListadoDeCompras(int idCliente)
+        public ListadoDeCompras(int idCliente) : base()
         {
-            this.idCliente = idCliente;
+            this.idClientelocal = idCliente;
             InitializeComponent();
         }
 

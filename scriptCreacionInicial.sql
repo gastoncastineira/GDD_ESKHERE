@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+
+select id from ESKHERE.Cliente WHERE ID_Usuario=11217924
+
+
+
 USE [GD2C2018]
 GO
 
@@ -59,7 +72,6 @@ CREATE TABLE ESKHERE.[Usuario](
 --¿Dejams los 2 o solo 1?
 CREATE TABLE ESKHERE.[Cliente](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Puntos] [Int],
 	[Cli_Dni] [numeric](18, 0) NULL UNIQUE,
 	[Cuil] [nvarchar](13) NULL UNIQUE,
 	[Tipo_Doc] [nvarchar](15) NULL,
@@ -76,6 +88,7 @@ CREATE TABLE ESKHERE.[Cliente](
 	[fecha_creacion] [datetime] NULL,
 	ID_Usuario INT	NOT NULL,
 	telefono varchar(15) NULL,
+	numero_tarjeta_credito INT NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
 
@@ -469,11 +482,9 @@ BEGIN TRANSACTION
 
 
 GO
-CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @nombre nvarchar(20), @apellido nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
+CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @documento nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
 AS
 BEGIN
-	DECLARE @letra nvarchar = (select SUBSTRING(@nombre, 1, 1))
-	DECLARE @proto_usuario nvarchar(20) = (select concat(@letra, @apellido))
 
 	DECLARE @s nvarchar(5);
 
@@ -489,45 +500,20 @@ BEGIN
 	FOR XML PATH('')
 	)
 
-	insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
-
-	if(@@ERROR != 0)
-	begin
-		declare @num_aux int = 1
-		set @proto_usuario = (select CONCAT(@proto_usuario, CAST(@num_aux as nvarchar)))
-		insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
-		while(@@ERROR != 0)
-		begin
-			set @num_aux += 1
-			set @proto_usuario = substring(@proto_usuario, 1, (len(@proto_usuario) - 1))
-			set @proto_usuario = (select CONCAT(@proto_usuario, CAST(@num_aux as nvarchar)))
-			insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
-		end
-	end
+	insert into Usuario (Usuario, Contrasenia, contrasena_autogenerada) values (@documento, HASHBYTES('SHA2_256', @s), 1)
 
 	set @id = scope_identity()
-	set @usuario = @proto_usuario
+	set @usuario = @documento
 	set @contrasenia = @s
 END
 GO
 
-GO
-CREATE VIEW [ESKHERE].funciones_usuario
-AS
-select u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion from Usuario u 
-join Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
-join Rol r on r.ID = ru.ID_ROL 
-join Rol_X_Funcion rf on rf.ID_Rol = r.ID 
-join Funcion f on f.ID = rf.ID_Funcion
-GO
-
---------------------------------  VIEWS Y PROCEDURES PARA LISTADO ESTADISTICO ------------------------------------------------------------------------------------------------
+--------------------------------  VIEWS PARA LISTADO ESTADISTICO ------------------------------------------------------------------------------------------------
 GO
 CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
 AS
 SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , p.FechaObtenIDos, sum(Cant) cantPuntosVencidos
 	from ESKHERE.Cliente c Join ESKHERE.Puntos p on (c.ID = p.ID_Cliente)
-	where YEAR(p.FechaObtenIDos) = YEAR(GETDATE())
 	GROUP BY Cli_Nombre, Cli_ApellIDo, p.FechaObtenIDos
 	order by sum(Cant) desc
 GO
@@ -567,6 +553,7 @@ SELECT MIN(YEAR(FPublicacion)) anio
 FROM ESKHERE.Publicacion_Fechas
 GO
 
+--------------------------------------VIEWS HISTORIAL COMPRAS--------------------------------------------------
 CREATE VIEW [ESKHERE].Historial_Compras AS
 SELECT Cli.ID as id_cliente, Cli.Cli_Nombre, Pub.Codigo, Ubi.tipo, Ubi.Ubicacion_Tipo_Descripcion, Com.Compra_Cantidad, ubi.precio, ubi.precio 'Precio Total', com.Fecha, com.Forma_Pago_Desc
 FROM ESKHERE.Cliente Cli 
@@ -575,6 +562,7 @@ JOIN ESKHERE.Ubicacion Ubi ON ( Com.ID_Ubicacion = Ubi.ID)
 JOIN ESKHERE.Publicacion Pub ON ( Ubi.ID_Publicacion = Pub.id)
 GO
 
+--------------------------------------VIEWS FUNCIONES Y ROLES-----------------------------------------------------
 CREATE VIEW [ESKHERE].funciones_usuarios
 AS
 SELECT u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion, f.ID as funcion_id FROM [ESKHERE].Usuario u 
@@ -593,55 +581,82 @@ join [ESKHERE].Rol r on r.ID = ru.ID_ROL
 WHERE r.Habilitado = 1
 GO
 
+--------------------------------------VIEWS PARA PANTALLA DE COMPRAS-------------------------------------------
 CREATE VIEW [ESKHERE].rubros
 AS
 select distinct Publicacion_Rubro from ESKHERE.Publicacion
 GO
 
+CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
+as
+Select p.id Publicacion, u.ID Codigo_de_Ubicacion, ubicacion_Fila Fila, ubicacion_Asiento Asiento, tipo, precio
+	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
+	where u.ID not in 
+			(select ID_Ubicacion from [ESKHERE].compra)
+go
+
 CREATE VIEW [ESKHERE].Publicaciones_disponibles_para_listar
 AS
-SELECT TOP 24000 p.ID, p.Descripcion , Publicacion_Rubro, FFuncion, FVenc 
+SELECT  p.ID, p.Descripcion , Publicacion_Rubro, FFuncion, FVenc, g.ID grado
 FROM [ESKHERE].Publicacion p join [ESKHERE].Publicacion_Fechas f on (p.ID_Fecha = f.ID) 
 	JOIN [ESKHERE].Publicacion_Grado g on (p.ID_grado = g.ID)
 	JOIN [ESKHERE].Publicacion_Estado e on (p.ID_estado = e.ID)
 	JOIN [ESKHERE].Ubicaciones_por_publi_disponibles UP ON (UP.Publicacion = P.ID) 
 WHERE e.Descripcion != 'Borrador' and e.Descripcion != 'Finalizada' 
 GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID 
-HAVING count(UP.Ubicacion) >0
-ORDER BY  g.ID asc
+HAVING count(UP.Codigo_de_Ubicacion) >0
 go
 
-CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
-as
-Select p.id Publicacion, u.ID ubicacion, ubicacion_Fila, ubicacion_Asiento, tipo, precio
-	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
-	where u.ID not in 
-			(select ID_Ubicacion from [ESKHERE].compra)
-go
+CREATE VIEW [ESKHERE].idClientexNombreUsuario_y_numTarjeta_para_compra
+AS
+SELECT c.ID idCliente , u.Usuario nombreUsr, c.numero_tarjeta_credito 
+	FROM [ESKHERE].Usuario u join [ESKHERE].Cliente c 
+		on(u.ID = c.ID_Usuario)
+GO
 
+
+------------------------VIEWS PUBLICACIONES------------------------------------------------
 CREATE VIEW [ESKHERE].Tipo_Ubicacion
 AS
 SELECT DISTINCT tipo, ubicacion_tipo_descripcion FROM ESKHERE.Ubicacion
 GO
 
+------------------------VIEW ULTIMO CODIGO PUBLICACION----------------
 CREATE VIEW [ESKHERE].Codigo_Publicacion
 AS
 SELECT MAX(codigo) codigo FROM ESKHERE.Publicacion
 GO
-		
+
+
+-----------------------VIEW PUNTOS CLIENTE-----------------------------------------------		
 CREATE VIEW [ESKHERE].obtener_Puntos_cliente AS 
 SELECT SUM(cant-Utilizados) AS total_Puntos, ID_cliente
 FROM [ESKHERE].Puntos
 GROUP BY ID_cliente		
 GO
 
+----------------------- VIEW PUBLICACIONES BORRADOR -------------------
 CREATE VIEW [ESKHERE].Publicaciones_borrador AS
 select distinct codigo, Descripcion,Publicacion_Rubro,ID_Empresa_publicante,ID_grado from ESKHERE.Publicacion
 where ID_estado = 1
 GO
 
+--------------- VIEW CANTIDAD DE UBICACIONES--------------
 CREATE VIEW [ESKHERE].Cantidad_ubicaciones_publicacion AS
 select ubicacion_tipo_descripcion, tipo, count(distinct ubicacion_fila) cantidadFilas, count(distinct ubicacion_asiento) cantidadAsientos,precio,ID_Publicacion
 from ESKHERE.Ubicacion where habilitado = 1
 group by ubicacion_tipo_descripcion,precio,ID_Publicacion,tipo
 go
+
+		
+---------------- VIEW PREMIOS POR CLIENTE----------------------		
+CREATE VIEW [ESKHERE].PremiosPorCliente AS
+SELECT  P.ID, P.Puntos, P.Descripcion, CP.ID_Cliente FROM eskhere.Premios P
+JOIN ESKHERE.Cliente_Premio CP ON ( P.ID = CP.ID_Premio)
+GO
+
+--------------- VIEW COSTO PREMIO------------		
+CREATE VIEW ESKHERE.CostoPremio AS
+SELECT Puntos, ID FROM ESKHERE.Premios
+GO
+

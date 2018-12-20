@@ -36,9 +36,22 @@ namespace PalcoNet
             {
                 return " = '" + var + "'";
             }
+            public static string Distinto(string var)
+            {
+                return " != '" + var + "'";
+            }
             public static string Between(string menor, string mayor)
             {
                 return "BETWEEN " + menor + " AND " + mayor;
+            }
+            public static string MenorIgual(string valor)
+            {
+                return "<= " + valor;
+            }
+
+            internal static string MayorIgual(string valor)
+            {
+                return ">= " + valor;
             }
         }
 
@@ -46,6 +59,7 @@ namespace PalcoNet
         public static class Tabla
         {
             public static string Cliente { get { return "ESKHERE.[Cliente]"; } }
+            public static string Compra { get { return "[ESKHERE].[Compra]"; } }
             public static string Grado { get { return "ESKHERE.[Publicacion_Grado]"; } }
             public static string Estado { get { return "ESKHERE.[Publicacion_Estado]"; } }
             public static string Empresa { get { return "ESKHERE.[Empresa]"; } }
@@ -55,23 +69,31 @@ namespace PalcoNet
             public static string UsuarioXRol { get { return "ESKHERE.[rol_x_usuario]"; } }
             public static string Usuario { get { return "ESKHERE.[Usuario]"; } }
             public static string Factura { get { return "ESKHERE.[Factura]"; } }
+            public static string Premios { get { return "ESKHERE.[Premios]"; } }
+            public static string Vobtener_Puntos_cliente { get { return "[ESKHERE].obtener_Puntos_cliente"; } }
+            public static string Puntos { get { return "ESKHERE.[Puntos]"; } }
+            public static string PremiosPorCliente { get { return "[ESKHERE].PremiosPorCliente"; } }
+            public static string CostoPremio { get { return "[ESKHERE].CostoPremio"; } }
+            public static string Cliente_Premio { get { return "[ESKHERE].[cliente_premio]"; } }
             public static string Publicacion { get { return "ESKHERE.[Publicacion]"; } }
             public static string PublicacionFechas { get { return "ESKHERE.[Publicacion_Fechas]"; } }
             public static string Ubicacion { get { return "ESKHERE.[Ubicacion]"; } }
-            public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario"; } }
             public static string AniosQueSePublicaron { get { return "[ESKHERE].anios_que_se_publicaron_espectaculos"; } }
             public static string CliMayorCantCompras { get { return "[ESKHERE].clientes_con_mayor_cantidad_de_compras"; } }
             public static string CliMayorPtosVencidos { get { return "[ESKHERE].clientes_con_mayores_ptos_vencidos"; } }
             public static string EmpMayorCantUbiSinVender { get { return "[ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender"; } }
             public static string AnioMinimo { get { return "[ESKHERE].anios_minimo_de_publicacion"; } }
             public static string HistorialCompras { get { return "[ESKHERE].Historial_Compras"; } }
-            public static string FuncionesUsuario { get { return "[ESKHERE].funciones_usuarios"; } }
+            public static string FuncionesUsuarios { get { return "[ESKHERE].funciones_usuarios"; } }
             public static string RolesUsuario { get { return "[ESKHERE].Roles_usuario"; } }
+            public static string Rubros { get { return "[ESKHERE].rubros"; } }
+            public static string PublicacionesParaListar { get { return "[ESKHERE].Publicaciones_disponibles_para_listar"; } }
+            public static string UbicacionesParaListar { get { return "[ESKHERE].Ubicaciones_por_publi_disponibles"; } }
+            public static string idDelCliente { get { return "[ESKHERE].idClientexNombreUsuario_y_numTarjeta_para_compra"; } }
             public static string TipoUbicacion { get { return "[ESKHERE].Tipo_Ubicacion"; } }
             public static string CodigoPublicacion { get { return "[ESKHERE].Codigo_Publicacion"; } }
             public static string PublicacionBorrador { get { return "[ESKHERE].Publicaciones_borrador"; } }
             public static string CantidadUbicaciones { get { return "[ESKHERE].Cantidad_ubicaciones_publicacion"; } }
-            
         }
 
         private string PonerFiltros(string comando, Dictionary<string, string> filtros)
@@ -332,7 +354,7 @@ namespace PalcoNet
             }
         }
 
-        public int GenerarUsuarioAleatorio(string nombre, string apellido, ref string usuario, ref string contraseña)
+        public int GenerarUsuarioAleatorio(string documento, string rol, ref string usuario, ref string contraseña)
         {
             using (SqlConnection connection = new SqlConnection(conectionString))
             {
@@ -351,12 +373,12 @@ namespace PalcoNet
                     parameter2.Size = 5;
                     SqlParameter parameter3 = new SqlParameter("@id", SqlDbType.Int);
                     parameter3.Direction = ParameterDirection.Output;
-                    SqlParameter parameter4 = new SqlParameter("@nombre", SqlDbType.NVarChar);
+                    SqlParameter parameter4 = new SqlParameter("@documento", SqlDbType.NVarChar);
                     parameter4.Direction = ParameterDirection.Input;
-                    parameter4.Value = nombre;
-                    SqlParameter parameter5 = new SqlParameter("@apellido", SqlDbType.NVarChar);
+                    parameter4.Value = documento;
+                    SqlParameter parameter5= new SqlParameter("@rol", SqlDbType.NVarChar);
                     parameter5.Direction = ParameterDirection.Input;
-                    parameter5.Value = apellido;
+                    parameter5.Value = rol;
 
                     command.Parameters.Add(parameter1);
                     command.Parameters.Add(parameter2);
@@ -375,7 +397,7 @@ namespace PalcoNet
 
         public bool ActualizarContraseña(string contraseña, string usuario)
         {
-            string comando = string.Copy(comandoUpdate) + Tabla.Usuario + " SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
+            string comandoString = string.Copy(comandoUpdate) + Tabla.Usuario + " SET contrasenia = HASHBYTES('SHA2_256', @contrasenia), contrasena_autogenerada = 0 WHERE usuario = @usuario";
             try
             {
                 using (SqlConnection connection = new SqlConnection(conectionString))
@@ -385,6 +407,7 @@ namespace PalcoNet
                     {
                         command.Connection = connection;
                         command.CommandType = CommandType.Text;
+                        command.CommandText = comandoString;
                         command.Parameters.AddWithValue("@contrasenia", contraseña);
                         command.Parameters.AddWithValue("@usuario", usuario);
 
@@ -394,7 +417,7 @@ namespace PalcoNet
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }
@@ -557,6 +580,7 @@ namespace PalcoNet
                         command.Parameters.AddWithValue("@ubicacion_tipo_descripcion", SqlDbType.NVarChar);
                         command.Parameters.AddWithValue("@id_publicacion", SqlDbType.NVarChar);
 
+
                         for (int i = 0; i < publicacion.Count; i++)
                         {
                             command.CommandText = comandoStringFecha;
@@ -603,11 +627,13 @@ namespace PalcoNet
             }
         }
 
+
         public bool InsertarUbicacionesNuevas(List<String> publicacion, List<Generar_Publicacion.UbicacionIndividual> ubicaciones)
         {
             string comandoStringUbicacion = string.Copy(comandoInsert) + "ESKHERE.[Ubicacion] " +
                 "(ubicacion_fila, ubicacion_asiento, tipo, precio, ubicacion_sin_numerar, ubicacion_tipo_descripcion, id_publicacion) " +
                 "values (@ubicacion_fila, @ubicacion_asiento, @tipo, @precio, @ubicacion_sin_numerar, @ubicacion_tipo_descripcion, @id_publicacion)";
+
 
             using (SqlConnection connection = new SqlConnection(conectionString))
             {
@@ -660,9 +686,62 @@ namespace PalcoNet
             }
         }
         
+
+        public bool InsertarCompras(string id_Cliente, string cantidad, string formaPago, List<string> ubicaciones)
+        {
+
+            string comandoStringCompras = string.Copy(comandoInsert) + Tabla.Compra
+                + " ([Fecha] ,[Compra_Cantidad],[Forma_Pago_Desc],[ID_Cliente],[ID_Ubicacion]) " +
+                "VALUES (@fecha, @cantidad, @formaPagoDesc, @idCliente, @idUbicacion); SELECT SCOPE_IDENTITY()";
+
+
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                SqlTransaction tr = connection.BeginTransaction();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.Connection = connection;
+                    command.Transaction = tr;
+                    try
+                    {
+                        command.Parameters.AddWithValue("@fecha", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@cantidad", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@formaPagoDesc", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@idCliente", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@idUbicacion", SqlDbType.NVarChar);
+
+                        for (int i = 0; i < ubicaciones.Count; i++)
+                        {
+                            command.CommandText = comandoStringCompras;
+
+                            command.Parameters["@fecha"].Value = ConfigurationHelper.fechaActual;
+                            command.Parameters["@cantidad"].Value = cantidad;
+                            command.Parameters["@formaPagoDesc"].Value = formaPago;
+                            command.Parameters["@idCliente"].Value = id_Cliente;
+                            command.Parameters["@idUbicacion"].Value = ubicaciones[i];
+
+                            command.ExecuteNonQuery();
+                        
+                        }
+                        tr.Commit();
+                    return true;
+                }
+                    catch (SqlException e)
+                {
+                    string a = e.StackTrace;
+                    tr.Rollback();
+                    return false;
+                }
+
+            }
+        }
+
     }
 }
-
+}
+    
    /* public class Conexion<T> : Conexion
     {
         private static Conexion<T> instance = null;

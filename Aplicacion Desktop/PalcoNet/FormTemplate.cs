@@ -7,10 +7,14 @@ namespace PalcoNet
 {
     public partial class FormTemplate : Form
     {
-        public static List<Funcion> Funciones { get; set; } 
+        public static List<Funcion> Funciones { get; set; }
+        public static string usuario;
+        public static int idCliente;
+        public static bool isAdmin { get; set; }
         public FormTemplate()
         {
             InitializeComponent();
+
             foreach (Funcion f in Funciones.Distinct().ToList())
             {
                 ToolStripMenuItem item;
@@ -108,13 +112,14 @@ namespace PalcoNet
         private void CanjePuntos_Click(object sender, EventArgs e)
         {
             Close();
-            //new Canje_Puntos.Form1().Show();
+            new Canje_Puntos.Canje_Puntos(idCliente).Show();
+
         }
 
         private void Comprar_Click(object sender, EventArgs e)
         {
-            Close();
-            new Comprar.Comprar().Show();
+            Close();          
+            new Comprar.Comprar(usuario).Show();
         }
 
         private void Editar_Click(object sender, EventArgs e)
@@ -138,7 +143,7 @@ namespace PalcoNet
         private void Historial_Click(object sender, EventArgs e)
         {
             Close();
-            //new Historial_Cliente.ListadoDeCompras().Show();
+            new Historial_Cliente.ListadoDeCompras(idCliente).Show();
         }
 
         private void ListadoEstadistico_Click(object sender, EventArgs e)

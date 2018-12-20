@@ -46,13 +46,13 @@ namespace PalcoNet.Abm_Cliente
             btnCancelar.Enabled = false;
         }
 
-        private bool cuilEsValido()
+        private bool cuilEsValido(object sender)
         {
             string cuil = txtCUIL.Text;
             if (cbbTipo.Text == "LE")
                 return true;
-            if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27"))&& cuil.Substring(4, cuil.Length - 2).Equals(txtDoc.Text))
-                return true;
+            if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27"))/*&& cuil.Substring(4, cuil.Length - 2).Equals(txtDoc.Text)*/)
+            { return CalculoCUITCUIL.cuitEsValido(sender.ToString()); }
             return false;
         }
 
@@ -67,7 +67,7 @@ namespace PalcoNet.Abm_Cliente
                 MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
             {
-                if (!cuilEsValido())
+                if (!cuilEsValido(txtCUIL.Text))
                 {
                     MessageBox.Show("Se detectó un CUIL invalido. Revise");
                     errorCUIL = true;
@@ -75,13 +75,16 @@ namespace PalcoNet.Abm_Cliente
                 }
                 else
                 {
+                    AgregarParaInsert("fecha_creacion", ConfigurationHelper.fechaActual);
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
-                    if(idUser == -1)
-                        AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtNombre.Text, txtApel.Text, ref usuario, ref contraseña));
+                    if (idUser == -1)
+                    {
+                        AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtDoc.Text, "Cliente", ref usuario, ref contraseña));
+                        MessageBox.Show("Se generado un usuario aleatorio\nUsuario:" + usuario + "\nContraseña: " + contraseña);
+                    }
                     else
                         AgregarParaInsert("id_usuario", idUser);
-                    MessageBox.Show("Se generado un usuario aleatorio\nUsuario:" + usuario+"\nContraseña: "+contraseña);
                     if (Conexion.getInstance().Insertar(Conexion.Tabla.Cliente, datos)!=-1)
                     
                         DialogResult = DialogResult.OK;
@@ -209,10 +212,8 @@ namespace PalcoNet.Abm_Cliente
             SoloNumerico(ref e);
         }
 
-        private void txtCUIL_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            SoloNumerico(ref e);
-        }
+
+
 
         private void txtCodPostal_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -222,6 +223,22 @@ namespace PalcoNet.Abm_Cliente
         private void txtDepto_KeyPress(object sender, KeyPressEventArgs e)
         {
             SoloNumerico(ref e);
+        }
+
+        private void txtTel_keyPress(object sender, KeyPressEventArgs e)
+        {
+            SoloNumerico(ref e);
+        }
+
+        private void cbbTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbTipo.Text != "DNI")
+                txtCUIL.Enabled = false;
+            if (cbbTipo.Text != "DNI" && datos.ContainsKey("cuil"))
+                datos.Remove("cuil");
+            else if (chbDepto.Text == "DNI" && !string.IsNullOrEmpty(txtCUIL.Text))
+                datos["cuil"] = txtCUIL.Text;
+
         }
     }
 }

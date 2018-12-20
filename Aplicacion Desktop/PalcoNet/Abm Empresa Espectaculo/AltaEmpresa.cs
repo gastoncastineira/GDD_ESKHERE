@@ -62,7 +62,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
             {
-                if (!cuitEsValido())
+                if (!cuitEsValido(txtCUIT.Text))
                 {
                     MessageBox.Show("Se ha detectado un CUIT invalido. Revise");
                     errorCUIT = true;
@@ -70,10 +70,14 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 }
                 else
                 {
+                    AgregarParaInsert("Espec_Empresa_Fecha_Creacion", ConfigurationHelper.fechaActual);
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
                     if (idUser == -1)
-                        AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtRazon.Text, txtCUIT.Text, ref usuario, ref contraseña));
+                    {
+                        AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtCUIT.Text, "Cliente", ref usuario, ref contraseña));
+                        MessageBox.Show("Se generado un usuario aleatorio\nUsuario:" + usuario + "\nContraseña: " + contraseña);
+                    }
                     else
                         AgregarParaInsert("id_usuario", idUser);
                     if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos)!=-1)
@@ -90,13 +94,13 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             datos[nombreCol] = data;
         }
 
-        private bool cuitEsValido()
+        private bool cuitEsValido(object sender)
         {
-           /* string cuil = txtCUIT.Text;
-            if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27")) && cuil.Substring(4, cuil.Length - 2).Equals(txtRazon.Text))
-                return true;
-            return false;*/
-            return true;
+            string cuil = txtCUIT.Text;
+            if ((cuil.Substring(0, 2).Equals("30") || cuil.Substring(0, 2).Equals("33") || cuil.Substring(0, 2).Equals("34")))
+            { return CalculoCUITCUIL.cuitEsValido(sender.ToString()); }
+            return false;
+            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -189,7 +193,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 e.Cancel = true;
             }
         }
-
+        
         private void soloNumerico(object sender, KeyPressEventArgs e)
         {
             if (char.IsLetter(e.KeyChar) || char.IsWhiteSpace(e.KeyChar) || char.IsPunctuation(e.KeyChar))

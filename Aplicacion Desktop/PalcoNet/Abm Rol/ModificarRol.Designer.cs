@@ -59,6 +59,7 @@
             this.checkedListBoxFuncion.Name = "checkedListBoxFuncion";
             this.checkedListBoxFuncion.Size = new System.Drawing.Size(211, 154);
             this.checkedListBoxFuncion.TabIndex = 3;
+            this.checkedListBoxFuncion.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxFuncion_ItemCheck);
             // 
             // label2
             // 

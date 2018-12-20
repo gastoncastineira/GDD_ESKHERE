@@ -44,7 +44,7 @@ namespace PalcoNet.Abm_Cliente
             textosSinModificar.Add(txtNombre.Text);
             txtPiso.Text = data["piso"].Value.ToString();
             textosSinModificar.Add(txtPiso.Text);
-            //txtTel.Text = data["Numero"].Value.ToString() ;
+            txtTel.Text = data["telefono"].Value.ToString() ;
             textosSinModificar.Add(txtTel.Text);
             dtpNac.Text = data["cli_fecha_nac"].Value.ToString();
             textosSinModificar.Add(dtpNac.Text);
@@ -65,13 +65,13 @@ namespace PalcoNet.Abm_Cliente
             dtpNac.MaxDate = ConfigurationHelper.fechaActual;
         }
 
-        private bool cuilEsValido()
+        private bool cuilEsValido(object sender)
         {
             string cuil = txtCUIL.Text;
             if (cbbTipo.Text == "LE")
                 return true;
-            if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27")) && cuil.Substring(4, cuil.Length - 2).Equals(txtDoc.Text))
-                return true;
+            if ((cuil.Substring(0, 2).Equals("20") || cuil.Substring(0, 2).Equals("23") || cuil.Substring(0, 2).Equals("24") || cuil.Substring(0, 2).Equals("27"))/* && cuil.Substring(4, cuil.Length - 2).Equals(txtDoc.Text)*/)
+            { return CalculoCUITCUIL.cuitEsValido(sender.ToString()); }
             return false;
         }
 
@@ -86,7 +86,7 @@ namespace PalcoNet.Abm_Cliente
                 MessageBox.Show("Se detectaron algunos campos obligatorios nulos. Revise");
             else
             {
-                if (!cuilEsValido())
+                if (!cuilEsValido(txtCUIL.Text))
                 {
                     MessageBox.Show("Se detectó un CUIL invalido. Revise");
                     errorCUIL = true;
@@ -226,6 +226,16 @@ namespace PalcoNet.Abm_Cliente
         private void txtTel_KeyPress(object sender, KeyPressEventArgs e)
         {
             SoloNumerico(ref e);
+        }
+
+        private void cbbTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbTipo.Text != "DNI")
+                txtCUIL.Enabled = false;
+            if (cbbTipo.Text != "DNI" && datos.ContainsKey("cuil"))
+                datos.Remove("cuil");
+            else if (chbDepto.Text == "DNI" && !string.IsNullOrEmpty(txtCUIL.Text))
+                datos["cuil"] = txtCUIL.Text;
         }
     }
 }

@@ -123,11 +123,12 @@
     <Compile Include="Abm Rubro\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Canje Puntos\Form1.cs">
+    <Compile Include="CalculoCUITCUIL.cs" />
+    <Compile Include="Canje Puntos\Canje_Puntos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Canje Puntos\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Canje Puntos\Canje_Puntos.Designer.cs">
+      <DependentUpon>Canje_Puntos.cs</DependentUpon>
     </Compile>
     <Compile Include="Comprar\AgregarTarjeta.cs">
       <SubType>Form</SubType>
@@ -167,11 +168,11 @@
     <Compile Include="EnrutarFuncion.Designer.cs">
       <DependentUpon>EnrutarFuncion.cs</DependentUpon>
     </Compile>
-    <Compile Include="EntutarRoles.cs">
+    <Compile Include="EnrutarRoles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EntutarRoles.Designer.cs">
-      <DependentUpon>EntutarRoles.cs</DependentUpon>
+    <Compile Include="EnrutarRoles.Designer.cs">
+      <DependentUpon>EnrutarRoles.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTemplate.cs">
       <SubType>Form</SubType>
@@ -268,6 +269,9 @@
     <EmbeddedResource Include="Abm Rol\ModificarRol.resx">
       <DependentUpon>ModificarRol.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Canje Puntos\Canje_Puntos.resx">
+      <DependentUpon>Canje_Puntos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Comprar\AgregarTarjeta.resx">
       <DependentUpon>AgregarTarjeta.cs</DependentUpon>
     </EmbeddedResource>
@@ -286,8 +290,8 @@
     <EmbeddedResource Include="EnrutarFuncion.resx">
       <DependentUpon>EnrutarFuncion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntutarRoles.resx">
-      <DependentUpon>EntutarRoles.cs</DependentUpon>
+    <EmbeddedResource Include="EnrutarRoles.resx">
+      <DependentUpon>EnrutarRoles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTemplate.resx">
       <DependentUpon>FormTemplate.cs</DependentUpon>
@@ -327,15 +331,6 @@
       <LastGenOutput>PalcoNET.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

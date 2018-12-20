@@ -14,11 +14,15 @@ namespace PalcoNet.Abm_Rol
     {
         int idRol;
         private List<Funcion> funcionesOriginales = new List<Funcion>();
+        private const int MAX_FUNCION = 5;
+
         public ModificarRol(int id, string nombre)
         {
             idRol = id;
             InitializeComponent();
             txtNombre.Text = nombre;
+            if (nombre.ToLower() == "empresa" || nombre.ToLower() == "cliente")
+                txtNombre.Enabled = false;
         }
 
         private void ModificarRol_Load(object sender, EventArgs e)
@@ -80,6 +84,15 @@ namespace PalcoNet.Abm_Rol
         private void btnRegresar_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void checkedListBoxFuncion_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (checkedListBoxFuncion.CheckedItems.Count >= MAX_FUNCION)
+            {
+                MessageBox.Show("Se excedió del máximo de cinco funciones por rol permitidas");
+                e.NewValue = CheckState.Unchecked;
+            }
         }
     }
 }

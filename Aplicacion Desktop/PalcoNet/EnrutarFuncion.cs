@@ -14,6 +14,7 @@ namespace PalcoNet
     {
         private string rolSeleccionado;
         private string usuario;
+        private int idCliente;
         List<Funcion> funcion;
         private bool flag = false;
 
@@ -40,10 +41,10 @@ namespace PalcoNet
                     new Abm_Grado.ListaGrado().Show();
                     break;
                 case Funcion.CANJE_DE_PUNTOS:
-                    //new Canje_Puntos
+                    new Canje_Puntos.Canje_Puntos(idCliente).Show();
                     break;
                 case Funcion.COMPRAR:
-                    new Comprar.Comprar().Show();
+                    new Comprar.Comprar(usuario).Show();
                     break;
                 case Funcion.EDITAR_PUBLICACION:
                     //new Editar_Publicacion.EditarPublicacion().Show();
@@ -73,9 +74,32 @@ namespace PalcoNet
             Dictionary<string, string> filtros = new Dictionary<string, string>();
             filtros.Add("usuario", Conexion.Filtro.Exacto(usuario));
             filtros.Add("nombre_rol", Conexion.Filtro.Exacto(rolSeleccionado));
-            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.FuncionesUsuario, new List<string>(new string[] { "nombre_funcion", "funcion_id" }), filtros);
+            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.FuncionesUsuarios, new List<string>(new string[] { "nombre_funcion", "funcion_id" }), filtros);
             funcion = resul["funcion_id"].Cast<Funcion>().ToList();
             FormTemplate.Funciones = funcion;
+            FormTemplate.usuario = usuario;
+
+            if (usuario != "admin")
+            {
+                //me cazo el id del cliente con el usuario
+
+                List<string> columnas = new List<string>();
+                columnas.Add("idCliente");
+                columnas.Add("nombreUsr");
+                FormTemplate.isAdmin = false;
+
+                Dictionary<string, string> filtrosUsr = new Dictionary<string, string>();
+                filtrosUsr.Add("nombreUsr", Conexion.Filtro.Exacto(usuario));
+                Dictionary<string, List<object>> resultadoConsulta = (Conexion.getInstance().ConsultaPlana(Conexion.Tabla.idDelCliente, columnas, filtrosUsr));
+                idCliente = Convert.ToInt32(resultadoConsulta["idCliente"][0].ToString());
+                FormTemplate.idCliente = idCliente;             
+            }
+            else
+            {
+                FormTemplate.isAdmin = true;
+            }
+
+
             if (resul["nombre_funcion"].Count > 1)
             {
                 MessageBox.Show("Se detecto que tiene mas de una funcion asignada. Por favor, elija a la que desea ingresar");
