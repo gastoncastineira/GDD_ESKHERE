@@ -47,7 +47,14 @@ namespace PalcoNet.Editar_Publicacion
             DataRow fila = datos.Rows[0];
             descripcionTxt.Text = fila["descripcion"].ToString();
             rubroTxt.Text = fila["publicacion_rubro"].ToString();
+            direccionTxt.Text = fila["direccion"].ToString();
             llenarComboBox(fila);
+            List<int> filas = new List<int>();
+            for (int i = 1; i < 27; i++)
+            {
+                filas.Add(i);
+            }
+            ubicacionFilas.DataSource = filas;
             String id = fila["id"].ToString();
             llenarUbicacionesActuales(id);
             llenarFechasActuales(datos);
@@ -91,7 +98,6 @@ namespace PalcoNet.Editar_Publicacion
             ubicacionTipo.DataSource = tipos;
             ubicacionTipo.ValueMember = "tipo";
             ubicacionTipo.DisplayMember = "ubicacion_tipo_descripcion";
-            ubicacionTipo.SelectedIndex = -1;
         }
 
         private void llenarUbicacionesActuales(String primerId)
@@ -311,14 +317,22 @@ namespace PalcoNet.Editar_Publicacion
             cargarUbicacionesAEliminar();
             if (noSeRepitenFechas() && noSeRepitenUbicaciones())
             {
-                deshabilitarUbicaciones();
-                deshabilitarFunciones();
-                insertarFunciones();
-                insertarUbicaciones();
-                modificar();
-                MessageBox.Show("Modificacion realizada");
-                limpiarListas();
-                EditarPublicacion_Load(sender, e);          
+                if (fechasActuales.Count == 0)
+                {
+                    MessageBox.Show("No se puede eliminar la ultima funcion");
+                    limpiarListas();
+                }
+                else
+                {
+                    deshabilitarUbicaciones();
+                    deshabilitarFunciones();
+                    insertarFunciones();
+                    insertarUbicaciones();
+                    modificar();
+                    MessageBox.Show("Modificacion realizada");
+                    limpiarListas();
+                    EditarPublicacion_Load(sender, e);
+                }
             }
             else
             {
@@ -398,7 +412,14 @@ namespace PalcoNet.Editar_Publicacion
                 if (!Convert.ToBoolean(dgvUbicacionesActuales.Rows[i].Cells[5].Value))
                 {
                     ubicacion.tipo = dgvUbicacionesActuales.Rows[i].Cells[0].Value.ToString();
-                    ubicacion.tipoId = Convert.ToInt32(dgvUbicacionesActuales.Rows[i].Cells[1].Value);
+                    if (dgvUbicacionesActuales.Rows[i].Cells[1].Value.ToString().Equals(""))
+                    {
+                        ubicacion.tipoId = 0;
+                    }
+                    else
+                    {
+                        ubicacion.tipoId = Convert.ToInt32(dgvUbicacionesActuales.Rows[i].Cells[1].Value);
+                    }
                     ubicacion.filas = Convert.ToInt32(dgvUbicacionesActuales.Rows[i].Cells[2].Value);
                     ubicacion.asientosPorFila = Convert.ToInt32(dgvUbicacionesActuales.Rows[i].Cells[3].Value);
                     ubicacion.precio = Convert.ToInt32(dgvUbicacionesActuales.Rows[i].Cells[4].Value);
@@ -407,7 +428,7 @@ namespace PalcoNet.Editar_Publicacion
             }
             List<UbicacionIndividual> ubicacionesIndividuales = generarUbicacionesIndividuales(ubicaciones);
             
-            Conexion.getInstance().InsertarPublicaciones(10,publicaciones,fechasAAgregar,ubicacionesIndividuales);
+            Conexion.getInstance().InsertarPublicaciones(idEmpresa,publicaciones,fechasAAgregar,ubicacionesIndividuales);
         }
 
         private void deshabilitarUbicaciones()
@@ -455,9 +476,15 @@ namespace PalcoNet.Editar_Publicacion
             modificaciones.Add("Descripcion", descripcionTxt.Text.ToString());
             modificaciones.Add("Publicacion_Rubro", rubroTxt.Text.ToString());
             modificaciones.Add("ID_estado", Convert.ToInt32(estadoTxt.SelectedValue));
-            //modificaciones.Add("Direccion", direccionTxt.Text.ToString());
+            modificaciones.Add("Direccion", direccionTxt.Text.ToString());
             modificaciones.Add("ID_grado", Convert.ToInt32(gradoTxt.SelectedValue));
             Conexion.getInstance().ModificarPublicacion(codigoPublicacion, Conexion.Tabla.Publicacion, modificaciones);
+        }
+
+        private void ubicacionAsientos_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!Char.IsNumber(e.KeyChar) && e.KeyChar != (char)8)
+                e.Handled = true;
         }
     }
 }

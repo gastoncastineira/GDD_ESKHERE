@@ -15,11 +15,11 @@ namespace PalcoNet.Generar_Publicacion
         List<DateTime> funciones;
         List<Ubicacion> ubicaciones;
         List<Publicacion> publicaciones;
-        //int idEmpresa;
-        public GenerarPublicacion() : base()
+        int idEmpresa;
+        public GenerarPublicacion(int idEmpresa) : base()
         {
             InitializeComponent();
-            //this.idEmpresa = idEmpresa;
+            this.idEmpresa = idEmpresa;
             funciones = new List<DateTime>();
             ubicaciones = new List<Ubicacion>();
             publicaciones = new List<Publicacion>();
@@ -148,7 +148,7 @@ namespace PalcoNet.Generar_Publicacion
                     publicaciones.Add(publicacion);
                 }
                 List<UbicacionIndividual> ubicacionesIndividuales = generarUbicacionesIndividuales();
-                if (Conexion.getInstance().InsertarPublicaciones(10, publicaciones, funciones, ubicacionesIndividuales))
+                if (Conexion.getInstance().InsertarPublicaciones(idEmpresa, publicaciones, funciones, ubicacionesIndividuales))
                 {
                     MessageBox.Show("Se ha grenerado una nueva publicacion");
                 }

@@ -53,10 +53,10 @@
             this.btnFuncion = new System.Windows.Forms.Button();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.ubicacionFilas = new System.Windows.Forms.ComboBox();
             this.ubicacionTipo = new System.Windows.Forms.ComboBox();
             this.ubicacionPrecio = new System.Windows.Forms.TextBox();
             this.ubicacionAsientos = new System.Windows.Forms.TextBox();
-            this.ubicacionFilas = new System.Windows.Forms.TextBox();
             this.btnLimpiarUbicaciones = new System.Windows.Forms.Button();
             this.listView2 = new System.Windows.Forms.ListView();
             this.Tipo = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -143,7 +143,6 @@
             this.dgvFechasActuales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFechasActuales.Location = new System.Drawing.Point(9, 19);
             this.dgvFechasActuales.Name = "dgvFechasActuales";
-            this.dgvFechasActuales.ReadOnly = true;
             this.dgvFechasActuales.Size = new System.Drawing.Size(354, 121);
             this.dgvFechasActuales.TabIndex = 14;
             // 
@@ -209,7 +208,6 @@
             this.dgvUbicacionesActuales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUbicacionesActuales.Location = new System.Drawing.Point(14, 19);
             this.dgvUbicacionesActuales.Name = "dgvUbicacionesActuales";
-            this.dgvUbicacionesActuales.ReadOnly = true;
             this.dgvUbicacionesActuales.Size = new System.Drawing.Size(455, 121);
             this.dgvUbicacionesActuales.TabIndex = 14;
             // 
@@ -299,10 +297,10 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.ubicacionFilas);
             this.groupBox4.Controls.Add(this.ubicacionTipo);
             this.groupBox4.Controls.Add(this.ubicacionPrecio);
             this.groupBox4.Controls.Add(this.ubicacionAsientos);
-            this.groupBox4.Controls.Add(this.ubicacionFilas);
             this.groupBox4.Controls.Add(this.btnLimpiarUbicaciones);
             this.groupBox4.Controls.Add(this.listView2);
             this.groupBox4.Controls.Add(this.btnUbicacion);
@@ -316,6 +314,15 @@
             this.groupBox4.TabIndex = 49;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Ubicaciones";
+            // 
+            // ubicacionFilas
+            // 
+            this.ubicacionFilas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ubicacionFilas.FormattingEnabled = true;
+            this.ubicacionFilas.Location = new System.Drawing.Point(102, 47);
+            this.ubicacionFilas.Name = "ubicacionFilas";
+            this.ubicacionFilas.Size = new System.Drawing.Size(100, 21);
+            this.ubicacionFilas.TabIndex = 12;
             // 
             // ubicacionTipo
             // 
@@ -332,6 +339,7 @@
             this.ubicacionPrecio.Name = "ubicacionPrecio";
             this.ubicacionPrecio.Size = new System.Drawing.Size(100, 20);
             this.ubicacionPrecio.TabIndex = 10;
+            this.ubicacionPrecio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ubicacionAsientos_KeyPress);
             // 
             // ubicacionAsientos
             // 
@@ -339,13 +347,7 @@
             this.ubicacionAsientos.Name = "ubicacionAsientos";
             this.ubicacionAsientos.Size = new System.Drawing.Size(100, 20);
             this.ubicacionAsientos.TabIndex = 9;
-            // 
-            // ubicacionFilas
-            // 
-            this.ubicacionFilas.Location = new System.Drawing.Point(102, 49);
-            this.ubicacionFilas.Name = "ubicacionFilas";
-            this.ubicacionFilas.Size = new System.Drawing.Size(100, 20);
-            this.ubicacionFilas.TabIndex = 8;
+            this.ubicacionAsientos.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ubicacionAsientos_KeyPress);
             // 
             // btnLimpiarUbicaciones
             // 
@@ -515,7 +517,6 @@
         private System.Windows.Forms.ComboBox ubicacionTipo;
         private System.Windows.Forms.TextBox ubicacionPrecio;
         private System.Windows.Forms.TextBox ubicacionAsientos;
-        private System.Windows.Forms.TextBox ubicacionFilas;
         private System.Windows.Forms.Button btnLimpiarUbicaciones;
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.ColumnHeader Tipo;
@@ -528,5 +529,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnModificar;
+        private System.Windows.Forms.ComboBox ubicacionFilas;
     }
 }

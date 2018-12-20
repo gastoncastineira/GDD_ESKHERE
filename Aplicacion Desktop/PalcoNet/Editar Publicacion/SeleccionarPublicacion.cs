@@ -48,7 +48,12 @@ namespace PalcoNet.Editar_Publicacion
 
         private void btnSeleccionar_Click(object sender, EventArgs e)
         {
-            new EditarPublicacion(Convert.ToInt32(dgbPublicaciones.CurrentRow.Cells[0].Value),idEmpresa).ShowDialog();
+            if (dgbPublicaciones.Rows.Count.Equals(0))
+            {
+                MessageBox.Show("Debe seleccionar una publicacion");
+            }
+            else
+                new EditarPublicacion(Convert.ToInt32(dgbPublicaciones.CurrentRow.Cells[0].Value),idEmpresa).ShowDialog();
         }
 
         private void SeleccionarPublicacion_Load(object sender, EventArgs e)

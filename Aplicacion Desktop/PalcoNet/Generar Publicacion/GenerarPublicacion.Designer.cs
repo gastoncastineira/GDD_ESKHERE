@@ -55,6 +55,7 @@
             this.ubicacionPrecio = new System.Windows.Forms.TextBox();
             this.ubicacionTipo = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ubicacionFilas = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.btnFuncion = new System.Windows.Forms.Button();
             this.btnLimpiarFunciones = new System.Windows.Forms.Button();
@@ -63,7 +64,6 @@
             this.Fecha = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Hora = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ubicacionFilas = new System.Windows.Forms.ComboBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -307,6 +307,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ubicaciones";
             // 
+            // ubicacionFilas
+            // 
+            this.ubicacionFilas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ubicacionFilas.FormattingEnabled = true;
+            this.ubicacionFilas.Location = new System.Drawing.Point(120, 47);
+            this.ubicacionFilas.Name = "ubicacionFilas";
+            this.ubicacionFilas.Size = new System.Drawing.Size(100, 21);
+            this.ubicacionFilas.TabIndex = 12;
+            // 
             // dateTimePicker1
             // 
             this.dateTimePicker1.CustomFormat = "dddd, dd/MM/yyyy HH:mm tt";
@@ -380,14 +389,6 @@
             this.groupBox1.TabIndex = 32;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Funciones";
-            // 
-            // ubicacionFilas
-            // 
-            this.ubicacionFilas.FormattingEnabled = true;
-            this.ubicacionFilas.Location = new System.Drawing.Point(120, 47);
-            this.ubicacionFilas.Name = "ubicacionFilas";
-            this.ubicacionFilas.Size = new System.Drawing.Size(100, 21);
-            this.ubicacionFilas.TabIndex = 12;
             // 
             // GenerarPublicacion
             // 
