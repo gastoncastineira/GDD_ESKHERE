@@ -44,6 +44,11 @@ namespace PalcoNet
             {
                 return "<= " + valor;
             }
+
+            internal static string MayorIgual(string valor)
+            {
+                return ">= " + valor;
+            }
         }
 
         //Nombres de tablas basicas de la BD
