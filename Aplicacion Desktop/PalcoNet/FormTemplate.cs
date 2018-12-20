@@ -140,7 +140,7 @@ namespace PalcoNet
         {
             flag = true;
             Close();
-            new Generar_Publicacion.GenerarPublicacion().Show();
+            new Generar_Publicacion.GenerarPublicacion(idCliente).Show();
         }
 
         private void Rendicion_Click(object sender, EventArgs e)

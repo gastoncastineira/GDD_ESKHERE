@@ -50,7 +50,7 @@ namespace PalcoNet
                     new Editar_Publicacion.SeleccionarPublicacion(idCliente).Show();
                     break;
                 case Funcion.GENERAR_PUBLICACION:
-                    new Generar_Publicacion.GenerarPublicacion().Show();
+                    new Generar_Publicacion.GenerarPublicacion(idCliente).Show();
                     break;
                 case Funcion.GENERAR_RENDICION_COMISIONES:
                     new Generar_Rendicion_Comisiones.Rendicion().Show();
