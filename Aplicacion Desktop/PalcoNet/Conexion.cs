@@ -36,6 +36,10 @@ namespace PalcoNet
             {
                 return " = '" + var + "'";
             }
+            public static string Distinto(string var)
+            {
+                return " != '" + var + "'";
+            }
             public static string Between(string menor, string mayor)
             {
                 return "BETWEEN " + menor + " AND " + mayor;
