@@ -12,6 +12,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 {
     public partial class ListadoEmpresas : Form
     {
+        private Dictionary<string, string> filtros = new Dictionary<string, string>();
         public ListadoEmpresas()
         {
             InitializeComponent();
@@ -35,15 +36,21 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             }
             else
             {
-                Dictionary<string, string> filtros = new Dictionary<string, string>();
                 if (!string.IsNullOrEmpty(txtNombre.Text))
                     filtros.Add("Espec_Empresa_Razon_Social", Conexion.Filtro.Libre(txtNombre.Text));
                 if (!string.IsNullOrEmpty(txtMail.Text))
                     filtros.Add("Espec_Empresa_Mail", Conexion.Filtro.Libre(txtMail.Text));
                 if (!string.IsNullOrEmpty(txtCuit.Text))
                     filtros.Add("Espec_Empresa_Cuit", Conexion.Filtro.Exacto(txtCuit.Text));
-                Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Empresa, ref dgvEmpresa, filtros);
-                dgvEmpresa.Columns.Remove("id_usuario");
+                DataTable data = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Empresa, filtros);
+                data.Columns.Add(new DataColumn("habilitado", typeof(bool)));
+                foreach (DataRow d in data.Rows)
+                {
+                    Dictionary<string, string> filtro = new Dictionary<string, string>();
+                    filtro["id"] = Conexion.Filtro.Exacto(d["ID_Usuario"].ToString());
+                    d["habilitado"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "habilitado" }), filtro)["habilitado"][0];
+                }
+                dgvEmpresa.DataSource = data;
             }
         }
 
@@ -65,7 +72,20 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void btnDeshabilitar_Click(object sender, EventArgs e)
         {
+            if (Convert.ToBoolean(dgvEmpresa.SelectedCells[0].OwningRow.Cells["habilitado"].Value))
+                Conexion.getInstance().deshabilitar(Conexion.Tabla.Usuario, Convert.ToInt32(dgvEmpresa.SelectedCells[0].OwningRow.Cells["ID_Usuario"].Value));
+            else
+                Conexion.getInstance().habilitar(Conexion.Tabla.Usuario, Convert.ToInt32(dgvEmpresa.SelectedCells[0].OwningRow.Cells["ID_Usuario"].Value));
 
+            DataTable data = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Empresa, filtros);
+            data.Columns.Add(new DataColumn("habilitado", typeof(bool)));
+            foreach (DataRow d in data.Rows)
+            {
+                Dictionary<string, string> filtro = new Dictionary<string, string>();
+                filtro["id"] = Conexion.Filtro.Exacto(d["ID_Usuario"].ToString());
+                d["habilitado"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "habilitado" }), filtro)["habilitado"][0];
+            }
+            dgvEmpresa.DataSource = data;
         }
     }
 }

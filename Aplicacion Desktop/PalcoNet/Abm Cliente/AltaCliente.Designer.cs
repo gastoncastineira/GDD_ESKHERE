@@ -269,6 +269,7 @@
             this.cbbTipo.Name = "cbbTipo";
             this.cbbTipo.Size = new System.Drawing.Size(100, 21);
             this.cbbTipo.TabIndex = 28;
+            this.cbbTipo.SelectedIndexChanged += new System.EventHandler(this.cbbTipo_SelectedIndexChanged);
             this.cbbTipo.Leave += new System.EventHandler(this.cbbTipo_Leave);
             // 
             // btnAceptar

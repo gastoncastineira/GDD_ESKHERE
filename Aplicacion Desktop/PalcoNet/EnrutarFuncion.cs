@@ -76,22 +76,23 @@ namespace PalcoNet
             filtros.Add("nombre_rol", Conexion.Filtro.Exacto(rolSeleccionado));
             Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.FuncionesUsuarios, new List<string>(new string[] { "nombre_funcion", "funcion_id" }), filtros);
             funcion = resul["funcion_id"].Cast<Funcion>().ToList();
+            FormTemplate.Funciones = funcion;
+            FormTemplate.usuario = usuario;
 
             if (usuario != "admin")
             {
                 //me cazo el id del cliente con el usuario
+
                 List<string> columnas = new List<string>();
                 columnas.Add("idCliente");
                 columnas.Add("nombreUsr");
+                FormTemplate.isAdmin = false;
 
                 Dictionary<string, string> filtrosUsr = new Dictionary<string, string>();
                 filtrosUsr.Add("nombreUsr", Conexion.Filtro.Exacto(usuario));
                 Dictionary<string, List<object>> resultadoConsulta = (Conexion.getInstance().ConsultaPlana(Conexion.Tabla.idDelCliente, columnas, filtrosUsr));
                 idCliente = Convert.ToInt32(resultadoConsulta["idCliente"][0].ToString());
-
-                FormTemplate.idCliente = idCliente;
-                FormTemplate.Funciones = funcion;
-                FormTemplate.usuario = usuario;
+                FormTemplate.idCliente = idCliente;             
             }
             else
             {

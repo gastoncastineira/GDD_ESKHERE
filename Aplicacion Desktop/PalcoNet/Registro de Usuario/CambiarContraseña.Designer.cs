@@ -57,6 +57,7 @@
             // 
             this.txtContraRepe.Location = new System.Drawing.Point(114, 85);
             this.txtContraRepe.Name = "txtContraRepe";
+            this.txtContraRepe.PasswordChar = '*';
             this.txtContraRepe.Size = new System.Drawing.Size(100, 20);
             this.txtContraRepe.TabIndex = 2;
             // 
@@ -64,6 +65,7 @@
             // 
             this.txtContra.Location = new System.Drawing.Point(114, 39);
             this.txtContra.Name = "txtContra";
+            this.txtContra.PasswordChar = '*';
             this.txtContra.Size = new System.Drawing.Size(100, 20);
             this.txtContra.TabIndex = 3;
             // 

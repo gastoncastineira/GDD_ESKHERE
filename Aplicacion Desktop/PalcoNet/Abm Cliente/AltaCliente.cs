@@ -75,6 +75,7 @@ namespace PalcoNet.Abm_Cliente
                 }
                 else
                 {
+                    AgregarParaInsert("fecha_creacion", ConfigurationHelper.fechaActual);
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
                     if (idUser == -1)
@@ -227,6 +228,17 @@ namespace PalcoNet.Abm_Cliente
         private void txtTel_keyPress(object sender, KeyPressEventArgs e)
         {
             SoloNumerico(ref e);
+        }
+
+        private void cbbTipo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbbTipo.Text != "DNI")
+                txtCUIL.Enabled = false;
+            if (cbbTipo.Text != "DNI" && datos.ContainsKey("cuil"))
+                datos.Remove("cuil");
+            else if (chbDepto.Text == "DNI" && !string.IsNullOrEmpty(txtCUIL.Text))
+                datos["cuil"] = txtCUIL.Text;
+
         }
     }
 }

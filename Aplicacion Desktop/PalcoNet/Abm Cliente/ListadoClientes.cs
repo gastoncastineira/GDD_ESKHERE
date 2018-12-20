@@ -12,6 +12,8 @@ namespace PalcoNet.Abm_Cliente
 {
     public partial class ListadoClientes : Form
     {
+        private Dictionary<string, string> filtros = new Dictionary<string, string>();
+
         public ListadoClientes() : base()
         {
             InitializeComponent();
@@ -25,7 +27,6 @@ namespace PalcoNet.Abm_Cliente
             }
             else
             {
-                Dictionary<string, string> filtros = new Dictionary<string, string>();
                 if(!string.IsNullOrEmpty(txtNombre.Text))
                     filtros.Add("Cli_Nombre", Conexion.Filtro.Libre(txtNombre.Text));
                 if (!string.IsNullOrEmpty(txtMail.Text))
@@ -34,9 +35,15 @@ namespace PalcoNet.Abm_Cliente
                     filtros.Add("Cli_Dni", Conexion.Filtro.Exacto(txtDNI.Text));
                 if (!string.IsNullOrEmpty(txtApellido.Text))
                     filtros.Add("Cli_Apellido", Conexion.Filtro.Libre(txtApellido.Text));
-                Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Cliente, ref dgbClientes, filtros);
-                dgbClientes.Columns.Remove("fecha_creacion");
-                dgbClientes.Columns.Remove("ID_Usuario");
+                DataTable data = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Cliente, filtros);
+                data.Columns.Add(new DataColumn("habilitado", typeof(bool)));
+                foreach(DataRow d in data.Rows)
+                {
+                    Dictionary<string, string> filtro = new Dictionary<string, string>();
+                    filtro["id"] = Conexion.Filtro.Exacto(d["ID_Usuario"].ToString());
+                    d["habilitado"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "habilitado" }), filtro)["habilitado"][0];
+                }
+                dgbClientes.DataSource = data;
             }
         }
 
@@ -57,7 +64,20 @@ namespace PalcoNet.Abm_Cliente
 
         private void btnDeshabilitar_Click(object sender, EventArgs e)
         {
-            //Setear los bits de la columna anterior como !actual. Pedir confirmacion
+            if (Convert.ToBoolean(dgbClientes.SelectedCells[0].OwningRow.Cells["habilitado"].Value))
+                Conexion.getInstance().deshabilitar(Conexion.Tabla.Usuario, Convert.ToInt32(dgbClientes.SelectedCells[0].OwningRow.Cells["ID_Usuario"].Value));
+            else
+                Conexion.getInstance().habilitar(Conexion.Tabla.Usuario, Convert.ToInt32(dgbClientes.SelectedCells[0].OwningRow.Cells["ID_Usuario"].Value));
+
+            DataTable data = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Cliente, filtros);
+            data.Columns.Add(new DataColumn("habilitado", typeof(bool)));
+            foreach (DataRow d in data.Rows)
+            {
+                Dictionary<string, string> filtro = new Dictionary<string, string>();
+                filtro["id"] = Conexion.Filtro.Exacto(d["ID_Usuario"].ToString());
+                d["habilitado"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, new List<string>(new string[] { "habilitado" }), filtro)["habilitado"][0];
+            }
+            dgbClientes.DataSource = data;
         }
 
         private void dgbClientes_RowEnter(object sender, DataGridViewCellEventArgs e)

@@ -70,6 +70,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                 }
                 else
                 {
+                    AgregarParaInsert("Espec_Empresa_Fecha_Creacion", ConfigurationHelper.fechaActual);
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
                     if (idUser == -1)

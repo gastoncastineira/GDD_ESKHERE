@@ -8,18 +8,6 @@ namespace PalcoNet
 {
     public partial class CalculoCUITCUIL   
     {
-
-        private static CalculoCUITCUIL instance = null;
-
-        public CalculoCUITCUIL() { }
-
-        public static CalculoCUITCUIL getInstance()
-        {
-            if (instance == null)
-                instance = new CalculoCUITCUIL();
-            return instance;
-        }
-
         public static bool cuitEsValido(string cuit)
         {
             cuit = cuit.Replace("-", string.Empty);
@@ -37,7 +25,7 @@ namespace PalcoNet
         }
 
         //Va a recibir una cadena de 11 caracteres que son todos numeros
-        public static int CalcularDigitoVerificador(string cuit)
+        private static int CalcularDigitoVerificador(string cuit)
         {
             
             char[] arrayCuit = cuit.ToCharArray();

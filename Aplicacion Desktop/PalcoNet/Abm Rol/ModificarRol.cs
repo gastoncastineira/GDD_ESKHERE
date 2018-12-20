@@ -21,6 +21,8 @@ namespace PalcoNet.Abm_Rol
             idRol = id;
             InitializeComponent();
             txtNombre.Text = nombre;
+            if (nombre.ToLower() == "empresa" || nombre.ToLower() == "cliente")
+                txtNombre.Enabled = false;
         }
 
         private void ModificarRol_Load(object sender, EventArgs e)
