@@ -72,7 +72,6 @@
             this.txtDoc.Name = "txtDoc";
             this.txtDoc.Size = new System.Drawing.Size(100, 20);
             this.txtDoc.TabIndex = 1;
-            this.txtDoc.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDoc_KeyPress);
             this.txtDoc.Leave += new System.EventHandler(this.txtDoc_Leave);
             // 
             // txtApel
@@ -89,7 +88,6 @@
             this.txtCUIL.Name = "txtCUIL";
             this.txtCUIL.Size = new System.Drawing.Size(100, 20);
             this.txtCUIL.TabIndex = 3;
-            this.txtCUIL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCUIL_KeyPress);
             this.txtCUIL.Leave += new System.EventHandler(this.txtCUIL_Leave);
             // 
             // txtMail
@@ -106,6 +104,7 @@
             this.txtTel.Name = "txtTel";
             this.txtTel.Size = new System.Drawing.Size(100, 20);
             this.txtTel.TabIndex = 5;
+            this.txtTel.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTel_keyPress);
             this.txtTel.Leave += new System.EventHandler(this.txtTel_Leave);
             // 
             // txtDir

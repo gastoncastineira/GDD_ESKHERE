@@ -74,7 +74,7 @@ namespace PalcoNet
             Dictionary<string, string> filtros = new Dictionary<string, string>();
             filtros.Add("usuario", Conexion.Filtro.Exacto(usuario));
             filtros.Add("nombre_rol", Conexion.Filtro.Exacto(rolSeleccionado));
-            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.FuncionesUsuario, new List<string>(new string[] { "nombre_funcion", "funcion_id" }), filtros);
+            Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.FuncionesUsuarios, new List<string>(new string[] { "nombre_funcion", "funcion_id" }), filtros);
             funcion = resul["funcion_id"].Cast<Funcion>().ToList();
             
             //me cazo el id del cliente con el usuario

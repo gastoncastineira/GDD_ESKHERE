@@ -92,7 +92,10 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private bool cuitEsValido(object sender)
         {
-            return CalculoCUITCUIL.cuitEsValido(sender.ToString());
+            string cuil = txtCUIT.Text;
+            if ((cuil.Substring(0, 2).Equals("30") || cuil.Substring(0, 2).Equals("33") || cuil.Substring(0, 2).Equals("34")))
+            { return CalculoCUITCUIL.cuitEsValido(sender.ToString()); }
+            return false;
             
         }
 

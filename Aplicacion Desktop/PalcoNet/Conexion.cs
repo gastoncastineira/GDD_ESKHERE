@@ -74,14 +74,13 @@ namespace PalcoNet
             public static string Publicacion { get { return "ESKHERE.[Publicacion]"; } }
             public static string PublicacionFechas { get { return "ESKHERE.[Publicacion_Fechas]"; } }
             public static string Ubicacion { get { return "ESKHERE.[Ubicacion]"; } }
-            public static string FuncionesRolesUsuario { get { return "[ESKHERE].funciones_usuario"; } }
             public static string AniosQueSePublicaron { get { return "[ESKHERE].anios_que_se_publicaron_espectaculos"; } }
             public static string CliMayorCantCompras { get { return "[ESKHERE].clientes_con_mayor_cantidad_de_compras"; } }
             public static string CliMayorPtosVencidos { get { return "[ESKHERE].clientes_con_mayores_ptos_vencidos"; } }
             public static string EmpMayorCantUbiSinVender { get { return "[ESKHERE].empresas_con_mayor_cant_de_ubicaciones_sin_vender"; } }
             public static string AnioMinimo { get { return "[ESKHERE].anios_minimo_de_publicacion"; } }
             public static string HistorialCompras { get { return "[ESKHERE].Historial_Compras"; } }
-            public static string FuncionesUsuario { get { return "[ESKHERE].funciones_usuarios"; } }
+            public static string FuncionesUsuarios { get { return "[ESKHERE].funciones_usuarios"; } }
             public static string RolesUsuario { get { return "[ESKHERE].Roles_usuario"; } }
             public static string Rubros { get { return "[ESKHERE].rubros"; } }
             public static string PublicacionesParaListar { get { return "[ESKHERE].Publicaciones_disponibles_para_listar"; } }
