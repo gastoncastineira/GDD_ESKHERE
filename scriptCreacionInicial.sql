@@ -509,16 +509,6 @@ BEGIN
 END
 GO
 
-GO
-CREATE VIEW [ESKHERE].funciones_usuario
-AS
-select u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion from Usuario u 
-join Rol_X_Usuario ru on ru.ID_Usuario = u.ID 
-join Rol r on r.ID = ru.ID_ROL 
-join Rol_X_Funcion rf on rf.ID_Rol = r.ID 
-join Funcion f on f.ID = rf.ID_Funcion
-GO
-
 --------------------------------  VIEWS PARA LISTADO ESTADISTICO ------------------------------------------------------------------------------------------------
 GO
 CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
