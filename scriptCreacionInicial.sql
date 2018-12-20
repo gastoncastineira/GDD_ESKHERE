@@ -180,7 +180,7 @@ CREATE TABLE [ESKHERE].[Item_Factura](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
 	[Item_Factura_Monto] [numeric](18, 2) NULL,
 	[Item_Factura_Cantidad] [numeric](18, 0) NULL,
-	[Item_Factura_Descripcion] [nvarchar](60) NULL,
+	[Item_Factura_Descripcion] [nvarchar](60) NULL DEFAULT 'Comision por compra',
 	ID_Factura [numeric](18, 0) NOT NULL,
 	ID_Compra INT NOT NULL,
 	CONSTRAINT FK_Factura  FOREIGN KEY(ID_Factura) REFERENCES ESKHERE.[Factura]([Factura_Nro]),
@@ -576,6 +576,7 @@ Select p.id Publicacion, u.ID Codigo_de_Ubicacion, ubicacion_Fila Fila, ubicacio
 	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
 	where u.ID not in 
 			(select ID_Ubicacion from [ESKHERE].compra)
+			and u.habilitado = 1
 go
 
 CREATE VIEW [ESKHERE].Publicaciones_disponibles_para_listar
@@ -586,6 +587,7 @@ FROM [ESKHERE].Publicacion p join [ESKHERE].Publicacion_Fechas f on (p.ID_Fecha 
 	JOIN [ESKHERE].Publicacion_Estado e on (p.ID_estado = e.ID)
 	JOIN [ESKHERE].Ubicaciones_por_publi_disponibles UP ON (UP.Publicacion = P.ID) 
 WHERE e.Descripcion != 'Borrador' and e.Descripcion != 'Finalizada' 
+	and p.habilitado = 1
 GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID 
 HAVING count(UP.Codigo_de_Ubicacion) >0
 go

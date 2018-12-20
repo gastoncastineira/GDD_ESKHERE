@@ -24,7 +24,7 @@ namespace PalcoNet.Comprar
             columnas.Add("Publicacion_Rubro");
             fechaDesde.MinDate = ConfigurationHelper.fechaActual;
             List<object> resultadoConsulta = ((Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Rubros, columnas, null))["Publicacion_Rubro"]);
-            for (int i=0; i<resultadoConsulta.Count();i++)
+            for (int i=0; i<resultadoConsulta.Count;i++)
             {
                 chkLBCat.Items.Add(resultadoConsulta[i]);
             }

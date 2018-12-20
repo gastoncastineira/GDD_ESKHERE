@@ -129,7 +129,22 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void txtCUIT_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("Espec_Empresa_Cuit", txtCUIT.Text);
+            List<string> columnas = new List<string>();
+            columnas.Add("Espec_Empresa_Cuit");
+            Dictionary<string, string> filtro = new Dictionary<string, string>();
+            filtro.Add("Espec_Empresa_Cuit", Conexion.Filtro.Exacto(txtCUIT.Text));
+
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Empresa, columnas, filtro))
+            {
+                MessageBox.Show("Esa razón social está en uso. Elija otro.");
+                txtCUIT.Text = string.Empty;
+            }
+            else
+            {
+                AgregarParaInsert("Espec_Empresa_Cuit", txtCUIT.Text);
+            }
+            
         }
 
         private void txtTel_Leave(object sender, EventArgs e)
@@ -144,7 +159,22 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void txtRazon_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("Espec_Empresa_razon_social", txtRazon.Text);
+            List<string> columnas = new List<string>();
+            columnas.Add("Espec_Empresa_razon_social");
+            Dictionary<string, string> filtro = new Dictionary<string, string>();
+            filtro.Add("Espec_Empresa_razon_social", Conexion.Filtro.Exacto(txtRazon.Text));
+
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Empresa, columnas, filtro))
+            {
+                MessageBox.Show("Esa razón social está en uso. Elija otro.");
+                txtRazon.Text = string.Empty;
+            }
+            else
+            {
+                AgregarParaInsert("Espec_Empresa_razon_social", txtRazon.Text);
+            }
+            
         }
 
   

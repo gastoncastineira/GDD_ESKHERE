@@ -114,5 +114,12 @@ namespace PalcoNet.Abm_Cliente
             Close();
             Program.FormInicial.Show();
         }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            txtNombre.Text = string.Empty;
+            txtApellido.Text = txtDNI.Text = txtMail.Text = txtNombre.Text;
+            
+        }
     }
 }
