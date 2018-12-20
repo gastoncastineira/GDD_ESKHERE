@@ -515,7 +515,6 @@ CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
 AS
 SELECT TOP 5 Cli_Nombre , Cli_ApellIDo , p.FechaObtenIDos, sum(Cant) cantPuntosVencidos
 	from ESKHERE.Cliente c Join ESKHERE.Puntos p on (c.ID = p.ID_Cliente)
-	where YEAR(p.FechaObtenIDos) = YEAR(GETDATE())
 	GROUP BY Cli_Nombre, Cli_ApellIDo, p.FechaObtenIDos
 	order by sum(Cant) desc
 GO
