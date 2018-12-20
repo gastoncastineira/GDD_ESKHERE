@@ -28,72 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button3 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.empresa = new System.Windows.Forms.TextBox();
+            this.dgbPublicaciones = new System.Windows.Forms.DataGridView();
+            this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnBuscar = new System.Windows.Forms.Button();
             this.rubro = new System.Windows.Forms.TextBox();
             this.descripcion = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.btnSeleccionar = new System.Windows.Forms.Button();
+            this.grado = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.dgbPublicaciones)).BeginInit();
             this.SuspendLayout();
             // 
-            // button3
+            // dgbPublicaciones
             // 
-            this.button3.Location = new System.Drawing.Point(246, 276);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "Seleccionar";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.dgbPublicaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgbPublicaciones.Location = new System.Drawing.Point(24, 152);
+            this.dgbPublicaciones.Name = "dgbPublicaciones";
+            this.dgbPublicaciones.Size = new System.Drawing.Size(450, 118);
+            this.dgbPublicaciones.TabIndex = 18;
             // 
-            // dataGridView1
+            // btnLimpiar
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 152);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(345, 118);
-            this.dataGridView1.TabIndex = 18;
+            this.btnLimpiar.Location = new System.Drawing.Point(290, 116);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.TabIndex = 17;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
-            // button2
+            // btnBuscar
             // 
-            this.button2.Location = new System.Drawing.Point(204, 113);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 17;
-            this.button2.Text = "Limpiar";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(65, 113);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "Buscar";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // empresa
-            // 
-            this.empresa.Location = new System.Drawing.Point(148, 65);
-            this.empresa.Name = "empresa";
-            this.empresa.Size = new System.Drawing.Size(116, 20);
-            this.empresa.TabIndex = 15;
+            this.btnBuscar.Location = new System.Drawing.Point(149, 116);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(75, 23);
+            this.btnBuscar.TabIndex = 16;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // rubro
             // 
-            this.rubro.Location = new System.Drawing.Point(148, 37);
+            this.rubro.Location = new System.Drawing.Point(249, 40);
             this.rubro.Name = "rubro";
             this.rubro.Size = new System.Drawing.Size(116, 20);
             this.rubro.TabIndex = 14;
             // 
             // descripcion
             // 
-            this.descripcion.Location = new System.Drawing.Point(148, 9);
+            this.descripcion.Location = new System.Drawing.Point(249, 12);
             this.descripcion.Name = "descripcion";
             this.descripcion.Size = new System.Drawing.Size(116, 20);
             this.descripcion.TabIndex = 13;
@@ -101,16 +86,16 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(45, 68);
+            this.label3.Location = new System.Drawing.Point(146, 71);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 13);
+            this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Empresa";
+            this.label3.Text = "Grado";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(45, 40);
+            this.label2.Location = new System.Drawing.Point(146, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 11;
@@ -119,22 +104,41 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(45, 12);
+            this.label1.Location = new System.Drawing.Point(146, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 10;
             this.label1.Text = "Descripción";
             // 
+            // btnSeleccionar
+            // 
+            this.btnSeleccionar.Location = new System.Drawing.Point(399, 276);
+            this.btnSeleccionar.Name = "btnSeleccionar";
+            this.btnSeleccionar.Size = new System.Drawing.Size(75, 23);
+            this.btnSeleccionar.TabIndex = 19;
+            this.btnSeleccionar.Text = "Seleccionar";
+            this.btnSeleccionar.UseVisualStyleBackColor = true;
+            this.btnSeleccionar.Click += new System.EventHandler(this.btnSeleccionar_Click);
+            // 
+            // grado
+            // 
+            this.grado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.grado.FormattingEnabled = true;
+            this.grado.Location = new System.Drawing.Point(249, 68);
+            this.grado.Name = "grado";
+            this.grado.Size = new System.Drawing.Size(116, 21);
+            this.grado.TabIndex = 42;
+            // 
             // SeleccionarPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(374, 306);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.empresa);
+            this.ClientSize = new System.Drawing.Size(490, 306);
+            this.Controls.Add(this.grado);
+            this.Controls.Add(this.btnSeleccionar);
+            this.Controls.Add(this.dgbPublicaciones);
+            this.Controls.Add(this.btnLimpiar);
+            this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.rubro);
             this.Controls.Add(this.descripcion);
             this.Controls.Add(this.label3);
@@ -142,7 +146,8 @@
             this.Controls.Add(this.label1);
             this.Name = "SeleccionarPublicacion";
             this.Text = "Seleccionar publicacion";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.Load += new System.EventHandler(this.SeleccionarPublicacion_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgbPublicaciones)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,15 +155,15 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox empresa;
+        private System.Windows.Forms.DataGridView dgbPublicaciones;
+        private System.Windows.Forms.Button btnLimpiar;
+        private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.TextBox rubro;
         private System.Windows.Forms.TextBox descripcion;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnSeleccionar;
+        private System.Windows.Forms.ComboBox grado;
     }
 }

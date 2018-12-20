@@ -69,6 +69,8 @@ namespace PalcoNet
             public static string RolesUsuario { get { return "[ESKHERE].Roles_usuario"; } }
             public static string TipoUbicacion { get { return "[ESKHERE].Tipo_Ubicacion"; } }
             public static string CodigoPublicacion { get { return "[ESKHERE].Codigo_Publicacion"; } }
+            public static string PublicacionBorrador { get { return "[ESKHERE].Publicaciones_borrador"; } }
+            public static string CantidadUbicaciones { get { return "[ESKHERE].Cantidad_ubicaciones_publicacion"; } }
             
         }
 
@@ -143,6 +145,41 @@ namespace PalcoNet
                         command.CommandType = CommandType.Text;
                         command.CommandText = comandoString;
                         command.Parameters.AddWithValue("@id", pk);
+                        foreach (KeyValuePair<string, object> entry in data)
+                        {
+                            command.Parameters.AddWithValue("@" + entry.Key, entry.Value);
+                        }
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                string a = e.StackTrace;
+                return false;
+            }
+            return true;
+        }
+
+        public bool ModificarPublicacion(int codigo, string tabla, Dictionary<string, object> data)
+        {
+            try
+            {
+                string comandoString = string.Copy(comandoUpdate) + tabla + " SET ";
+                foreach (KeyValuePair<string, object> entry in data)
+                {
+                    comandoString += entry.Key + " = @" + entry.Key + ", ";
+                }
+                comandoString = comandoString.Substring(0, comandoString.Length - 2) + " WHERE codigo = @codigo";
+                using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+                {
+                    sqlConnection.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = sqlConnection;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = comandoString;
+                        command.Parameters.AddWithValue("@codigo", codigo);
                         foreach (KeyValuePair<string, object> entry in data)
                         {
                             command.Parameters.AddWithValue("@" + entry.Key, entry.Value);
@@ -397,6 +434,43 @@ namespace PalcoNet
             cambiarHabilitacion(tabla, id, "1");
         }
 
+        public void cambiarHabilitacionUbicacion(string tabla, string tipo,int idPublicacion, string cambio)
+        {
+            string comandoString = string.Copy(comandoUpdate) + tabla + " SET habilitado = " + cambio + " WHERE ID_Publicacion = @idPublicacion AND Ubicacion_Tipo_Descripcion = @tipo ";
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@tipo", tipo);
+                    command.Parameters.AddWithValue("@idPublicacion", idPublicacion);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void cambiarHabilitacionPublicacion(string tabla, int idFecha, string cambio)
+        {
+            string comandoString = string.Copy(comandoUpdate) + tabla + " SET habilitado = " + cambio + " WHERE ID_Fecha = @idFecha ";
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = comandoString;
+                    command.CommandType = CommandType.Text;
+                    command.Connection = connection;
+                    command.Parameters.AddWithValue("@idFecha", idFecha);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private Dictionary<string, List<object>> HacerDictinary(List<string> colum)
         {
             Dictionary<string, List<object>> retorno = new Dictionary<string, List<object>>();
@@ -486,8 +560,8 @@ namespace PalcoNet
                         for (int i = 0; i < publicacion.Count; i++)
                         {
                             command.CommandText = comandoStringFecha;
-                            command.Parameters["@fpublicacion"].Value = fechas[i];
-                            command.Parameters["@ffuncion"].Value = ConfigurationHelper.fechaActual;
+                            command.Parameters["@fpublicacion"].Value = ConfigurationHelper.fechaActual;
+                            command.Parameters["@ffuncion"].Value = fechas[i];
                             int id = Convert.ToInt32(command.ExecuteScalar());
 
                             command.CommandText = comandoStringPublicacion;
@@ -528,6 +602,64 @@ namespace PalcoNet
                 }
             }
         }
+
+        public bool InsertarUbicacionesNuevas(List<String> publicacion, List<Generar_Publicacion.UbicacionIndividual> ubicaciones)
+        {
+            string comandoStringUbicacion = string.Copy(comandoInsert) + "ESKHERE.[Ubicacion] " +
+                "(ubicacion_fila, ubicacion_asiento, tipo, precio, ubicacion_sin_numerar, ubicacion_tipo_descripcion, id_publicacion) " +
+                "values (@ubicacion_fila, @ubicacion_asiento, @tipo, @precio, @ubicacion_sin_numerar, @ubicacion_tipo_descripcion, @id_publicacion)";
+
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                SqlTransaction tr = connection.BeginTransaction();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandType = CommandType.Text;
+                    command.Connection = connection;
+                    command.Transaction = tr;
+                    try
+                    {
+
+                        command.Parameters.AddWithValue("@ubicacion_fila", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@ubicacion_asiento", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@tipo", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@precio", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@ubicacion_sin_numerar", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@ubicacion_tipo_descripcion", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@id_publicacion", SqlDbType.NVarChar);
+
+                        for (int i = 0; i < publicacion.Count; i++)
+                        {
+
+                            command.CommandText = comandoStringUbicacion;
+                            foreach (Generar_Publicacion.UbicacionIndividual u in ubicaciones)
+                            {
+                                command.Parameters["@ubicacion_fila"].Value = u.fila;
+                                command.Parameters["@ubicacion_asiento"].Value = u.asiento;
+                                command.Parameters["@tipo"].Value = u.tipo;
+                                command.Parameters["@precio"].Value = u.precio;
+                                command.Parameters["@ubicacion_sin_numerar"].Value = u.ubicacionSinNumerar;
+                                command.Parameters["@ubicacion_tipo_descripcion"].Value = u.tipoDescripcion;
+                                command.Parameters["@id_publicacion"].Value = Convert.ToInt32(publicacion[i]);
+
+                                command.ExecuteNonQuery();
+                            }
+                        }
+                        tr.Commit();
+                        return true;
+                    }
+                    catch (SqlException e)
+                    {
+                        string a = e.StackTrace;
+                        tr.Rollback();
+                        return false;
+                    }
+
+                }
+            }
+        }
+        
     }
 }
 

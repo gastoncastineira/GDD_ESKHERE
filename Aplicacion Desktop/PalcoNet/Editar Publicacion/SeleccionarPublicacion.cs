@@ -12,28 +12,52 @@ namespace PalcoNet.Editar_Publicacion
 {
     public partial class SeleccionarPublicacion : Form
     {
+        int idEmpresa;
         public SeleccionarPublicacion()
         {
             InitializeComponent();
+            //this.idEmpresa = idEmpresa;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
-            //Enviar al update fila seleccionada
+            if (string.IsNullOrEmpty(descripcion.Text) && string.IsNullOrEmpty(rubro.Text) && string.IsNullOrEmpty(grado.Text))
+            {
+                MessageBox.Show("Se debe ingresar algun filtro");
+            }
+            else
+            {
+                Dictionary<string, string> filtros = new Dictionary<string, string>();
+                if (!string.IsNullOrEmpty(descripcion.Text))
+                    filtros.Add("Descripcion", Conexion.Filtro.Libre(descripcion.Text));
+                if (!string.IsNullOrEmpty(rubro.Text))
+                    filtros.Add("Publicacion_Rubro", Conexion.Filtro.Libre(rubro.Text));
+                if (!string.IsNullOrEmpty(grado.Text))
+                    filtros.Add("ID_grado", Conexion.Filtro.Exacto(grado.SelectedValue.ToString()));
+                
+                //filtros.Add("Id_Empresa_publicante", Conexion.Filtro.Exacto(idEmpresa.ToString()));
+                Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.PublicacionBorrador, ref dgbPublicaciones, filtros );
+                //dgbPublicaciones.Columns.Remove("Id_Empresa_publicante");
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            String rub = rubro.Text;
-            String desc = descripcion.Text;
-            String emp = empresa.Text;
+            dgbPublicaciones.DataSource=null;
+        }
 
-            //filtrar
+        private void btnSeleccionar_Click(object sender, EventArgs e)
+        {
+            new EditarPublicacion(Convert.ToInt32(dgbPublicaciones.CurrentRow.Cells[0].Value),idEmpresa).ShowDialog();
         }
 
         private void SeleccionarPublicacion_Load(object sender, EventArgs e)
         {
-
+            DataTable grados = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Grado, null);
+            grado.DataSource = grados;
+            grado.ValueMember = "ID";
+            grado.DisplayMember = "Descripcion";
+            grado.SelectedIndex = -1;
         }
     }
 }

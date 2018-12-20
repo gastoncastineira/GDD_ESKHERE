@@ -32,14 +32,17 @@ namespace PalcoNet.Generar_Publicacion
             estado.DataSource = estados;
             estado.ValueMember = "ID";
             estado.DisplayMember = "Descripcion";
+            estado.SelectedIndex = -1;
             DataTable grados = Conexion.getInstance().conseguirTabla(Conexion.Tabla.Grado, null);
             grado.DataSource = grados;
             grado.ValueMember = "ID";
             grado.DisplayMember = "Descripcion";
+            grado.SelectedIndex = -1;
             DataTable tipos = Conexion.getInstance().conseguirTabla(Conexion.Tabla.TipoUbicacion, null);
             ubicacionTipo.DataSource = tipos;
             ubicacionTipo.ValueMember = "tipo";
             ubicacionTipo.DisplayMember = "ubicacion_tipo_descripcion";
+            ubicacionTipo.SelectedIndex = -1;
         }
 
         private void btnFuncion_Click(object sender, EventArgs e)
@@ -133,7 +136,7 @@ namespace PalcoNet.Generar_Publicacion
                     publicacion.rubro = rubro.Text;
                     publicacion.grado = Convert.ToInt32(grado.SelectedValue);
                     publicacion.estado = Convert.ToInt32(estado.SelectedValue);
-                    publicacion.codigo = codigo+i;
+                    publicacion.codigo = codigo;
                     publicaciones.Add(publicacion);
                 }
                 List<UbicacionIndividual> ubicacionesIndividuales = generarUbicacionesIndividuales();

@@ -125,6 +125,8 @@ CREATE TABLE ESKHERE.[Publicacion](
 	[ID_Fecha] INT NOT NULL,
 	[ID_grado] [int] NOT NULL DEFAULT 3,
 	[ID_estado] [int] NOT NULL,
+	[habilitado] [int] NOT NULL DEFAULT 1,
+	[direccion] [nvarchar](255) NULL,
 	CONSTRAINT FK_Empresa_Publicante FOREIGN KEY([ID_Empresa_publicante]) REFERENCES ESKHERE.Empresa(ID),
 	CONSTRAINT FK_Fecha FOREIGN KEY(ID_Fecha) REFERENCES ESKHERE.Publicacion_Fechas(ID),
 	CONSTRAINT FK_grado FOREIGN KEY(ID_grado) REFERENCES ESKHERE.Publicacion_Grado(ID),
@@ -145,6 +147,7 @@ CREATE TABLE ESKHERE.[Ubicacion](
 	[Ubicacion_Tipo_Descripcion] [nvarchar](255) NULL,
 	puntos int,
 	ID_Publicacion int,
+	[habilitado] [int] NOT NULL DEFAULT 1,
 	CONSTRAINT FK_Ubicacion_Publicacion FOREIGN KEY (ID_Publicacion) REFERENCES ESKHERE.PUBLICACION(ID)
 );
 CREATE TABLE [ESKHERE].Compra(
@@ -631,3 +634,14 @@ SELECT SUM(cant-Utilizados) AS total_Puntos, ID_cliente
 FROM [ESKHERE].Puntos
 GROUP BY ID_cliente		
 GO
+
+CREATE VIEW [ESKHERE].Publicaciones_borrador AS
+select distinct codigo, Descripcion,Publicacion_Rubro,ID_Empresa_publicante,ID_grado from ESKHERE.Publicacion
+where ID_estado = 1
+GO
+
+CREATE VIEW [ESKHERE].Cantidad_ubicaciones_publicacion AS
+select ubicacion_tipo_descripcion, tipo, count(distinct ubicacion_fila) cantidadFilas, count(distinct ubicacion_asiento) cantidadAsientos,precio,ID_Publicacion
+from ESKHERE.Ubicacion where habilitado = 1
+group by ubicacion_tipo_descripcion,precio,ID_Publicacion,tipo
+go
