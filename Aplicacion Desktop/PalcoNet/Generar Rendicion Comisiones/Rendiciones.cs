@@ -20,20 +20,24 @@ namespace PalcoNet.Generar_Rendicion_Comisiones
 
         private void btnRendir_Click(object sender, EventArgs e)
         {
-            Dictionary<string, object> datos = new Dictionary<string, object>();
-            datos.Add("rendido", 1);
             for (int i = 0; i < Convert.ToInt32(textBox1.Text); i++)
             {
                 try
                 {
-                    Conexion.getInstance().Modificar(Convert.ToInt32(dataGridView1.Rows[0].Cells["id"].Value), Conexion.Tabla.Factura, datos);
+                    Conexion.getInstance().RendirFactura(dataGridView1.Rows[i].Cells["Factura_Nro"].Value.ToString());
                 }
                 catch (IndexOutOfRangeException)
                 {
+                    MessageBox.Show("Se solicitó rendir mas comisiones que las que había. Se rindieron las que habia");
                     break;
                 }
             }
             MessageBox.Show("Se rindieron exitosamente las comisiones elegidas");
+            Dictionary<string, string> filtros = new Dictionary<string, string>();
+            filtros.Add("CUIL_Empresa", Conexion.Filtro.Exacto(infoEmpresas["Espec_Empresa_Cuit"][infoEmpresas["Espec_Empresa_Razon_Social"].IndexOf(cbbEmpresa.Text)].ToString()));
+            filtros.Add("rendido", Conexion.Filtro.Exacto("0"));
+            Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Factura, ref dataGridView1, filtros);
+            dataGridView1.Sort(this.dataGridView1.Columns["factura_fecha"], ListSortDirection.Ascending);
         }
 
         private void Rendicion_Load(object sender, EventArgs e)
@@ -49,10 +53,10 @@ namespace PalcoNet.Generar_Rendicion_Comisiones
         {
             if (char.IsLetter(e.KeyChar) || char.IsPunctuation(e.KeyChar))
                 e.Handled = true;
-            if (textBox1.Text.Length == 0)
-                btnRendir.Enabled = false;
-            else
+            else if (char.IsNumber(e.KeyChar) && textBox1.Text.Length == 0)
                 btnRendir.Enabled = true;
+            else if(char.IsControl(e.KeyChar) && textBox1.Text.Length == 1)
+                btnRendir.Enabled = false;
         }
 
         private void cbbEmpresa_SelectedIndexChanged(object sender, EventArgs e)

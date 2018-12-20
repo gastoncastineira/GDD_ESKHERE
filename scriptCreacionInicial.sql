@@ -432,10 +432,6 @@ GO
 --   +DE NO PONER TODOS SE PUEDEN DAR REGRISTROS QUE SE REPITAN!!!!
 
 
-select count(*) from 	[ESKHERE]. Ubicacion							 
-select count(*) from 	[ESKHERE].Item_Factura
-
-
 	-----------------------------------------------------------   PROCEDURES DE VALIDACION  ------------------------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE [ESKHERE].existe_usuario @Usuario nvarchar(50), @Contrasenia nvarchar(max), @resultado bit OUTPUT, @autogenerada bit output

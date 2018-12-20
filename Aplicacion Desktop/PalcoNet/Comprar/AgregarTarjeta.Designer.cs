@@ -59,6 +59,7 @@
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(116, 20);
             this.txtNumero.TabIndex = 3;
+            this.txtNumero.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNumerico);
             // 
             // label2
             // 

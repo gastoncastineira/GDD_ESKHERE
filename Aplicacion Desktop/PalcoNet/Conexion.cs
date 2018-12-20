@@ -245,6 +245,32 @@ namespace PalcoNet
             return true;
         }
 
+        public bool RendirFactura(string numFactura)
+        {
+            string comandoString = string.Copy(comandoUpdate) + Tabla.Factura + "SET rendido = 1 where [Factura_Nro] = @num";
+            using (SqlConnection sqlConnection = new SqlConnection(conectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    try
+                    {
+                        command.Connection = sqlConnection;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = comandoString;
+                        command.Parameters.AddWithValue("@num", numFactura);
+                        command.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        string a = e.StackTrace;
+                        return false;
+                    }
+                    return true;
+                }
+            }
+        }
+
         //Recibe el nombre de la tabla de Conexion.Tabla, el dataGrid POR REFERENCIA, y los filtros de busqueda sacados 
         //de Conexion.Filtro 
         public void LlenarDataGridView(string tabla, ref DataGridView dataGrid, Dictionary<string, string> filtros)

@@ -164,7 +164,7 @@ namespace PalcoNet.Abm_Cliente
 
         private void txtTel_Leave(object sender, EventArgs e)
         {
-            //AgregarParaUpdate("tenefono", txtTel.Text);
+            AgregarParaUpdate("telefono", txtTel.Text);
         }
 
         private void txtDir_Leave(object sender, EventArgs e)

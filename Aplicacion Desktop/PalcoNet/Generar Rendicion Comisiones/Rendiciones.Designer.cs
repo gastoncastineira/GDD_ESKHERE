@@ -40,7 +40,7 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1, 110);
+            this.dataGridView1.Location = new System.Drawing.Point(2, 144);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(349, 206);
             this.dataGridView1.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             this.cbbEmpresa.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbEmpresa.FormattingEnabled = true;
-            this.cbbEmpresa.Location = new System.Drawing.Point(131, 23);
+            this.cbbEmpresa.Location = new System.Drawing.Point(132, 57);
             this.cbbEmpresa.Name = "cbbEmpresa";
             this.cbbEmpresa.Size = new System.Drawing.Size(121, 21);
             this.cbbEmpresa.TabIndex = 1;
@@ -58,7 +58,7 @@
             // lblEmpresa
             // 
             this.lblEmpresa.AutoSize = true;
-            this.lblEmpresa.Location = new System.Drawing.Point(65, 26);
+            this.lblEmpresa.Location = new System.Drawing.Point(66, 60);
             this.lblEmpresa.Name = "lblEmpresa";
             this.lblEmpresa.Size = new System.Drawing.Size(48, 13);
             this.lblEmpresa.TabIndex = 2;
@@ -67,7 +67,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(39, 53);
+            this.label1.Location = new System.Drawing.Point(40, 87);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 4;
@@ -76,7 +76,7 @@
             // btnRendir
             // 
             this.btnRendir.Enabled = false;
-            this.btnRendir.Location = new System.Drawing.Point(131, 81);
+            this.btnRendir.Location = new System.Drawing.Point(132, 115);
             this.btnRendir.Name = "btnRendir";
             this.btnRendir.Size = new System.Drawing.Size(75, 23);
             this.btnRendir.TabIndex = 5;
@@ -87,7 +87,7 @@
             // textBox1
             // 
             this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(131, 50);
+            this.textBox1.Location = new System.Drawing.Point(132, 84);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(121, 20);
             this.textBox1.TabIndex = 6;
@@ -97,7 +97,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(349, 315);
+            this.ClientSize = new System.Drawing.Size(349, 350);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnRendir);
             this.Controls.Add(this.label1);
