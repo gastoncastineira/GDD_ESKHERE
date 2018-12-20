@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Comprar
 {
-    public partial class ElegirUbicaciones : Form
+    public partial class ElegirUbicaciones : Form 
     {
         String nomUsr;
         private Dictionary<string, object> datos = new Dictionary<string, object>();

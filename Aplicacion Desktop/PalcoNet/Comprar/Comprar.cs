@@ -119,9 +119,9 @@ namespace PalcoNet.Comprar
             {
                 filtros.Add("Publicacion_Rubro", Conexion.Filtro.Exacto(categorias[i]));
             }
-            filtros.Add("FFuncion", Conexion.Filtro.Between('\'' + desde + '\'', '\'' + hasta + '\''));
-            filtros.Add("FVenc",Conexion.Filtro.MenorIgual('\''+ConfigurationHelper.fechaActual.ToShortDateString() + '\''));
-            filtros.Add("FFuncion ", Conexion.Filtro.MenorIgual(ConfigurationHelper.fechaActual.ToShortDateString()));
+            //filtros.Add("FFuncion", Conexion.Filtro.Between('\'' + desde + '\'', '\'' + hasta + '\''));
+            filtros.Add("FVenc",Conexion.Filtro.MayorIgual('\''+ConfigurationHelper.fechaActual.ToShortDateString() + '\''));
+            filtros.Add("FFuncion ", Conexion.Filtro.MayorIgual(ConfigurationHelper.fechaActual.ToShortDateString()));
             return filtros;
         }
 
