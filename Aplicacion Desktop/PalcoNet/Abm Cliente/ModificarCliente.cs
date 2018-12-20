@@ -194,7 +194,7 @@ namespace PalcoNet.Abm_Cliente
 
         private void dtpNac_Leave(object sender, EventArgs e)
         {
-            AgregarParaUpdate("cli_fecha_nac", dtpNac.Value.ToString("yyyy-MM-dd"));
+            AgregarParaUpdate("cli_fecha_nac", dtpNac.Value.ToString("yyyy-MM-dd hh:mm:ss"));
         }
 
         private void SoloNumerico(ref KeyPressEventArgs e)

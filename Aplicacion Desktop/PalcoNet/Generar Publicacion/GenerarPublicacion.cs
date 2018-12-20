@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Generar_Publicacion
 {
-    public partial class GenerarPublicacion : FormTemplate
+    public partial class GenerarPublicacion : Form//Template
     {
         List<DateTime> funciones;
         List<Ubicacion> ubicaciones;
@@ -43,6 +43,13 @@ namespace PalcoNet.Generar_Publicacion
             ubicacionTipo.ValueMember = "tipo";
             ubicacionTipo.DisplayMember = "ubicacion_tipo_descripcion";
             ubicacionTipo.SelectedIndex = -1;
+            List<int> filas = new List<int>();
+            for (int i = 1; i < 27; i++)
+            {
+                filas.Add(i);
+            }
+            ubicacionFilas.DataSource = filas;
+            //ubicacionFilas.SelectedIndex = -1;
         }
 
         private void btnFuncion_Click(object sender, EventArgs e)
@@ -137,16 +144,17 @@ namespace PalcoNet.Generar_Publicacion
                     publicacion.grado = Convert.ToInt32(grado.SelectedValue);
                     publicacion.estado = Convert.ToInt32(estado.SelectedValue);
                     publicacion.codigo = codigo;
+                    publicacion.direccion = direccion.Text;
                     publicaciones.Add(publicacion);
                 }
                 List<UbicacionIndividual> ubicacionesIndividuales = generarUbicacionesIndividuales();
                 if (Conexion.getInstance().InsertarPublicaciones(10, publicaciones, funciones, ubicacionesIndividuales))
                 {
-                    MessageBox.Show("Insert ok");
+                    MessageBox.Show("Se ha grenerado una nueva publicacion");
                 }
                 else
                 {
-                    MessageBox.Show("NO");
+                    MessageBox.Show("No se pudo generar la publicacion");
                 }
 
 

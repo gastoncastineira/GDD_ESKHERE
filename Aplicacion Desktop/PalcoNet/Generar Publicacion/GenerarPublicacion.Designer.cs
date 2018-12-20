@@ -51,7 +51,6 @@
             this.Asientos = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Precio = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnLimpiarUbicaciones = new System.Windows.Forms.Button();
-            this.ubicacionFilas = new System.Windows.Forms.TextBox();
             this.ubicacionAsientos = new System.Windows.Forms.TextBox();
             this.ubicacionPrecio = new System.Windows.Forms.TextBox();
             this.ubicacionTipo = new System.Windows.Forms.ComboBox();
@@ -64,6 +63,7 @@
             this.Fecha = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Hora = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ubicacionFilas = new System.Windows.Forms.ComboBox();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -262,14 +262,6 @@
             this.btnLimpiarUbicaciones.UseVisualStyleBackColor = true;
             this.btnLimpiarUbicaciones.Click += new System.EventHandler(this.btnLimpiarUbicaciones_Click);
             // 
-            // ubicacionFilas
-            // 
-            this.ubicacionFilas.Location = new System.Drawing.Point(120, 48);
-            this.ubicacionFilas.Name = "ubicacionFilas";
-            this.ubicacionFilas.Size = new System.Drawing.Size(100, 20);
-            this.ubicacionFilas.TabIndex = 8;
-            this.ubicacionFilas.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ubicacionFilas_KeyPress);
-            // 
             // ubicacionAsientos
             // 
             this.ubicacionAsientos.Location = new System.Drawing.Point(120, 75);
@@ -297,10 +289,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.ubicacionFilas);
             this.groupBox2.Controls.Add(this.ubicacionTipo);
             this.groupBox2.Controls.Add(this.ubicacionPrecio);
             this.groupBox2.Controls.Add(this.ubicacionAsientos);
-            this.groupBox2.Controls.Add(this.ubicacionFilas);
             this.groupBox2.Controls.Add(this.btnLimpiarUbicaciones);
             this.groupBox2.Controls.Add(this.listView2);
             this.groupBox2.Controls.Add(this.btnUbicacion);
@@ -389,6 +381,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Funciones";
             // 
+            // ubicacionFilas
+            // 
+            this.ubicacionFilas.FormattingEnabled = true;
+            this.ubicacionFilas.Location = new System.Drawing.Point(120, 47);
+            this.ubicacionFilas.Name = "ubicacionFilas";
+            this.ubicacionFilas.Size = new System.Drawing.Size(100, 21);
+            this.ubicacionFilas.TabIndex = 12;
+            // 
             // GenerarPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -445,7 +445,6 @@
         private System.Windows.Forms.ColumnHeader Asientos;
         private System.Windows.Forms.ColumnHeader Precio;
         private System.Windows.Forms.Button btnLimpiarUbicaciones;
-        private System.Windows.Forms.TextBox ubicacionFilas;
         private System.Windows.Forms.TextBox ubicacionAsientos;
         private System.Windows.Forms.TextBox ubicacionPrecio;
         private System.Windows.Forms.ComboBox ubicacionTipo;
@@ -458,6 +457,7 @@
         private System.Windows.Forms.ColumnHeader Fecha;
         private System.Windows.Forms.ColumnHeader Hora;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ComboBox ubicacionFilas;
 
     }
 }

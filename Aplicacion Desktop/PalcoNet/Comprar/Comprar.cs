@@ -67,7 +67,7 @@ namespace PalcoNet.Comprar
             {
                 hasta = fechaHasta.Value;
             }
-            filtros = this.ArmaFiltro(categorias, descrip, desde.Date.ToString("yyyy-MM-dd"), hasta.Date.ToString("yyyy-MM-dd"));
+            filtros = this.ArmaFiltro(categorias, descrip, desde.Date.ToString("yyyy-MM-dd hh:mm:ss"), hasta.Date.ToString("yyyy-MM-dd hh:mm:ss"));
             datos = Conexion.getInstance().conseguirTabla(Conexion.Tabla.PublicacionesParaListar, filtros);
             datos.Columns.Remove("FVenc");
             DataView dv = datos.DefaultView;
@@ -109,8 +109,8 @@ namespace PalcoNet.Comprar
                 filtros.Add("Publicacion_Rubro", Conexion.Filtro.Exacto(categorias[i]));
             }
             filtros.Add("FFuncion", Conexion.Filtro.Between('\'' + desde + '\'', '\'' + hasta + '\''));
-            filtros.Add("FVenc",Conexion.Filtro.MayorIgual('\''+ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd") + '\''));
-            filtros.Add("FFuncion ", Conexion.Filtro.MayorIgual("'"+ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd") + "'"));
+            filtros.Add("FVenc", Conexion.Filtro.MayorIgual('\'' + ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd hh:mm:ss") + '\''));
+            filtros.Add("FFuncion ", Conexion.Filtro.MayorIgual("'" + ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd hh:mm:ss") + "'"));
             return filtros;
         }
 

@@ -570,8 +570,8 @@ namespace PalcoNet
                 + "ESKHERE.[Publicacion_Fechas] (fpublicacion, ffuncion) values (@fpublicacion, @ffuncion); SELECT SCOPE_IDENTITY()";
 
             string comandoStringPublicacion = string.Copy(comandoInsert) + Tabla.Publicacion
-                + " (codigo, descripcion, publicacion_rubro, id_empresa_publicante, id_fecha, id_grado, id_estado) " +
-                "VALUES (@codigo, @descripcion, @publicacion_rubro, @id_empresa_publicante, @id_fecha, @id_grado, @id_estado); SELECT SCOPE_IDENTITY()";
+                + " (codigo, descripcion, publicacion_rubro, id_empresa_publicante, id_fecha, id_grado, id_estado, direccion) " +
+                "VALUES (@codigo, @descripcion, @publicacion_rubro, @id_empresa_publicante, @id_fecha, @id_grado, @id_estado, @direccion); SELECT SCOPE_IDENTITY()";
 
             string comandoStringUbicacion = string.Copy(comandoInsert) + "ESKHERE.[Ubicacion] " +
                 "(ubicacion_fila, ubicacion_asiento, tipo, precio, ubicacion_sin_numerar, ubicacion_tipo_descripcion, id_publicacion) " +
@@ -598,6 +598,7 @@ namespace PalcoNet
                         command.Parameters.AddWithValue("@id_fecha", SqlDbType.NVarChar);
                         command.Parameters.AddWithValue("@id_grado", SqlDbType.NVarChar);
                         command.Parameters.AddWithValue("@id_estado", SqlDbType.NVarChar);
+                        command.Parameters.AddWithValue("@direccion", SqlDbType.NVarChar);
 
                         command.Parameters.AddWithValue("@ubicacion_fila", SqlDbType.NVarChar);
                         command.Parameters.AddWithValue("@ubicacion_asiento", SqlDbType.NVarChar);
@@ -611,8 +612,8 @@ namespace PalcoNet
                         for (int i = 0; i < publicacion.Count; i++)
                         {
                             command.CommandText = comandoStringFecha;
-                            command.Parameters["@fpublicacion"].Value = ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd");
-                            command.Parameters["@ffuncion"].Value = fechas[i].ToString("yyyy-MM-dd");
+                            command.Parameters["@fpublicacion"].Value = ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd hh:mm:ss");
+                            command.Parameters["@ffuncion"].Value = fechas[i].ToString("yyyy-MM-dd hh:mm:ss");
                             int id = Convert.ToInt32(command.ExecuteScalar());
 
                             command.CommandText = comandoStringPublicacion;
@@ -624,6 +625,7 @@ namespace PalcoNet
                             command.Parameters["@id_fecha"].Value = id;
                             command.Parameters["@id_grado"].Value = publicacion[i].grado;
                             command.Parameters["@id_estado"].Value = publicacion[i].estado;
+                            command.Parameters["@direccion"].Value = publicacion[i].direccion;
                             id = Convert.ToInt32(command.ExecuteScalar());
 
                             command.CommandText = comandoStringUbicacion;

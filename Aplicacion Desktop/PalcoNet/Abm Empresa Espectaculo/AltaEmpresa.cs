@@ -181,7 +181,7 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void dtp_FechaCreacion_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value.ToString("yyyy-MM-dd"));
+            AgregarParaInsert("Espec_Empresa_Fecha_Creacion", dtp_FechaCreacion.Value.ToString("yyyy-MM-dd hh:mm:ss"));
         }
 
         private void AltaEmpresa_FormClosing(object sender, FormClosingEventArgs e)

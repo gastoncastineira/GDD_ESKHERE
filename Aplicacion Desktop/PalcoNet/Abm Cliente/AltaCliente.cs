@@ -75,7 +75,7 @@ namespace PalcoNet.Abm_Cliente
                 }
                 else
                 {
-                    AgregarParaInsert("fecha_creacion", ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd"));
+                    AgregarParaInsert("fecha_creacion", ConfigurationHelper.fechaActual.ToString("yyyy-MM-dd hh:mm:ss"));
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
                     if (idUser == -1)
@@ -189,7 +189,7 @@ namespace PalcoNet.Abm_Cliente
 
         private void dtpNac_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("cli_fecha_nac", dtpNac.Value.ToString("yyyy-MM-dd"));
+            AgregarParaInsert("cli_fecha_nac", dtpNac.Value.ToString("yyyy-MM-dd hh:mm:ss"));
         }
 
         private void AltaCliente_FormClosing(object sender, FormClosingEventArgs e)
