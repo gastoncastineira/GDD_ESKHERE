@@ -25,7 +25,7 @@ namespace PalcoNet.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2018-12-02")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2018-12-20")]
         public global::System.DateTime MyDate {
             get {
                 return ((global::System.DateTime)(this["MyDate"]));
