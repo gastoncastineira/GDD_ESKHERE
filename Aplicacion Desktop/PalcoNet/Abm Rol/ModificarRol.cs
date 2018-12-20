@@ -13,6 +13,7 @@ namespace PalcoNet.Abm_Rol
     public partial class ModificarRol : Form
     {
         int idRol;
+        string nombreOG;
         private List<Funcion> funcionesOriginales = new List<Funcion>();
         private const int MAX_FUNCION = 5;
 
@@ -20,6 +21,7 @@ namespace PalcoNet.Abm_Rol
         {
             idRol = id;
             InitializeComponent();
+            nombreOG = nombre;
             txtNombre.Text = nombre;
             if (nombre.ToLower() == "empresa" || nombre.ToLower() == "cliente")
                 txtNombre.Enabled = false;
@@ -48,38 +50,57 @@ namespace PalcoNet.Abm_Rol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            List<Funcion> aBorrar = new List<Funcion>();
-            List<Funcion> aInsertar = new List<Funcion>();
-            for (int i = 1; i <= checkedListBoxFuncion.Items.Count; i++)
+            if (string.IsNullOrEmpty(txtNombre.Text))
             {
-                if (checkedListBoxFuncion.GetItemChecked(i - 1) && !funcionesOriginales.Contains((Funcion)i))
-                    aInsertar.Add((Funcion)i);
-                if (!checkedListBoxFuncion.GetItemChecked(i - 1) && funcionesOriginales.Contains((Funcion)i))
-                    aBorrar.Add((Funcion)i);
+                MessageBox.Show("Se debe ingresar un nombre");
+                return;
             }
-            Dictionary<string, object> datos = new Dictionary<string, object>();
-            datos["id_rol"] = idRol;
-            foreach(int v in aInsertar)
-            {
-                datos["id_funcion"] = v;
-                if (Conexion.getInstance().Insertar(Conexion.Tabla.RolXFuncion, datos)==-1)
+
+
+                List<Funcion> aBorrar = new List<Funcion>();
+                List<Funcion> aInsertar = new List<Funcion>();
+                Dictionary<string, string> filtrosFunc = new Dictionary<string, string>();
+                //List<string> columnasFunc = new List<string>();
+               // columnasFunc.Add("nombre");
+
+               // Dictionary<string, List< object>> resultadoConsulta= Conexion.getInstance().ConsultaPlana(Conexion.Tabla.RolXFuncion, columnasFunc, filtrosFunc);
+
+                for (int i = 0; i < checkedListBoxFuncion.Items.Count; i++)
                 {
-                    DialogResult = DialogResult.Abort;
-                    return;
+
+                    if (checkedListBoxFuncion.GetItemChecked(i) && !funcionesOriginales.Contains((Funcion)i + 1))
+                        aInsertar.Add((Funcion)i + 1);
+                    if (!checkedListBoxFuncion.GetItemChecked(i) && funcionesOriginales.Contains((Funcion)i + 1))
+                        aBorrar.Add((Funcion)i + 1);
                 }
 
-            }
-            foreach (int v in aBorrar)
-            {
-                datos["id_funcion"] = v;
-                if (!Conexion.getInstance().eliminarTablaIntermedia(Conexion.Tabla.RolXFuncion, "id_rol", "id_funcion", idRol, v))
-                {
-                    DialogResult = DialogResult.Abort;
-                    return;
-                }
-            }
-            DialogResult = DialogResult.OK;
-        }
+                Dictionary<string, object> datos = new Dictionary<string, object>();
+                datos["id_rol"] = idRol;
+
+                //if (!Conexion.getInstance().existeRegistro(Conexion.Tabla.RolXFuncion, columnasFunc, filtrosFunc))
+                //{
+                    foreach (int v in aInsertar)
+                    {
+                        datos["id_funcion"] = v;
+                        if (!Conexion.getInstance().InsertarTablaIntermedia(Conexion.Tabla.RolXFuncion, "id_rol", "id_funcion", idRol, v))
+                        {
+                            DialogResult = DialogResult.Abort;
+                            return;
+                        }
+
+                    }
+                    foreach (int v in aBorrar)
+                    {
+                        datos["id_funcion"] = v;
+                        if (!Conexion.getInstance().eliminarTablaIntermedia(Conexion.Tabla.RolXFuncion, "id_rol", "id_funcion", idRol, v))
+                        {
+                            DialogResult = DialogResult.Abort;
+                            return;
+                        }
+                    }
+                    DialogResult = DialogResult.OK;
+         }
+
 
         private void btnRegresar_Click(object sender, EventArgs e)
         {
@@ -98,6 +119,21 @@ namespace PalcoNet.Abm_Rol
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             txtNombre.Text = string.Empty;
+        }
+
+        private void txtNombre_Leave(object sender, EventArgs e)
+        {
+            List<string> columnas = new List<string>();
+            columnas.Add("Nombre");
+            Dictionary<string, string> filtrosNom = new Dictionary<string, string>();
+            filtrosNom.Add("Nombre", Conexion.Filtro.Exacto(txtNombre.Text));
+            filtrosNom.Add("Nombre ",Conexion.Filtro.Distinto(nombreOG));
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Rol, columnas, filtrosNom))
+            {
+                MessageBox.Show("Ese rol ya existe. Elija otro o siga usando el mismo.");
+                txtNombre.Text = nombreOG;
+            }
         }
     }
 }

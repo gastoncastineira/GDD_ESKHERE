@@ -52,6 +52,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(211, 20);
             this.txtNombre.TabIndex = 1;
+            this.txtNombre.Leave += new System.EventHandler(this.txtNombre_Leave);
             // 
             // checkedListBoxFuncion
             // 
