@@ -35,7 +35,6 @@
             this.dgv_PremiosPorCliente = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.lbl_Canje = new System.Windows.Forms.Label();
-            this.btn_Cancelar = new System.Windows.Forms.Button();
             this.btn_Aceptar = new System.Windows.Forms.Button();
             this.dgv_Ptos_Cliente = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
@@ -105,18 +104,9 @@
             this.lbl_Canje.TabIndex = 9;
             this.lbl_Canje.Text = "Ingresar premio a canjear";
             // 
-            // btn_Cancelar
-            // 
-            this.btn_Cancelar.Location = new System.Drawing.Point(247, 397);
-            this.btn_Cancelar.Name = "btn_Cancelar";
-            this.btn_Cancelar.Size = new System.Drawing.Size(75, 23);
-            this.btn_Cancelar.TabIndex = 11;
-            this.btn_Cancelar.Text = "Cancelar";
-            this.btn_Cancelar.UseVisualStyleBackColor = true;
-            // 
             // btn_Aceptar
             // 
-            this.btn_Aceptar.Location = new System.Drawing.Point(143, 397);
+            this.btn_Aceptar.Location = new System.Drawing.Point(406, 397);
             this.btn_Aceptar.Name = "btn_Aceptar";
             this.btn_Aceptar.Size = new System.Drawing.Size(75, 23);
             this.btn_Aceptar.TabIndex = 12;
@@ -159,7 +149,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.dgv_Ptos_Cliente);
             this.Controls.Add(this.btn_Aceptar);
-            this.Controls.Add(this.btn_Cancelar);
             this.Controls.Add(this.lbl_Canje);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dgv_PremiosPorCliente);
@@ -187,7 +176,6 @@
         private System.Windows.Forms.DataGridView dgv_PremiosPorCliente;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lbl_Canje;
-        private System.Windows.Forms.Button btn_Cancelar;
         private System.Windows.Forms.Button btn_Aceptar;
         private System.Windows.Forms.DataGridView dgv_Ptos_Cliente;
         private System.Windows.Forms.Label label3;

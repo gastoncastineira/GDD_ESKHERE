@@ -27,20 +27,25 @@ namespace PalcoNet.Canje_Puntos
 
         private void cargarPtos_Premios(object sender, EventArgs e)
         {
+            if (!isAdmin)
+            {
+                MessageBox.Show("El admin no puede canjear puntos. Puede ver los premios disponibles del sistema");
+                //Para el dgv de los premios asociados al cliente
+                this.cargar_dgv_premios_cliente();
 
-            //Para el dgv de los premios asociados al cliente
-            this.cargar_dgv_premios_cliente();
-            
-            //Obtengo la CANT MAX de ptos disponibles del cliente
-            this.ptos_disp_cliente();
-        
+                //Obtengo la CANT MAX de ptos disponibles del cliente
+                this.ptos_disp_cliente();
+
+                //Aca obtengo el dgv de ptos disponibles
+                this.cargar_dgv_ptos_cliente();
+
+                btn_Aceptar.Enabled = false;
+            }
+
             //Obtengo todos los premios del sistema
             Dictionary<string, string> filtrosPremios = new Dictionary<string, string>();
             Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Premios, ref dgv_Premios_Elegibles, filtrosPremios);
             cargaElComboDeIds();
-
-            //Aca obtengo el dgv de ptos disponibles
-            this.cargar_dgv_ptos_cliente();
             
 
         }

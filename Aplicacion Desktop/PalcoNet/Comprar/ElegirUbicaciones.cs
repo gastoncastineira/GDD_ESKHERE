@@ -36,7 +36,8 @@ namespace PalcoNet.Comprar
             cmbMedioPago.Items.Add("Boleta electrónica");
             cmbMedioPago.Items.Add("Tarjeta de crédito");
             cmbMedioPago.Text = "Tarjeta de crédito";
-
+            if(FormTemplate.isAdmin)
+                btnConfirmarCompra.Enabled = false;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)

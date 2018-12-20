@@ -10,6 +10,7 @@ namespace PalcoNet
         public static List<Funcion> Funciones { get; set; }
         public static string usuario;
         public static int idCliente;
+        public static bool isAdmin { get; set; }
         public FormTemplate()
         {
             InitializeComponent();
@@ -117,8 +118,7 @@ namespace PalcoNet
 
         private void Comprar_Click(object sender, EventArgs e)
         {
-            Close();
-            
+            Close();          
             new Comprar.Comprar(usuario).Show();
         }
 
@@ -143,7 +143,7 @@ namespace PalcoNet
         private void Historial_Click(object sender, EventArgs e)
         {
             Close();
-            //new Historial_Cliente.ListadoDeCompras().Show();
+            new Historial_Cliente.ListadoDeCompras(idCliente).Show();
         }
 
         private void ListadoEstadistico_Click(object sender, EventArgs e)

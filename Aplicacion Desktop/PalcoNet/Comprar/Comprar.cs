@@ -27,10 +27,10 @@ namespace PalcoNet.Comprar
             {
                 chkLBCat.Items.Add(resultadoConsulta[i]);
             }
-        }
-
-        public Comprar()
-        {
+            if(isAdmin)
+            {
+                MessageBox.Show("El administrador no puede realizar compras. Puede ver el formulario pero no confirmar");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
