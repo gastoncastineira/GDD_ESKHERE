@@ -30,10 +30,10 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
-            this.checkedListBoxFuncion = new System.Windows.Forms.CheckedListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkedListBoxFuncion = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
             // label1
@@ -51,14 +51,6 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(211, 20);
             this.txtNombre.TabIndex = 1;
-            // 
-            // checkedListBoxFuncion
-            // 
-            this.checkedListBoxFuncion.FormattingEnabled = true;
-            this.checkedListBoxFuncion.Location = new System.Drawing.Point(185, 71);
-            this.checkedListBoxFuncion.Name = "checkedListBoxFuncion";
-            this.checkedListBoxFuncion.Size = new System.Drawing.Size(211, 154);
-            this.checkedListBoxFuncion.TabIndex = 2;
             // 
             // label2
             // 
@@ -89,6 +81,15 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // checkedListBoxFuncion
+            // 
+            this.checkedListBoxFuncion.FormattingEnabled = true;
+            this.checkedListBoxFuncion.Location = new System.Drawing.Point(185, 71);
+            this.checkedListBoxFuncion.Name = "checkedListBoxFuncion";
+            this.checkedListBoxFuncion.Size = new System.Drawing.Size(211, 154);
+            this.checkedListBoxFuncion.TabIndex = 2;
+            this.checkedListBoxFuncion.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBoxFuncion_ItemCheck);
+            // 
             // CrearRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -112,9 +113,9 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtNombre;
-        private System.Windows.Forms.CheckedListBox checkedListBoxFuncion;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckedListBox checkedListBoxFuncion;
     }
 }

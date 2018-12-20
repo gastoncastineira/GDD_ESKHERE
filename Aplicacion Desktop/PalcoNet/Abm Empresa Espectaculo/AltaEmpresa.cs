@@ -73,7 +73,10 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
                     string usuario = string.Empty;
                     string contraseña = string.Empty;
                     if (idUser == -1)
-                        AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtRazon.Text, txtCUIT.Text, ref usuario, ref contraseña));
+                    {
+                        AgregarParaInsert("id_usuario", Conexion.getInstance().GenerarUsuarioAleatorio(txtCUIT.Text, "Cliente", ref usuario, ref contraseña));
+                        MessageBox.Show("Se generado un usuario aleatorio\nUsuario:" + usuario + "\nContraseña: " + contraseña);
+                    }
                     else
                         AgregarParaInsert("id_usuario", idUser);
                     if (Conexion.getInstance().Insertar(Conexion.Tabla.Empresa, datos)!=-1)

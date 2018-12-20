@@ -467,11 +467,9 @@ BEGIN TRANSACTION
 
 
 GO
-CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @nombre nvarchar(20), @apellido nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
+CREATE PROCEDURE [ESKHERE].crear_usuario_aleatorio @documento nvarchar(20), @usuario nvarchar(20) output, @contrasenia nvarchar(5) output, @id int output
 AS
 BEGIN
-	DECLARE @letra nvarchar = (select SUBSTRING(@nombre, 1, 1))
-	DECLARE @proto_usuario nvarchar(20) = (select concat(@letra, @apellido))
 
 	DECLARE @s nvarchar(5);
 
@@ -487,24 +485,10 @@ BEGIN
 	FOR XML PATH('')
 	)
 
-	insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
-
-	if(@@ERROR != 0)
-	begin
-		declare @num_aux int = 1
-		set @proto_usuario = (select CONCAT(@proto_usuario, CAST(@num_aux as nvarchar)))
-		insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
-		while(@@ERROR != 0)
-		begin
-			set @num_aux += 1
-			set @proto_usuario = substring(@proto_usuario, 1, (len(@proto_usuario) - 1))
-			set @proto_usuario = (select CONCAT(@proto_usuario, CAST(@num_aux as nvarchar)))
-			insert into Usuario (Usuario, Contrasenia, habilitado, contrasena_autogenerada) values (@proto_usuario, HASHBYTES('SHA2_256', @s), 1, 1)
-		end
-	end
+	insert into Usuario (Usuario, Contrasenia, contrasena_autogenerada) values (@documento, HASHBYTES('SHA2_256', @s), 1)
 
 	set @id = scope_identity()
-	set @usuario = @proto_usuario
+	set @usuario = @documento
 	set @contrasenia = @s
 END
 GO

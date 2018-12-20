@@ -30,6 +30,7 @@ namespace PalcoNet.Abm_Rol
         private void ListadoRoles_Load(object sender, EventArgs e)
         {
             Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.Rol, ref dataGridView1, null);
+            dataGridView1.Rows.RemoveAt(1);
         }
 
         private void btnModificar_Click(object sender, EventArgs e)

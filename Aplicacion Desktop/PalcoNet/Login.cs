@@ -54,7 +54,7 @@ namespace PalcoNet
                     }
                 }
                 Hide();
-                new EntutarRoles(txtusuario.Text).Show();
+                new EnrutarRoles(txtusuario.Text).Show();
             }
             else
             {

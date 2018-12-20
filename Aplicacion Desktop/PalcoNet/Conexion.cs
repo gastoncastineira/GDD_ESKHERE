@@ -308,7 +308,7 @@ namespace PalcoNet
             }
         }
 
-        public int GenerarUsuarioAleatorio(string nombre, string apellido, ref string usuario, ref string contraseña)
+        public int GenerarUsuarioAleatorio(string documento, string rol, ref string usuario, ref string contraseña)
         {
             using (SqlConnection connection = new SqlConnection(conectionString))
             {
@@ -327,12 +327,12 @@ namespace PalcoNet
                     parameter2.Size = 5;
                     SqlParameter parameter3 = new SqlParameter("@id", SqlDbType.Int);
                     parameter3.Direction = ParameterDirection.Output;
-                    SqlParameter parameter4 = new SqlParameter("@nombre", SqlDbType.NVarChar);
+                    SqlParameter parameter4 = new SqlParameter("@documento", SqlDbType.NVarChar);
                     parameter4.Direction = ParameterDirection.Input;
-                    parameter4.Value = nombre;
-                    SqlParameter parameter5 = new SqlParameter("@apellido", SqlDbType.NVarChar);
+                    parameter4.Value = documento;
+                    SqlParameter parameter5= new SqlParameter("@rol", SqlDbType.NVarChar);
                     parameter5.Direction = ParameterDirection.Input;
-                    parameter5.Value = apellido;
+                    parameter5.Value = rol;
 
                     command.Parameters.Add(parameter1);
                     command.Parameters.Add(parameter2);
@@ -351,7 +351,7 @@ namespace PalcoNet
 
         public bool ActualizarContraseña(string contraseña, string usuario)
         {
-            string comando = string.Copy(comandoUpdate) + Tabla.Usuario + " SET contrasenia = @contrasenia, contrasena_autogenerada = 0 WHERE usuario = @ usuario";
+            string comandoString = string.Copy(comandoUpdate) + Tabla.Usuario + " SET contrasenia = HASHBYTES('SHA2_256', @contrasenia), contrasena_autogenerada = 0 WHERE usuario = @usuario";
             try
             {
                 using (SqlConnection connection = new SqlConnection(conectionString))
@@ -361,6 +361,7 @@ namespace PalcoNet
                     {
                         command.Connection = connection;
                         command.CommandType = CommandType.Text;
+                        command.CommandText = comandoString;
                         command.Parameters.AddWithValue("@contrasenia", contraseña);
                         command.Parameters.AddWithValue("@usuario", usuario);
 
@@ -370,7 +371,7 @@ namespace PalcoNet
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }

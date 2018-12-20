@@ -12,6 +12,7 @@ namespace PalcoNet.Abm_Rol
 {
     public partial class CrearRol : Form
     {
+        private const int MAX_FUNCION = 5;
         public CrearRol()
         {
             InitializeComponent();
@@ -64,6 +65,15 @@ namespace PalcoNet.Abm_Rol
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void checkedListBoxFuncion_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (checkedListBoxFuncion.CheckedItems.Count >= MAX_FUNCION)
+            {
+                MessageBox.Show("Se excedió del máximo de cinco funciones por rol permitidas");
+                e.NewValue = CheckState.Unchecked;
+            }
         }
     }
 }

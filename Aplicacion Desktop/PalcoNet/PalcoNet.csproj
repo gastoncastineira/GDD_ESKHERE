@@ -168,11 +168,11 @@
     <Compile Include="EnrutarFuncion.Designer.cs">
       <DependentUpon>EnrutarFuncion.cs</DependentUpon>
     </Compile>
-    <Compile Include="EntutarRoles.cs">
+    <Compile Include="EnrutarRoles.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EntutarRoles.Designer.cs">
-      <DependentUpon>EntutarRoles.cs</DependentUpon>
+    <Compile Include="EnrutarRoles.Designer.cs">
+      <DependentUpon>EnrutarRoles.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTemplate.cs">
       <SubType>Form</SubType>
@@ -290,8 +290,8 @@
     <EmbeddedResource Include="EnrutarFuncion.resx">
       <DependentUpon>EnrutarFuncion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="EntutarRoles.resx">
-      <DependentUpon>EntutarRoles.cs</DependentUpon>
+    <EmbeddedResource Include="EnrutarRoles.resx">
+      <DependentUpon>EnrutarRoles.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTemplate.resx">
       <DependentUpon>FormTemplate.cs</DependentUpon>
@@ -331,15 +331,6 @@
       <LastGenOutput>PalcoNET.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
