@@ -94,5 +94,10 @@ namespace PalcoNet.Abm_Rol
                 e.NewValue = CheckState.Unchecked;
             }
         }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            txtNombre.Text = string.Empty;
+        }
     }
 }

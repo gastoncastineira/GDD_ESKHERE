@@ -26,40 +26,53 @@ namespace PalcoNet.Abm_Rol
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(txtNombre.Text))
+            if (string.IsNullOrEmpty(txtNombre.Text))
             {
                 MessageBox.Show("Se debe ingresar un nombre");
                 return;
             }
-            List<Funcion> funciones = new List<Funcion>();
-            for (int i = 1; i <= checkedListBoxFuncion.Items.Count; i++)
-            {
-                if (checkedListBoxFuncion.GetItemChecked(i))
+
+            List<string> columnas = new List<string>();
+            columnas.Add("Nombre");
+            Dictionary<string, string> filtrosNom = new Dictionary<string, string>();
+            filtrosNom.Add("Nombre", Conexion.Filtro.Exacto(txtNombre.Text));
+
+            if (!Conexion.getInstance().existeRegistro(Conexion.Tabla.Rol, columnas, filtrosNom))
+            { 
+                List<Funcion> funciones = new List<Funcion>();
+                for (int i = 1; i <= checkedListBoxFuncion.Items.Count; i++)
                 {
-                    funciones.Add((Funcion)i);
+                    if (checkedListBoxFuncion.GetItemChecked(i))
+                    {
+                        funciones.Add((Funcion)i);
+                    }
                 }
-            }
-            if(funciones.Count == 0)
-            {
-                MessageBox.Show("Se debe seleccionar al menos una funcion");
-                return;
-            }
-            Dictionary<string, object> datos = new Dictionary<string, object>();
-            datos["nombre"] = txtNombre.Text;
-            Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
-            datos = new Dictionary<string, object>();
-            datos["id_rol"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Rol, new List<string>(new string[] { "SCOPE_IDENTITY() AS id" }), null)["id"][0];
-            foreach(int f in funciones)
-            {
-                datos["ID_funcion"] = f;
+                if (funciones.Count == 0)
+                {
+                    MessageBox.Show("Se debe seleccionar al menos una funcion");
+                    return;
+                }
+                Dictionary<string, object> datos = new Dictionary<string, object>();
+                datos["nombre"] = txtNombre.Text;
                 Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
+                datos = new Dictionary<string, object>();
+                datos["id_rol"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Rol, new List<string>(new string[] { "SCOPE_IDENTITY() AS id" }), null)["id"][0];
+                foreach (int f in funciones)
+                {
+                    datos["ID_funcion"] = f;
+                    Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
+                }
+                MessageBox.Show("Rol creado exitosamente");
+                foreach (int i in checkedListBoxFuncion.CheckedIndices)
+                {
+                    checkedListBoxFuncion.SetItemCheckState(i, CheckState.Unchecked);
+                }
+                txtNombre.Text = string.Empty;
             }
-            MessageBox.Show("Rol creado exitosamente");
-            foreach (int i in checkedListBoxFuncion.CheckedIndices)
-            {
-                checkedListBoxFuncion.SetItemCheckState(i, CheckState.Unchecked);
+           else{
+                MessageBox.Show("Ese rol ya existe.");
+                txtNombre.Text = string.Empty;
             }
-            txtNombre.Text = string.Empty;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -74,6 +87,11 @@ namespace PalcoNet.Abm_Rol
                 MessageBox.Show("Se excedió del máximo de cinco funciones por rol permitidas");
                 e.NewValue = CheckState.Unchecked;
             }
+        }
+
+        private void btnLimpia_Click(object sender, EventArgs e)
+        {
+            txtNombre.Text = string.Empty;
         }
     }
 }
