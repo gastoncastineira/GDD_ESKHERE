@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+
+select id from ESKHERE.Cliente WHERE ID_Usuario=11217924
+
+
+
 USE [GD2C2018]
 GO
 
@@ -59,7 +72,6 @@ CREATE TABLE ESKHERE.[Usuario](
 --¿Dejams los 2 o solo 1?
 CREATE TABLE ESKHERE.[Cliente](
 	[ID] [int] NOT NULL PRIMARY KEY IDENTITY(1,1),
-	[Puntos] [Int],
 	[Cli_Dni] [numeric](18, 0) NULL UNIQUE,
 	[Cuil] [nvarchar](13) NULL UNIQUE,
 	[Tipo_Doc] [nvarchar](15) NULL,

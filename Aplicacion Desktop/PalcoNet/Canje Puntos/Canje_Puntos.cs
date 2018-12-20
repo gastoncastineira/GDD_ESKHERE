@@ -27,7 +27,7 @@ namespace PalcoNet.Canje_Puntos
 
         private void cargarPtos_Premios(object sender, EventArgs e)
         {
-            if (!isAdmin)
+            if (isAdmin)
             {
                 MessageBox.Show("El admin no puede canjear puntos. Puede ver los premios disponibles del sistema");
                 //Para el dgv de los premios asociados al cliente
