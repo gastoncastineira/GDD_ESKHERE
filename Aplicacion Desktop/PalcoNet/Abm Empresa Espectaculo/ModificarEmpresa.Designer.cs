@@ -278,7 +278,7 @@
             this.txtCUIT.Name = "txtCUIT";
             this.txtCUIT.Size = new System.Drawing.Size(100, 20);
             this.txtCUIT.TabIndex = 61;
-            this.txtCUIT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNumerico);
+            //this.txtCUIT.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.soloNumerico);
             this.txtCUIT.Leave += new System.EventHandler(this.txtCUIT_Leave);
             // 
             // txtCiudad

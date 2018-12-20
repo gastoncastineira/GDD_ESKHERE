@@ -49,6 +49,7 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ubicacionTipo = new System.Windows.Forms.ComboBox();
             this.ubicacionPrecio = new System.Windows.Forms.TextBox();
             this.ubicacionAsientos = new System.Windows.Forms.TextBox();
             this.ubicacionFilas = new System.Windows.Forms.TextBox();
@@ -63,13 +64,13 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.ubicacionTipo = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // grado
             // 
+            this.grado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.grado.FormattingEnabled = true;
             this.grado.Location = new System.Drawing.Point(174, 133);
             this.grado.Name = "grado";
@@ -85,6 +86,7 @@
             // 
             // estado
             // 
+            this.estado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.estado.FormattingEnabled = true;
             this.estado.Location = new System.Drawing.Point(174, 77);
             this.estado.Name = "estado";
@@ -264,12 +266,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ubicaciones";
             // 
+            // ubicacionTipo
+            // 
+            this.ubicacionTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ubicacionTipo.FormattingEnabled = true;
+            this.ubicacionTipo.Location = new System.Drawing.Point(120, 20);
+            this.ubicacionTipo.Name = "ubicacionTipo";
+            this.ubicacionTipo.Size = new System.Drawing.Size(100, 21);
+            this.ubicacionTipo.TabIndex = 11;
+            // 
             // ubicacionPrecio
             // 
             this.ubicacionPrecio.Location = new System.Drawing.Point(120, 102);
             this.ubicacionPrecio.Name = "ubicacionPrecio";
             this.ubicacionPrecio.Size = new System.Drawing.Size(100, 20);
             this.ubicacionPrecio.TabIndex = 10;
+            this.ubicacionPrecio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ubicacionPrecio_KeyPress);
             // 
             // ubicacionAsientos
             // 
@@ -277,6 +289,7 @@
             this.ubicacionAsientos.Name = "ubicacionAsientos";
             this.ubicacionAsientos.Size = new System.Drawing.Size(100, 20);
             this.ubicacionAsientos.TabIndex = 9;
+            this.ubicacionAsientos.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ubicacionFilas_KeyPress);
             // 
             // ubicacionFilas
             // 
@@ -284,6 +297,7 @@
             this.ubicacionFilas.Name = "ubicacionFilas";
             this.ubicacionFilas.Size = new System.Drawing.Size(100, 20);
             this.ubicacionFilas.TabIndex = 8;
+            this.ubicacionFilas.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ubicacionFilas_KeyPress);
             // 
             // btnLimpiarUbicaciones
             // 
@@ -374,14 +388,6 @@
             this.label6.Size = new System.Drawing.Size(28, 13);
             this.label6.TabIndex = 0;
             this.label6.Text = "Tipo";
-            // 
-            // ubicacionTipo
-            // 
-            this.ubicacionTipo.FormattingEnabled = true;
-            this.ubicacionTipo.Location = new System.Drawing.Point(120, 20);
-            this.ubicacionTipo.Name = "ubicacionTipo";
-            this.ubicacionTipo.Size = new System.Drawing.Size(100, 21);
-            this.ubicacionTipo.TabIndex = 11;
             // 
             // GenerarPublicacion
             // 

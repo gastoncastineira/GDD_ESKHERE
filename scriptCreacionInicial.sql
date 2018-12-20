@@ -76,6 +76,7 @@ CREATE TABLE ESKHERE.[Cliente](
 	[fecha_creacion] [datetime] NULL,
 	ID_Usuario INT	NOT NULL,
 	telefono varchar(15) NULL,
+	numero_tarjeta_credito INT NULL,
 	CONSTRAINT FK_Usuario FOREIGN KEY (ID_Usuario) REFERENCES ESKHERE. Usuario(ID)
 );
 
@@ -518,7 +519,7 @@ join Rol_X_Funcion rf on rf.ID_Rol = r.ID
 join Funcion f on f.ID = rf.ID_Funcion
 GO
 
---------------------------------  VIEWS Y PROCEDURES PARA LISTADO ESTADISTICO ------------------------------------------------------------------------------------------------
+--------------------------------  VIEWS PARA LISTADO ESTADISTICO ------------------------------------------------------------------------------------------------
 GO
 CREATE VIEW [ESKHERE].clientes_con_mayores_ptos_vencidos
 AS
@@ -564,6 +565,7 @@ SELECT MIN(YEAR(FPublicacion)) anio
 FROM ESKHERE.Publicacion_Fechas
 GO
 
+--------------------------------------VIEWS HISTORIAL COMPRAS--------------------------------------------------
 CREATE VIEW [ESKHERE].Historial_Compras AS
 SELECT Cli.ID as id_cliente, Cli.Cli_Nombre, Pub.Codigo, Ubi.tipo, Ubi.Ubicacion_Tipo_Descripcion, Com.Compra_Cantidad, ubi.precio, ubi.precio 'Precio Total', com.Fecha, com.Forma_Pago_Desc
 FROM ESKHERE.Cliente Cli 
@@ -572,6 +574,7 @@ JOIN ESKHERE.Ubicacion Ubi ON ( Com.ID_Ubicacion = Ubi.ID)
 JOIN ESKHERE.Publicacion Pub ON ( Ubi.ID_Publicacion = Pub.id)
 GO
 
+--------------------------------------VIEWS FUNCIONES Y ROLES-----------------------------------------------------
 CREATE VIEW [ESKHERE].funciones_usuarios
 AS
 SELECT u.Usuario, r.Nombre as nombre_rol, f.nombre as nombre_funcion, f.ID as funcion_id FROM [ESKHERE].Usuario u 
@@ -590,32 +593,41 @@ join [ESKHERE].Rol r on r.ID = ru.ID_ROL
 WHERE r.Habilitado = 1
 GO
 
+--------------------------------------VIEWS PARA PANTALLA DE COMPRAS-------------------------------------------
 CREATE VIEW [ESKHERE].rubros
 AS
 select distinct Publicacion_Rubro from ESKHERE.Publicacion
 GO
 
+CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
+as
+Select p.id Publicacion, u.ID Codigo_de_Ubicacion, ubicacion_Fila Fila, ubicacion_Asiento Asiento, tipo, precio
+	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
+	where u.ID not in 
+			(select ID_Ubicacion from [ESKHERE].compra)
+go
+
 CREATE VIEW [ESKHERE].Publicaciones_disponibles_para_listar
 AS
-SELECT TOP 24000 p.ID, p.Descripcion , Publicacion_Rubro, FFuncion, FVenc 
+SELECT  p.ID, p.Descripcion , Publicacion_Rubro, FFuncion, FVenc, g.ID grado
 FROM [ESKHERE].Publicacion p join [ESKHERE].Publicacion_Fechas f on (p.ID_Fecha = f.ID) 
 	JOIN [ESKHERE].Publicacion_Grado g on (p.ID_grado = g.ID)
 	JOIN [ESKHERE].Publicacion_Estado e on (p.ID_estado = e.ID)
 	JOIN [ESKHERE].Ubicaciones_por_publi_disponibles UP ON (UP.Publicacion = P.ID) 
 WHERE e.Descripcion != 'Borrador' and e.Descripcion != 'Finalizada' 
 GROUP BY p.ID, p.Descripcion,Publicacion_Rubro, FFuncion, FVenc,g.ID 
-HAVING count(UP.Ubicacion) >0
-ORDER BY  g.ID asc
+HAVING count(UP.Codigo_de_Ubicacion) >0
 go
 
-CREATE VIEW [ESKHERE].Ubicaciones_por_publi_disponibles
-as
-Select p.id Publicacion, u.ID ubicacion, ubicacion_Fila, ubicacion_Asiento, tipo, precio
-	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
-	where u.ID not in 
-			(select ID_Ubicacion from [ESKHERE].compra)
-go
+CREATE VIEW [ESKHERE].idClientexNombreUsuario_y_numTarjeta_para_compra
+AS
+SELECT c.ID idCliente , u.Usuario nombreUsr, c.numero_tarjeta_credito 
+	FROM [ESKHERE].Usuario u join [ESKHERE].Cliente c 
+		on(u.ID = c.ID_Usuario)
+GO
 
+
+------------------------VIEWS PUBLICACIONES------------------------------------------------
 CREATE VIEW [ESKHERE].Tipo_Ubicacion
 AS
 SELECT DISTINCT tipo, ubicacion_tipo_descripcion FROM ESKHERE.Ubicacion
@@ -624,4 +636,23 @@ GO
 CREATE VIEW [ESKHERE].Codigo_Publicacion
 AS
 SELECT MAX(codigo) codigo FROM ESKHERE.Publicacion
+GO
+
+
+-----------------------VIEW PUNTOS CLIENTE-----------------------------------------------		
+CREATE VIEW [ESKHERE].obtener_Puntos_cliente AS 
+SELECT SUM(cant-Utilizados) AS total_Puntos, ID_cliente
+FROM [ESKHERE].Puntos
+GROUP BY ID_cliente		
+GO
+		
+---------------- VIEW PREMIOS POR CLIENTE----------------------		
+CREATE VIEW [ESKHERE].PremiosPorCliente AS
+SELECT  P.ID, P.Puntos, P.Descripcion, CP.ID_Cliente FROM eskhere.Premios P
+JOIN ESKHERE.Cliente_Premio CP ON ( P.ID = CP.ID_Premio)
+GO
+
+--------------- VIEW COSTO PREMIO------------		
+CREATE VIEW ESKHERE.CostoPremio AS
+SELECT Puntos, ID FROM ESKHERE.Premios
 GO

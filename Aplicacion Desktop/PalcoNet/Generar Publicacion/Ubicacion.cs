@@ -12,6 +12,7 @@ namespace PalcoNet.Generar_Publicacion
         public int filas { get; set; }
         public int asientosPorFila { get; set; }
         public decimal precio { get; set; }
+        public int tipoId { get; set; }
 
         public Ubicacion() { }
     }

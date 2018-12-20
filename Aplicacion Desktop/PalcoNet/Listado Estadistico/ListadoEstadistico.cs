@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Listado_Estadistico
 {
-    public partial class ListadoEstadistico : Form
+    public partial class ListadoEstadistico : FormTemplate
     {
-        public ListadoEstadistico()
+        public ListadoEstadistico() : base()
         {
             InitializeComponent();
             List<string> columnas = new List<string>();
@@ -27,6 +27,7 @@ namespace PalcoNet.Listado_Estadistico
                 cmbAño.Items.Add(año);
             }
             cmbAño.Text = añoactual.ToString();
+            cmbTrimestre.Text = "1";
             cmbTrimestre.Items.Add("1");
             cmbTrimestre.Items.Add("2");
             cmbTrimestre.Items.Add("3");

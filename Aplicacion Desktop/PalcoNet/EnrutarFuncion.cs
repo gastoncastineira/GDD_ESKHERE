@@ -43,7 +43,7 @@ namespace PalcoNet
                     //new Canje_Puntos
                     break;
                 case Funcion.COMPRAR:
-                    new Comprar.Comprar().Show();
+                    new Comprar.Comprar(usuario).Show();
                     break;
                 case Funcion.EDITAR_PUBLICACION:
                     //new Editar_Publicacion.EditarPublicacion().Show();
@@ -76,6 +76,7 @@ namespace PalcoNet
             Dictionary<string, List<object>> resul = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.FuncionesUsuarios, new List<string>(new string[] { "nombre_funcion", "funcion_id" }), filtros);
             funcion = resul["funcion_id"].Cast<Funcion>().ToList();
             FormTemplate.Funciones = funcion;
+            FormTemplate.usuario = usuario;
             if (resul["nombre_funcion"].Count > 1)
             {
                 MessageBox.Show("Se detecto que tiene mas de una funcion asignada. Por favor, elija a la que desea ingresar");
