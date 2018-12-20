@@ -32,11 +32,11 @@ namespace PalcoNet.Abm_Rol
                 return;
             }
             List<Funcion> funciones = new List<Funcion>();
-            for (int i = 1; i <= checkedListBoxFuncion.Items.Count; i++)
+            for (int i = 0; i < checkedListBoxFuncion.Items.Count; i++)
             {
                 if (checkedListBoxFuncion.GetItemChecked(i))
                 {
-                    funciones.Add((Funcion)i);
+                    funciones.Add((Funcion)i+1);
                 }
             }
             if(funciones.Count == 0)
@@ -46,14 +46,9 @@ namespace PalcoNet.Abm_Rol
             }
             Dictionary<string, object> datos = new Dictionary<string, object>();
             datos["nombre"] = txtNombre.Text;
-            Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
-            datos = new Dictionary<string, object>();
-            datos["id_rol"] = Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Rol, new List<string>(new string[] { "SCOPE_IDENTITY() AS id" }), null)["id"][0];
+            int idinsertada = Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
             foreach(int f in funciones)
-            {
-                datos["ID_funcion"] = f;
-                Conexion.getInstance().Insertar(Conexion.Tabla.Rol, datos);
-            }
+                Conexion.getInstance().InsertarTablaIntermedia(Conexion.Tabla.RolXFuncion, "id_rol", "id_funcion", idinsertada, f);
             MessageBox.Show("Rol creado exitosamente");
             foreach (int i in checkedListBoxFuncion.CheckedIndices)
             {

@@ -50,19 +50,19 @@ namespace PalcoNet.Abm_Rol
         {
             List<Funcion> aBorrar = new List<Funcion>();
             List<Funcion> aInsertar = new List<Funcion>();
-            for (int i = 1; i <= checkedListBoxFuncion.Items.Count; i++)
+            for (int i = 0; i < checkedListBoxFuncion.Items.Count; i++)
             {
-                if (checkedListBoxFuncion.GetItemChecked(i - 1) && !funcionesOriginales.Contains((Funcion)i))
-                    aInsertar.Add((Funcion)i);
-                if (!checkedListBoxFuncion.GetItemChecked(i - 1) && funcionesOriginales.Contains((Funcion)i))
-                    aBorrar.Add((Funcion)i);
+                if (checkedListBoxFuncion.GetItemChecked(i) && !funcionesOriginales.Contains((Funcion)i + 1))
+                    aInsertar.Add((Funcion)i+1);
+                if (!checkedListBoxFuncion.GetItemChecked(i) && funcionesOriginales.Contains((Funcion)i+1))
+                    aBorrar.Add((Funcion)i+1);
             }
             Dictionary<string, object> datos = new Dictionary<string, object>();
             datos["id_rol"] = idRol;
             foreach(int v in aInsertar)
             {
                 datos["id_funcion"] = v;
-                if (Conexion.getInstance().Insertar(Conexion.Tabla.RolXFuncion, datos)==-1)
+                if (!Conexion.getInstance().InsertarTablaIntermedia(Conexion.Tabla.RolXFuncion, "id_rol", "id_funcion", idRol, v))
                 {
                     DialogResult = DialogResult.Abort;
                     return;
