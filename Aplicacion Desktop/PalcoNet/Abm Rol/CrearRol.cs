@@ -32,6 +32,7 @@ namespace PalcoNet.Abm_Rol
                 return;
             }
 
+
             List<string> columnas = new List<string>();
             columnas.Add("Nombre");
             Dictionary<string, string> filtrosNom = new Dictionary<string, string>();

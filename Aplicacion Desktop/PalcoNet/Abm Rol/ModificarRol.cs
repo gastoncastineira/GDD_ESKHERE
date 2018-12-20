@@ -56,7 +56,6 @@ namespace PalcoNet.Abm_Rol
                 return;
             }
 
-
                 List<Funcion> aBorrar = new List<Funcion>();
                 List<Funcion> aInsertar = new List<Funcion>();
                 Dictionary<string, string> filtrosFunc = new Dictionary<string, string>();

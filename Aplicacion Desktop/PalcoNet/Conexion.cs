@@ -138,11 +138,38 @@ namespace PalcoNet
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return -1;
             }
 
+        }
+
+        public bool InsertarTablaIntermedia(string tabla, string col1, string col2, int pk1, int pk2)
+        {
+            string comando = "INSERT INTO " + tabla + "( " + col1 + ", " + col2 + ") VALUES (@pk1, @pk2)";
+            using (SqlConnection connection = new SqlConnection(conectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    try
+                    {
+                        command.Connection = connection;
+                        command.CommandText = comando;
+                        command.CommandType = CommandType.Text;
+                        command.Parameters.AddWithValue("@pk1", pk1);
+                        command.Parameters.AddWithValue("@pk2", pk2);
+
+                        command.ExecuteNonQuery();
+                    }
+                    catch (SqlException)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         //Recibe el id de la fila, nombre de la tabla sacada de Conexion.Tabla, y 
