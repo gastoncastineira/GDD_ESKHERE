@@ -9,9 +9,11 @@ namespace PalcoNet
     {
         public static List<Funcion> Funciones { get; set; }
         public static string usuario;
+        public static int idCliente;
         public FormTemplate()
         {
             InitializeComponent();
+
             foreach (Funcion f in Funciones.Distinct().ToList())
             {
                 ToolStripMenuItem item;
@@ -109,7 +111,7 @@ namespace PalcoNet
         private void CanjePuntos_Click(object sender, EventArgs e)
         {
             Close();
-            //new Canje_Puntos.Canje_Puntos().Show();
+            new Canje_Puntos.Canje_Puntos(idCliente).Show();
 
         }
 
