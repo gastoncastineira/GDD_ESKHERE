@@ -580,6 +580,7 @@ Select p.id Publicacion, u.ID Codigo_de_Ubicacion, ubicacion_Fila Fila, ubicacio
 	from [ESKHERE].Publicacion p join [ESKHERE].Ubicacion u on (p.ID = u.ID_Publicacion)
 	where u.ID not in 
 			(select ID_Ubicacion from [ESKHERE].compra)
+			and u.habilitado = 1
 go
 
 CREATE VIEW [ESKHERE].Publicaciones_disponibles_para_listar
