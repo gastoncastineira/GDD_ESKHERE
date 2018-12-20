@@ -139,12 +139,41 @@ namespace PalcoNet.Abm_Cliente
 
         private void txtDoc_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("cli_dni", txtDoc.Text);
+            List<string> columnas = new List<string>();
+            columnas.Add("Cli_Dni");
+            Dictionary<string, string> filtroCliDni = new Dictionary<string, string>();
+            filtroCliDni.Add("Cli_Dni", Conexion.Filtro.Exacto(txtDoc.Text));
+
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Cliente, columnas, filtroCliDni))
+            {
+                MessageBox.Show("Ese DNI está en uso. Elija otro.");
+                txtDoc.Text = string.Empty;
+            }
+            else
+            {
+                AgregarParaInsert("cli_dni", txtDoc.Text);
+            }
         }
 
         private void txtCUIL_Leave(object sender, EventArgs e)
         {
-            AgregarParaInsert("cuil", txtCUIL.Text);
+            List<string> columnas = new List<string>();
+            columnas.Add("Cuil");
+            Dictionary<string, string> filtro = new Dictionary<string, string>();
+            filtro.Add("Cuil", Conexion.Filtro.Exacto(txtCUIL.Text));
+
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Cliente, columnas, filtro))
+            {
+                MessageBox.Show("Ese cuil está en uso. Elija otro.");
+                txtCUIL.Text = string.Empty;
+            }
+            else
+            {
+                AgregarParaInsert("cuil", txtCUIL.Text);
+            }
+            
         }
 
         private void txtMail_Leave(object sender, EventArgs e)

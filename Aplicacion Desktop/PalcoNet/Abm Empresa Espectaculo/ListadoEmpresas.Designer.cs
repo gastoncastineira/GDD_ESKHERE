@@ -39,12 +39,13 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.dgvEmpresa = new System.Windows.Forms.DataGridView();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmpresa)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Location = new System.Drawing.Point(430, 123);
+            this.btnAgregar.Location = new System.Drawing.Point(387, 119);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
             this.btnAgregar.TabIndex = 25;
@@ -55,7 +56,7 @@
             // btnDeshabilitar
             // 
             this.btnDeshabilitar.Enabled = false;
-            this.btnDeshabilitar.Location = new System.Drawing.Point(285, 123);
+            this.btnDeshabilitar.Location = new System.Drawing.Point(242, 119);
             this.btnDeshabilitar.Name = "btnDeshabilitar";
             this.btnDeshabilitar.Size = new System.Drawing.Size(118, 23);
             this.btnDeshabilitar.TabIndex = 24;
@@ -114,7 +115,7 @@
             // btnModificar
             // 
             this.btnModificar.Enabled = false;
-            this.btnModificar.Location = new System.Drawing.Point(178, 123);
+            this.btnModificar.Location = new System.Drawing.Point(135, 119);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(75, 23);
             this.btnModificar.TabIndex = 15;
@@ -124,7 +125,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(70, 123);
+            this.btnBuscar.Location = new System.Drawing.Point(27, 119);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(75, 23);
             this.btnBuscar.TabIndex = 14;
@@ -147,11 +148,22 @@
             this.dgvEmpresa.TabIndex = 13;
             this.dgvEmpresa.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmpresa_RowEnter);
             // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.Location = new System.Drawing.Point(477, 119);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btnLimpiar.TabIndex = 26;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
             // ListadoEmpresas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(564, 386);
+            this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.btnDeshabilitar);
             this.Controls.Add(this.lblCuit);
@@ -184,5 +196,6 @@
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.DataGridView dgvEmpresa;
+        private System.Windows.Forms.Button btnLimpiar;
     }
 }

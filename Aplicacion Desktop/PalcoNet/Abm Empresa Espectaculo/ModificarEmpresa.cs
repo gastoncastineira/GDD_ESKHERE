@@ -17,6 +17,8 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
         private List<TextBox> textos = new List<TextBox>();
         List<string> textosSinModificar = new List<string>();
         private int id;
+        string cuitOG;
+        string razonOG;
 
         public ModificarEmpresa(DataGridViewCellCollection data)
         {
@@ -32,7 +34,8 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             textos.Remove(txtDepto);
 
             id = Convert.ToInt32(data["id"].Value);
-
+            razonOG = data["Espec_Empresa_Razon_Social"].Value.ToString();
+            cuitOG = data["Espec_Empresa_Cuit"].Value.ToString();
 
             txtRazon.Text = data["Espec_Empresa_Razon_Social"].Value.ToString();
             textosSinModificar.Add(txtRazon.Text);
@@ -140,6 +143,18 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void txtCUIT_Leave(object sender, EventArgs e)
         {
+            List<string> columnas = new List<string>();
+            columnas.Add("Espec_Empresa_Cuit");
+            Dictionary<string, string> filtros = new Dictionary<string, string>();
+            filtros.Add("Espec_Empresa_Cuit", Conexion.Filtro.Exacto(txtCUIT.Text));
+            filtros.Add("Espec_Empresa_Cuit ", Conexion.Filtro.Distinto(cuitOG));
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Empresa, columnas, filtros))
+            {
+                MessageBox.Show("Ese CUIT está en uso. Elija otro o siga usando el mismo.");
+                txtCUIT.Text = cuitOG;
+            }
+            else { AgregarParaUpdate("Espec_Empresa_Cuit", txtRazon.Text); }
             AgregarParaUpdate("Espec_Empresa_Cuit", txtCUIT.Text);
         }
 
@@ -155,7 +170,19 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
 
         private void txtRazon_Leave(object sender, EventArgs e)
         {
-            AgregarParaUpdate("Espec_Empresa_razon_social", txtRazon.Text);
+            List<string> columnas = new List<string>();
+            columnas.Add("Espec_Empresa_razon_social");
+            Dictionary<string, string> filtros = new Dictionary<string, string>();
+            filtros.Add("Espec_Empresa_razon_social", Conexion.Filtro.Exacto(txtRazon.Text));
+            filtros.Add("Espec_Empresa_razon_social ", Conexion.Filtro.Distinto(razonOG));
+
+            if (Conexion.getInstance().existeRegistro(Conexion.Tabla.Empresa, columnas, filtros))
+            {
+                MessageBox.Show("Esa razón social ya está en uso. Elija otro o siga usando el mismo.");
+                txtRazon.Text = razonOG;
+            }
+            else { AgregarParaUpdate("Espec_Empresa_razon_social", txtRazon.Text); }
+
         }
 
 

@@ -87,5 +87,11 @@ namespace PalcoNet.Abm_Empresa_Espectaculo
             }
             dgvEmpresa.DataSource = data;
         }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            txtCuit.Text = txtMail.Text = txtNombre.Text = string.Empty;
+
+        }
     }
 }
