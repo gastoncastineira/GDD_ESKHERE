@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Editar_Publicacion
 {
-    public partial class SeleccionarPublicacion : Form
+    public partial class SeleccionarPublicacion : FormTemplate
     {
         int idEmpresa;
-        public SeleccionarPublicacion()
+        public SeleccionarPublicacion(int idEmpresa):base()
         {
             InitializeComponent();
-            //this.idEmpresa = idEmpresa;
+            this.idEmpresa = idEmpresa;
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -35,9 +35,9 @@ namespace PalcoNet.Editar_Publicacion
                 if (!string.IsNullOrEmpty(grado.Text))
                     filtros.Add("ID_grado", Conexion.Filtro.Exacto(grado.SelectedValue.ToString()));
                 
-                //filtros.Add("Id_Empresa_publicante", Conexion.Filtro.Exacto(idEmpresa.ToString()));
+                filtros.Add("Id_Empresa_publicante", Conexion.Filtro.Exacto(idEmpresa.ToString()));
                 Conexion.getInstance().LlenarDataGridView(Conexion.Tabla.PublicacionBorrador, ref dgbPublicaciones, filtros );
-                //dgbPublicaciones.Columns.Remove("Id_Empresa_publicante");
+                dgbPublicaciones.Columns.Remove("Id_Empresa_publicante");
             }
         }
 

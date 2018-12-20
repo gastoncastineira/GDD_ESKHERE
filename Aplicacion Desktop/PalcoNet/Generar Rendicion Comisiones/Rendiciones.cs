@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Generar_Rendicion_Comisiones
 {
-    public partial class Rendicion : Form
+    public partial class Rendicion : FormTemplate
     {
         Dictionary<string, List<object>> infoEmpresas;
-        public Rendicion()
+        public Rendicion() : base()
         {
             InitializeComponent();
         }

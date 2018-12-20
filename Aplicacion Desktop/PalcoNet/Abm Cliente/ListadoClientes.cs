@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Abm_Cliente
 {
-    public partial class ListadoClientes : Form
+    public partial class ListadoClientes : FormTemplate
     {
         private Dictionary<string, string> filtros = new Dictionary<string, string>();
 

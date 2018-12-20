@@ -14,7 +14,7 @@ namespace PalcoNet
     {
         private string rolSeleccionado;
         private string usuario;
-        private int idCliente;
+        private int idCliente = -1;
         List<Funcion> funcion;
         private bool flag = false;
 
@@ -47,7 +47,7 @@ namespace PalcoNet
                     new Comprar.Comprar(usuario).Show();
                     break;
                 case Funcion.EDITAR_PUBLICACION:
-                    //new Editar_Publicacion.EditarPublicacion().Show();
+                    new Editar_Publicacion.SeleccionarPublicacion(idCliente).Show();
                     break;
                 case Funcion.GENERAR_PUBLICACION:
                     new Generar_Publicacion.GenerarPublicacion().Show();
@@ -56,7 +56,7 @@ namespace PalcoNet
                     new Generar_Rendicion_Comisiones.Rendicion().Show();
                     break;
                 case Funcion.HISTORIAL_COMPRAS:
-                    //new Historial_Cliente.ListadoDeCompras().Show;
+                    new Historial_Cliente.ListadoDeCompras(idCliente).Show();
                     break;
                 case Funcion.LISTADO_ESTADISTICO:
                     new Listado_Estadistico.ListadoEstadistico().Show();
@@ -83,15 +83,28 @@ namespace PalcoNet
             {
                 //me cazo el id del cliente con el usuario
 
+                FormTemplate.isAdmin = false;
+
                 List<string> columnas = new List<string>();
                 columnas.Add("idCliente");
                 columnas.Add("nombreUsr");
-                FormTemplate.isAdmin = false;
 
                 Dictionary<string, string> filtrosUsr = new Dictionary<string, string>();
                 filtrosUsr.Add("nombreUsr", Conexion.Filtro.Exacto(usuario));
                 Dictionary<string, List<object>> resultadoConsulta = (Conexion.getInstance().ConsultaPlana(Conexion.Tabla.idDelCliente, columnas, filtrosUsr));
-                idCliente = Convert.ToInt32(resultadoConsulta["idCliente"][0].ToString());
+                if(resultadoConsulta["idCliente"].Count != 0)
+                    idCliente = Convert.ToInt32(resultadoConsulta["idCliente"][0]);
+                else
+                {
+                    columnas = new List<string>();
+                    columnas.Add("id");
+                    filtrosUsr = new Dictionary<string, string>();
+                    filtrosUsr.Add("usuario", Conexion.Filtro.Exacto(usuario));
+                    resultadoConsulta = (Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Usuario, columnas, filtrosUsr));
+                    filtrosUsr = new Dictionary<string, string>();
+                    filtrosUsr["id_usuario"] = Conexion.Filtro.Exacto(resultadoConsulta["id"][0].ToString());
+                    idCliente = Convert.ToInt32(Conexion.getInstance().ConsultaPlana(Conexion.Tabla.Empresa, columnas, filtrosUsr)["id"][0]);
+                }
                 FormTemplate.idCliente = idCliente;             
             }
             else

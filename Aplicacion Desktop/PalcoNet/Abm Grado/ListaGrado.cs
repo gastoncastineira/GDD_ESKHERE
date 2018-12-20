@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Abm_Grado
 {
-    public partial class ListaGrado : Form
+    public partial class ListaGrado : FormTemplate
     {
-        public ListaGrado()
+        public ListaGrado():base()
         {
             InitializeComponent();
         }

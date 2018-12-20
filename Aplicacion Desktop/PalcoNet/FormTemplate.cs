@@ -8,8 +8,8 @@ namespace PalcoNet
     public partial class FormTemplate : Form
     {
         public static List<Funcion> Funciones { get; set; }
-        public static string usuario;
-        public static int idCliente;
+        public static string usuario { get; set; }
+        public static int idCliente { get; set; }
         public static bool isAdmin { get; set; }
         public FormTemplate()
         {
@@ -113,7 +113,6 @@ namespace PalcoNet
         {
             Close();
             new Canje_Puntos.Canje_Puntos(idCliente).Show();
-
         }
 
         private void Comprar_Click(object sender, EventArgs e)
@@ -125,7 +124,7 @@ namespace PalcoNet
         private void Editar_Click(object sender, EventArgs e)
         {
             Close();
-            //new Editar_Publicacion.EditarPublicacion().Show();
+            new Editar_Publicacion.SeleccionarPublicacion(idCliente).Show();
         }
 
         private void GenerarPublicacion_Click(object sender, EventArgs e)

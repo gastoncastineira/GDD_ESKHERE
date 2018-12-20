@@ -630,9 +630,9 @@ GO
 
 -----------------------VIEW PUNTOS CLIENTE-----------------------------------------------		
 CREATE VIEW [ESKHERE].obtener_Puntos_cliente AS 
-SELECT SUM(cant-Utilizados) AS total_Puntos, ID_cliente
+SELECT SUM(cant-Utilizados) AS total_Puntos, ID_cliente, YEAR(FechaObtenIDos) as yearObtenidos 
 FROM [ESKHERE].Puntos
-GROUP BY ID_cliente		
+GROUP BY ID_cliente, FechaObtenIDos
 GO
 
 ----------------------- VIEW PUBLICACIONES BORRADOR -------------------

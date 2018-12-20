@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace PalcoNet.Abm_Empresa_Espectaculo
 {
-    public partial class ListadoEmpresas : Form
+    public partial class ListadoEmpresas : FormTemplate
     {
         private Dictionary<string, string> filtros = new Dictionary<string, string>();
-        public ListadoEmpresas()
+        public ListadoEmpresas() : base()
         {
             InitializeComponent();
         }
