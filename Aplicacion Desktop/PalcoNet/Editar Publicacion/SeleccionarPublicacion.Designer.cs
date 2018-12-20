@@ -43,9 +43,12 @@
             // 
             // dgbPublicaciones
             // 
+            this.dgbPublicaciones.AllowUserToAddRows = false;
+            this.dgbPublicaciones.AllowUserToDeleteRows = false;
             this.dgbPublicaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgbPublicaciones.Location = new System.Drawing.Point(28, 187);
             this.dgbPublicaciones.Name = "dgbPublicaciones";
+            this.dgbPublicaciones.ReadOnly = true;
             this.dgbPublicaciones.Size = new System.Drawing.Size(450, 118);
             this.dgbPublicaciones.TabIndex = 18;
             // 

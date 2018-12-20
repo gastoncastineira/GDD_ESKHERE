@@ -138,9 +138,12 @@
             // 
             // dgvFechasActuales
             // 
+            this.dgvFechasActuales.AllowUserToAddRows = false;
+            this.dgvFechasActuales.AllowUserToDeleteRows = false;
             this.dgvFechasActuales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFechasActuales.Location = new System.Drawing.Point(9, 19);
             this.dgvFechasActuales.Name = "dgvFechasActuales";
+            this.dgvFechasActuales.ReadOnly = true;
             this.dgvFechasActuales.Size = new System.Drawing.Size(354, 121);
             this.dgvFechasActuales.TabIndex = 14;
             // 
@@ -201,9 +204,12 @@
             // 
             // dgvUbicacionesActuales
             // 
+            this.dgvUbicacionesActuales.AllowUserToAddRows = false;
+            this.dgvUbicacionesActuales.AllowUserToDeleteRows = false;
             this.dgvUbicacionesActuales.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUbicacionesActuales.Location = new System.Drawing.Point(14, 19);
             this.dgvUbicacionesActuales.Name = "dgvUbicacionesActuales";
+            this.dgvUbicacionesActuales.ReadOnly = true;
             this.dgvUbicacionesActuales.Size = new System.Drawing.Size(455, 121);
             this.dgvUbicacionesActuales.TabIndex = 14;
             // 
