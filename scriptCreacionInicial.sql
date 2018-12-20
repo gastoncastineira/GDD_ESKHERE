@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-select id from ESKHERE.Cliente WHERE ID_Usuario=11217924
-
-
-
 USE [GD2C2018]
 GO
 
