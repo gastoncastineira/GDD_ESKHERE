@@ -169,7 +169,7 @@ CREATE TABLE ESKHERE.[Factura](
 	[Factura_Nro] [numeric](18, 0) PRIMARY KEY,
 	[Factura_Fecha] [datetime] NULL,
 	[Factura_Total] [numeric](18, 2) NULL,
-	Total_Comisiones [numeric](18, 2) NULL,
+	Total_Comisiones [numeric](18, 2) NULL DEFAULT 0,
 	Cantidad_Item_Factura INT,
 	CUIL_Empresa [nvarchar](255) NULL,
 	rendido bit default 0,
